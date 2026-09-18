@@ -89,3 +89,7 @@ export function calcularPeriodo(ref) {
   const m = ref.getMonth();
   return { desde: new Date(y, m - 1, 21, 0, 0, 0, 0), hasta: new Date(y, m, 20, 23, 59, 59, 999) };
 }
+export function etiquetaPeriodo(desde, hasta) {
+  const f = (d) => d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+  return `${f(desde)} al ${f(hasta)}`;
+}

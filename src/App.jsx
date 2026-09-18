@@ -4,6 +4,7 @@ import {
   calcularEstado, obtenerPosicion, localMasCercano, obtenerDeviceId,
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
+import Equipo from "./screens/Equipo.jsx";
 
 export default function App() {
   // Identificación
@@ -14,7 +15,8 @@ export default function App() {
   const [errorLogin, setErrorLogin] = useState(null);
   const [buscando, setBuscando] = useState(false);
   const [tardanzas, setTardanzas] = useState(0);
-  const [vista, setVista] = useState("fichaje"); // "fichaje" | "historial"
+  const [aCargo, setACargo] = useState(0);
+  const [vista, setVista] = useState("fichaje"); // "fichaje" | "historial" | "equipo"
 
   // Cambio de PIN (desde el login)
   const [modoPin, setModoPin] = useState(false);
@@ -59,6 +61,7 @@ export default function App() {
         setEmpleado(r.empleado);
         setPinAuth(pin);
         setTardanzas(r.tardanzas_periodo || 0);
+        setACargo(r.a_cargo || 0);
         setVista("fichaje");
         const hoy = Array.isArray(r.fichajes_hoy) ? r.fichajes_hoy : [];
         if (hoy.length) {
@@ -99,7 +102,7 @@ export default function App() {
 
   const salir = () => {
     setEmpleado(null); setPinAuth(null); setLegajo(""); setPin("");
-    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setVista("fichaje");
+    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setACargo(0); setVista("fichaje");
   };
 
   const fichar = async () => {
@@ -194,6 +197,11 @@ export default function App() {
     return <Historial empleado={empleado} pin={pinAuth} onVolver={() => setVista("fichaje")} />;
   }
 
+  // ---------- Equipo ----------
+  if (vista === "equipo") {
+    return <Equipo empleado={empleado} pin={pinAuth} horarios={horarios} onVolver={() => setVista("fichaje")} />;
+  }
+
   // ---------- Fichaje ----------
   const duracion = () => {
     if (!enTurno || !historial.length) return "0h 0m";
@@ -240,6 +248,15 @@ export default function App() {
             {guardando ? "Registrando…" : enTurno ? "FICHAR SALIDA" : "FICHAR ENTRADA"}
           </button>
         </div>
+
+        {aCargo > 0 && (
+          <div className="px-6 pb-3">
+            <button onClick={() => setVista("equipo")}
+              className="w-full py-3 rounded-xl font-semibold text-sm bg-[#242b35] border border-[#2d3748] hover:border-[#3a4353]">
+              👥 Revisar mi equipo ({aCargo})
+            </button>
+          </div>
+        )}
 
         <div className="px-6 pb-3">
           <button onClick={() => setVista("historial")}
