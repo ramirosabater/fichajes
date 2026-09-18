@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { loginAdmin, logoutAdmin } from "./supabase-admin.js";
 import Empleados from "./Empleados.jsx";
+import Plantillas from "./Plantillas.jsx";
+import Sectores from "./Sectores.jsx";
+import Dashboard from "./Dashboard.jsx";
 
 export default function Admin() {
   const [logueado, setLogueado] = useState(false);
@@ -8,7 +11,7 @@ export default function Admin() {
   const [pass, setPass] = useState("");
   const [error, setError] = useState(null);
   const [entrando, setEntrando] = useState(false);
-  const [vista, setVista] = useState("empleados");
+  const [vista, setVista] = useState("dashboard");
 
   const entrar = async () => {
     setError(null);
@@ -49,7 +52,12 @@ export default function Admin() {
     );
   }
 
-  const tabs = [{ id: "empleados", label: "Empleados" }];
+  const tabs = [
+    { id: "dashboard", label: "Dashboard" },
+    { id: "empleados", label: "Empleados" },
+    { id: "plantillas", label: "Plantillas" },
+    { id: "sectores", label: "Sectores" },
+  ];
 
   return (
     <div className="min-h-screen w-full">
@@ -69,7 +77,10 @@ export default function Admin() {
           </button>
         </div>
 
+        {vista === "dashboard" && <Dashboard />}
         {vista === "empleados" && <Empleados />}
+        {vista === "plantillas" && <Plantillas />}
+        {vista === "sectores" && <Sectores />}
       </div>
     </div>
   );
