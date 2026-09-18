@@ -13,7 +13,7 @@ function Chip({ label, valor, color }) {
   );
 }
 
-export default function Equipo({ empleado, pin, horarios, onVolver }) {
+export default function Equipo({ empleado, pin, horarios, config, onVolver }) {
   const [refMes, setRefMes] = useState(new Date());
   const { desde, hasta } = calcularPeriodo(refMes);
   const [equipo, setEquipo] = useState([]);
@@ -48,7 +48,7 @@ export default function Equipo({ empleado, pin, horarios, onVolver }) {
 
   const equipoCumpl = equipo.map((m) => ({
     ...m,
-    cumpl: computarCumplimiento(m.fichajes || [], (horarios || []).find((h) => String(h.id) === String(m.horario_id)) || null, desde, hasta),
+    cumpl: computarCumplimiento(m.fichajes || [], (horarios || []).find((h) => String(h.id) === String(m.horario_id)) || null, desde, hasta, config),
   }));
 
   const aprobar = async () => {
@@ -181,7 +181,8 @@ export default function Equipo({ empleado, pin, horarios, onVolver }) {
                           </>
                         )}
                         {c.descuentoMin > 0 && <Chip label="Descuento" valor={`${c.descuentoMin}m`} color="#e5484d" />}
-                        {c.horas100Min > 0 && <Chip label="100%" valor={minAHoras(c.horas100Min)} color="#5aa9ff" />}
+                        {c.horas50Min > 0 && <Chip label="50%" valor={minAHoras(c.horas50Min)} color="#5aa9ff" />}
+                        {c.horas100Min > 0 && <Chip label="100%" valor={minAHoras(c.horas100Min)} color="#e5484d" />}
                         {!alerta && !c.sinTurno && <Chip label="OK" valor="✓" color="#3ddc84" />}
                       </div>
                       {abierto && (

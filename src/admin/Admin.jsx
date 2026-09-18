@@ -4,6 +4,10 @@ import Empleados from "./Empleados.jsx";
 import Plantillas from "./Plantillas.jsx";
 import Sectores from "./Sectores.jsx";
 import Dashboard from "./Dashboard.jsx";
+import Reportes from "./Reportes.jsx";
+import Dispositivos from "./Dispositivos.jsx";
+import Aprobaciones from "./Aprobaciones.jsx";
+import Configuracion from "./Configuracion.jsx";
 
 export default function Admin() {
   const [logueado, setLogueado] = useState(false);
@@ -57,6 +61,10 @@ export default function Admin() {
     { id: "empleados", label: "Empleados" },
     { id: "plantillas", label: "Plantillas" },
     { id: "sectores", label: "Sectores" },
+    { id: "reportes", label: "Reportes" },
+    { id: "dispositivos", label: "Dispositivos" },
+    { id: "aprobaciones", label: "Aprobaciones" },
+    { id: "config", label: "Configuración" },
   ];
 
   return (
@@ -81,6 +89,10 @@ export default function Admin() {
         {vista === "empleados" && <Empleados />}
         {vista === "plantillas" && <Plantillas />}
         {vista === "sectores" && <Sectores />}
+        {vista === "reportes" && <Reportes />}
+        {vista === "dispositivos" && <Dispositivos />}
+        {vista === "aprobaciones" && <Aprobaciones />}
+        {vista === "config" && <Configuracion />}
       </div>
     </div>
   );

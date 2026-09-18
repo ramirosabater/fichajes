@@ -29,6 +29,7 @@ export default function App() {
   // Datos base
   const [horarios, setHorarios] = useState([]);
   const [locales, setLocales] = useState([]);
+  const [config, setConfig] = useState({ recargos: [], feriados: {} });
 
   // Estado del turno
   const [ahora, setAhora] = useState(new Date());
@@ -55,9 +56,10 @@ export default function App() {
       if (!r || !r.ok) {
         setErrorLogin(r?.motivo === "pin_incorrecto" ? "PIN incorrecto." : "No se encontró ningún empleado con ese legajo.");
       } else {
-        const [hs, ls] = await Promise.all([sbGet("horarios?select=*"), sbGet("locales?select=*")]);
+        const [hs, ls, cfg] = await Promise.all([sbGet("horarios?select=*"), sbGet("locales?select=*"), cargarConfig(sbGet)]);
         setHorarios(hs);
         setLocales(ls);
+        setConfig(cfg);
         setEmpleado(r.empleado);
         setPinAuth(pin);
         setTardanzas(r.tardanzas_periodo || 0);
@@ -199,7 +201,7 @@ export default function App() {
 
   // ---------- Equipo ----------
   if (vista === "equipo") {
-    return <Equipo empleado={empleado} pin={pinAuth} horarios={horarios} onVolver={() => setVista("fichaje")} />;
+    return <Equipo empleado={empleado} pin={pinAuth} horarios={horarios} config={config} onVolver={() => setVista("fichaje")} />;
   }
 
   // ---------- Fichaje ----------
