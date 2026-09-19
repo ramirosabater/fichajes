@@ -75,6 +75,7 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
     minTarde: 0, minRetiro: 0, descuentoMin: 0, horas50Min: 0, horas100Min: 0,
   };
   fichajes.forEach((f) => {
+    if (f.autorizado) return; // justificado por el jefe → no descuenta
     if (f.estado === "tarde") res.minTarde += Number(f.minutos_tarde) || 0;
     else if (f.estado === "salida_anticipada") res.minRetiro += Number(f.minutos_tarde) || 0;
   });

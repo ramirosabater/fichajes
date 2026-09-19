@@ -46,6 +46,18 @@ export default function Equipo({ empleado, pin, horarios, config, onVolver }) {
 
   const cambiarMes = (delta) => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + delta, 1));
 
+  const justificar = async (fichajeId, autorizar) => {
+    try {
+      const r = await sbRpc("autorizar_fichaje", {
+        p_legajo: empleado.legajo, p_pin: pin, p_fichaje_id: fichajeId, p_autorizado: autorizar,
+      });
+      if (!r || !r.ok) throw new Error();
+      setEquipo((eq) => eq.map((m) => ({
+        ...m, fichajes: (m.fichajes || []).map((f) => (f.id === fichajeId ? { ...f, autorizado: autorizar } : f)),
+      })));
+    } catch { alert("No se pudo justificar la fichada."); }
+  };
+
   const equipoCumpl = equipo.map((m) => ({
     ...m,
     cumpl: computarCumplimiento(m.fichajes || [], (horarios || []).find((h) => String(h.id) === String(m.horario_id)) || null, desde, hasta, config),
@@ -190,14 +202,28 @@ export default function Equipo({ empleado, pin, horarios, config, onVolver }) {
                           {(m.fichajes || []).length === 0 ? (
                             <p className="text-[11px] text-[#94a1ab] italic py-2">Sin fichadas en el período.</p>
                           ) : (
-                            m.fichajes.map((f, i) => (
-                              <div key={i} className="flex items-center justify-between py-1.5 text-xs">
-                                <span>{f.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span>
-                                <span className="text-[#5c6b78] tabular-nums">
-                                  {new Date(f.timestamp).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                                </span>
-                              </div>
-                            ))
+                            m.fichajes.map((f, i) => {
+                              const justif = f.estado === "tarde" || f.estado === "salida_anticipada";
+                              return (
+                                <div key={i} className="flex items-center justify-between py-1.5 text-xs gap-2">
+                                  <span className="shrink-0">{f.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span>
+                                  {justif && (
+                                    f.autorizado ? (
+                                      <button onClick={() => justificar(f.id, false)} className="text-[10px] px-1.5 py-0.5 rounded font-semibold" style={{ backgroundColor: "rgba(22,163,74,.12)", color: "#16a34a" }}>
+                                        ✓ justificada
+                                      </button>
+                                    ) : (
+                                      <button onClick={() => justificar(f.id, true)} className="text-[10px] px-1.5 py-0.5 rounded border border-[#cfd6dd] text-[#5c6b78]">
+                                        justificar
+                                      </button>
+                                    )
+                                  )}
+                                  <span className="text-[11px] text-[#5c6b78] tabular-nums ml-auto shrink-0">
+                                    {new Date(f.timestamp).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                                  </span>
+                                </div>
+                              );
+                            })
                           )}
                         </div>
                       )}

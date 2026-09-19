@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPatch, sbRpc } from "./supabase-admin.js";
+import { sbGet, sbPatch, sbPost, sbRpc } from "./supabase-admin.js";
 
 export default function Empleados() {
   const [empleados, setEmpleados] = useState([]);
@@ -13,6 +13,33 @@ export default function Empleados() {
   const [pinEdit, setPinEdit] = useState(null);
   const [pinValor, setPinValor] = useState("");
   const [pinOk, setPinOk] = useState(null);
+
+  // Alta de empleado
+  const [mostrarNuevo, setMostrarNuevo] = useState(false);
+  const [nuevo, setNuevo] = useState({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", pin: "1234" });
+  const [creando, setCreando] = useState(false);
+
+  const crearEmpleado = async () => {
+    const legajo = parseInt(nuevo.legajo, 10);
+    if (!legajo) return alert("Poné un número de legajo.");
+    if (empleados.some((e) => e.legajo === legajo)) return alert("Ya existe un empleado con ese legajo.");
+    if (!nuevo.apellido.trim() || !nuevo.nombre.trim()) return alert("Completá apellido y nombre.");
+    if (!nuevo.pin || nuevo.pin.length < 4) return alert("El PIN debe tener al menos 4 dígitos.");
+    setCreando(true);
+    try {
+      await sbPost("empleados", {
+        legajo, apellido: nuevo.apellido.trim(), nombre: nuevo.nombre.trim(),
+        sector: nuevo.sector || null, horario_id: nuevo.horario_id || null,
+        responsable_legajo: nuevo.responsable_legajo ? parseInt(nuevo.responsable_legajo, 10) : null,
+        activo: true,
+      });
+      await sbRpc("set_pin_admin", { p_legajo: legajo, p_nuevo_pin: nuevo.pin });
+      setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", pin: "1234" });
+      setMostrarNuevo(false);
+      await cargar();
+    } catch { alert("No se pudo crear el empleado."); }
+    finally { setCreando(false); }
+  };
 
   const cargar = async () => {
     setCargando(true); setError(null);
@@ -68,8 +95,62 @@ export default function Empleados() {
 
   return (
     <div>
-      <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar empleado…"
-        className="w-full max-w-sm mb-4 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+        <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar empleado…"
+          className="max-w-sm flex-1 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
+        <button onClick={() => setMostrarNuevo((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#e1251b] text-white">
+          {mostrarNuevo ? "Cancelar" : "+ Nuevo empleado"}
+        </button>
+      </div>
+
+      {mostrarNuevo && (
+        <div className="bg-white border border-[#e3e8ed] rounded-xl p-4 mb-5 shadow-lg">
+          <p className="text-sm font-bold mb-3">Nuevo empleado</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Legajo *</label>
+              <input value={nuevo.legajo} onChange={(e) => setNuevo({ ...nuevo, legajo: e.target.value })} type="number" className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1" />
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Apellido *</label>
+              <input value={nuevo.apellido} onChange={(e) => setNuevo({ ...nuevo, apellido: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1" />
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Nombre *</label>
+              <input value={nuevo.nombre} onChange={(e) => setNuevo({ ...nuevo, nombre: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1" />
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Sector</label>
+              <select value={nuevo.sector} onChange={(e) => setNuevo({ ...nuevo, sector: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+                <option value="">—</option>
+                {sectores.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Turno</label>
+              <select value={nuevo.horario_id} onChange={(e) => setNuevo({ ...nuevo, horario_id: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+                <option value="">—</option>
+                {horarios.map((h) => <option key={h.id} value={h.id}>{h.nombre}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Responsable</label>
+              <select value={nuevo.responsable_legajo} onChange={(e) => setNuevo({ ...nuevo, responsable_legajo: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+                <option value="">—</option>
+                {empleados.map((r) => <option key={r.legajo} value={r.legajo}>{r.apellido}, {r.nombre}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">PIN inicial</label>
+              <input value={nuevo.pin} onChange={(e) => setNuevo({ ...nuevo, pin: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1" />
+            </div>
+          </div>
+          <button onClick={crearEmpleado} disabled={creando} className="mt-4 w-full py-2.5 rounded-lg font-bold text-sm bg-[#16a34a] text-white disabled:opacity-50">
+            {creando ? "Creando…" : "Crear empleado"}
+          </button>
+        </div>
+      )}
+
       <div className="space-y-3">
         {lista.map((e) => (
           <div key={e.legajo} className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4 flex items-start gap-4 flex-wrap"

@@ -8,6 +8,8 @@ import Reportes from "./Reportes.jsx";
 import Dispositivos from "./Dispositivos.jsx";
 import Aprobaciones from "./Aprobaciones.jsx";
 import Configuracion from "./Configuracion.jsx";
+import Depositos from "./Depositos.jsx";
+import Fichadas from "./Fichadas.jsx";
 import { LOGO } from "../lib/logo.js";
 
 export default function Admin() {
@@ -62,6 +64,8 @@ export default function Admin() {
     { id: "empleados", label: "Empleados" },
     { id: "plantillas", label: "Plantillas" },
     { id: "sectores", label: "Sectores" },
+    { id: "depositos", label: "Depósitos" },
+    { id: "fichadas", label: "Corrección" },
     { id: "reportes", label: "Reportes" },
     { id: "dispositivos", label: "Dispositivos" },
     { id: "aprobaciones", label: "Aprobaciones" },
@@ -90,6 +94,8 @@ export default function Admin() {
         {vista === "empleados" && <Empleados />}
         {vista === "plantillas" && <Plantillas />}
         {vista === "sectores" && <Sectores />}
+        {vista === "depositos" && <Depositos />}
+        {vista === "fichadas" && <Fichadas />}
         {vista === "reportes" && <Reportes />}
         {vista === "dispositivos" && <Dispositivos />}
         {vista === "aprobaciones" && <Aprobaciones />}

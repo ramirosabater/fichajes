@@ -23,11 +23,11 @@ export function computarDashboard(fichajes, empleados) {
     arr.forEach((f) => {
       if (f.tipo === "entrada") {
         entradas++;
-        if (f.estado === "tarde") { tarde++; minTarde += Number(f.minutos_tarde) || 0; }
+        if (f.estado === "tarde") { tarde++; if (!f.autorizado) minTarde += Number(f.minutos_tarde) || 0; }
         else if (f.estado === "a_horario") totalAHorario++;
         pend = new Date(f.timestamp);
       } else if (f.tipo === "salida") {
-        if (f.estado === "salida_anticipada") { salidaAnt++; minTemprano += Number(f.minutos_tarde) || 0; }
+        if (f.estado === "salida_anticipada") { salidaAnt++; if (!f.autorizado) minTemprano += Number(f.minutos_tarde) || 0; }
         if (pend) { trabajadoMs += new Date(f.timestamp) - pend; pend = null; }
       }
     });

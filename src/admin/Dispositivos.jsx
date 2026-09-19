@@ -25,7 +25,16 @@ function computarDispositivos(fichajes, empleados) {
   const multi = Object.entries(porEmpDisp).filter(([, s]) => s.size >= 2)
     .map(([lg, s]) => { const e = mapEmp[lg] || {}; return { legajo: Number(lg), nombre: e.nombre || "?", apellido: e.apellido || "?", dispositivos: s.size }; })
     .sort((a, b) => b.dispositivos - a.dispositivos);
-  return { compartidos, multi };
+
+  // Fichajes remotos (sin depósito) por empleado
+  const remCount = {};
+  fichajes.forEach((f) => { if (!f.local_id) remCount[f.legajo] = (remCount[f.legajo] || 0) + 1; });
+  const remotos = Object.entries(remCount).map(([lg, veces]) => {
+    const e = mapEmp[lg] || {};
+    return { legajo: Number(lg), nombre: e.nombre || "?", apellido: e.apellido || "?", veces };
+  }).sort((a, b) => b.veces - a.veces);
+
+  return { compartidos, multi, remotos };
 }
 
 export default function Dispositivos() {
@@ -141,6 +150,26 @@ export default function Dispositivos() {
                   </div>
                 </div>
               )}
+
+              {/* Fichajes remotos por empleado */}
+              <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl overflow-hidden mt-4">
+                <div className="px-4 py-3 border-b border-[#e3e8ed] flex items-center gap-2">
+                  <span>📡</span>
+                  <p className="text-sm font-bold">Fichajes remotos (fuera de un depósito)</p>
+                </div>
+                {data.remotos.length === 0 ? (
+                  <p className="text-[#94a1ab] text-xs italic px-4 py-5 text-center">Todos ficharon dentro de un depósito. ✓</p>
+                ) : (
+                  <div className="divide-y divide-[#f1f4f7]">
+                    {data.remotos.map((r) => (
+                      <div key={r.legajo} className="px-4 py-2.5 flex items-center justify-between">
+                        <p className="text-xs">{r.apellido}, {r.nombre} <span className="text-[#94a1ab]">· leg. {r.legajo}</span></p>
+                        <span className="text-xs text-[#2ba9e0] font-bold tabular-nums">{r.veces} remoto{r.veces !== 1 ? "s" : ""}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </>
           )}
     </div>
