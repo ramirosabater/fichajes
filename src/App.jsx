@@ -5,6 +5,7 @@ import {
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
+import { LOGO } from "./lib/logo.js";
 
 export default function App() {
   // Identificación
@@ -148,43 +149,43 @@ export default function App() {
   if (!empleado) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center p-4">
-        <div className="w-full max-w-[380px] bg-[#1c2128] rounded-[28px] shadow-2xl border border-[#2d3748] p-6">
+        <div className="w-full max-w-[380px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] p-6">
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-[#242b35] border border-[#2d3748] flex items-center justify-center mb-3 text-2xl">🕑</div>
+            <img src={LOGO} alt="ANAFER" className="h-12 mb-3" />
             <h1 className="text-lg font-bold">Identificate para fichar</h1>
-            <p className="text-[#5a6578] text-sm mt-1">Ingresá tu legajo y tu PIN</p>
+            <p className="text-[#94a1ab] text-sm mt-1">Ingresá tu legajo y tu PIN</p>
           </div>
           <input value={legajo} onChange={(e) => setLegajo(e.target.value)} type="number" placeholder="Legajo"
-            className="w-full bg-[#242b35] border border-[#3a4353] rounded-xl px-4 py-3 text-center text-lg outline-none" />
+            className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 text-center text-lg outline-none" />
           <input value={pin} onChange={(e) => setPin(e.target.value)} type="password" inputMode="numeric" placeholder="PIN"
             onKeyDown={(e) => e.key === "Enter" && ingresar()}
-            className="w-full mt-3 bg-[#242b35] border border-[#3a4353] rounded-xl px-4 py-3 text-center text-lg tracking-[0.5em] outline-none" />
+            className="w-full mt-3 bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 text-center text-lg tracking-[0.5em] outline-none" />
           {errorLogin && <p className="text-[#e5484d] text-sm mt-3">{errorLogin}</p>}
           <button onClick={ingresar} disabled={buscando}
-            className="w-full mt-4 py-3 rounded-xl font-bold bg-[#f2a900] text-[#12161c] disabled:opacity-50">
+            className="w-full mt-4 py-3 rounded-xl font-bold bg-[#e1251b] text-white disabled:opacity-50">
             {buscando ? "Ingresando…" : "Continuar"}
           </button>
 
           {!modoPin ? (
             <button onClick={() => { setModoPin(true); setPinMsg(null); }}
-              className="w-full mt-3 text-xs text-[#5a6578] hover:text-[#8b95a5]">Cambiar mi PIN</button>
+              className="w-full mt-3 text-xs text-[#94a1ab] hover:text-[#5c6b78]">Cambiar mi PIN</button>
           ) : (
-            <div className="mt-4 pt-4 border-t border-dashed border-[#3a4353]">
-              <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Cambiar mi PIN</p>
-              <p className="text-[11px] text-[#5a6578] mb-3">Usá el legajo de arriba. Necesitás tu PIN actual.</p>
+            <div className="mt-4 pt-4 border-t border-dashed border-[#cfd6dd]">
+              <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Cambiar mi PIN</p>
+              <p className="text-[11px] text-[#94a1ab] mb-3">Usá el legajo de arriba. Necesitás tu PIN actual.</p>
               <input value={pinActual} onChange={(e) => setPinActual(e.target.value)} type="password" inputMode="numeric" placeholder="PIN actual"
-                className="w-full bg-[#242b35] border border-[#3a4353] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
+                className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
               <input value={pinNuevo} onChange={(e) => setPinNuevo(e.target.value)} type="password" inputMode="numeric" placeholder="PIN nuevo"
-                className="w-full bg-[#242b35] border border-[#3a4353] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
+                className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
               <input value={pinRep} onChange={(e) => setPinRep(e.target.value)} type="password" inputMode="numeric" placeholder="Repetir PIN nuevo"
                 onKeyDown={(e) => e.key === "Enter" && cambiarMiPin()}
-                className="w-full bg-[#242b35] border border-[#3a4353] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none" />
-              {pinMsg && <p className={`text-xs mt-2 ${pinMsg.ok ? "text-[#3ddc84]" : "text-[#e5484d]"}`}>{pinMsg.texto}</p>}
+                className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none" />
+              {pinMsg && <p className={`text-xs mt-2 ${pinMsg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{pinMsg.texto}</p>}
               <div className="flex gap-2 mt-3">
                 <button onClick={() => { setModoPin(false); setPinMsg(null); setPinActual(""); setPinNuevo(""); setPinRep(""); }}
-                  className="flex-1 py-2.5 rounded-xl font-semibold text-xs bg-[#242b35] border border-[#3a4353] text-[#8b95a5]">Volver</button>
+                  className="flex-1 py-2.5 rounded-xl font-semibold text-xs bg-[#f1f4f7] border border-[#cfd6dd] text-[#5c6b78]">Volver</button>
                 <button onClick={cambiarMiPin} disabled={cambiandoPin}
-                  className="flex-1 py-2.5 rounded-xl font-bold text-xs bg-[#f2a900] text-[#12161c] disabled:opacity-50">
+                  className="flex-1 py-2.5 rounded-xl font-bold text-xs bg-[#e1251b] text-white disabled:opacity-50">
                   {cambiandoPin ? "…" : "Guardar PIN"}</button>
               </div>
             </div>
@@ -215,13 +216,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4">
-      <div className="w-full max-w-[400px] bg-[#1c2128] rounded-[28px] shadow-2xl border border-[#2d3748] overflow-hidden">
-        <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#3a4353]">
+      <div className="w-full max-w-[400px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+        <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#cfd6dd]">
           <div>
-            <p className="text-[#8b95a5] text-xs uppercase tracking-widest">{empleado.apellido}, {empleado.nombre}</p>
+            <p className="text-[#5c6b78] text-xs uppercase tracking-widest">{empleado.apellido}, {empleado.nombre}</p>
             <p className="text-sm capitalize">{ahora.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}</p>
           </div>
-          <button onClick={salir} className="text-[#5a6578] hover:text-[#8b95a5] text-xs">Salir</button>
+          <button onClick={salir} className="text-[#94a1ab] hover:text-[#5c6b78] text-xs">Salir</button>
         </div>
 
         {tardanzas >= 3 && (
@@ -235,18 +236,18 @@ export default function App() {
         <div className="px-6 py-6 text-center">
           <p className="text-5xl font-black tabular-nums">{ahora.toLocaleTimeString("es-AR")}</p>
           <span className="inline-block mt-3 text-xs font-semibold px-3 py-1 rounded-full"
-            style={{ backgroundColor: enTurno ? "rgba(61,220,132,.12)" : "#242b35", color: enTurno ? "#3ddc84" : "#8b95a5" }}>
+            style={{ backgroundColor: enTurno ? "rgba(61,220,132,.12)" : "#f1f4f7", color: enTurno ? "#16a34a" : "#5c6b78" }}>
             {enTurno ? `EN TURNO · ${duracion()}` : "FUERA DE TURNO"}
           </span>
-          {!horarioEmpleado && <p className="text-[11px] text-[#5a6578] mt-3">Sin turno asignado</p>}
+          {!horarioEmpleado && <p className="text-[11px] text-[#94a1ab] mt-3">Sin turno asignado</p>}
         </div>
 
-        {msg && <p className={`mx-6 mb-3 text-xs text-center font-semibold ${msg.ok ? "text-[#3ddc84]" : "text-[#e5484d]"}`}>{msg.texto}</p>}
+        {msg && <p className={`mx-6 mb-3 text-xs text-center font-semibold ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.texto}</p>}
 
         <div className="px-6 pb-3">
           <button onClick={fichar} disabled={guardando}
             className="w-full py-4 rounded-xl font-bold text-base transition active:scale-[0.98] disabled:opacity-50"
-            style={{ backgroundColor: enTurno ? "#e5484d" : "#f2a900", color: enTurno ? "#fff" : "#12161c" }}>
+            style={{ backgroundColor: enTurno ? "#e5484d" : "#e1251b", color: enTurno ? "#fff" : "#ffffff" }}>
             {guardando ? "Registrando…" : enTurno ? "FICHAR SALIDA" : "FICHAR ENTRADA"}
           </button>
         </div>
@@ -254,7 +255,7 @@ export default function App() {
         {aCargo > 0 && (
           <div className="px-6 pb-3">
             <button onClick={() => setVista("equipo")}
-              className="w-full py-3 rounded-xl font-semibold text-sm bg-[#242b35] border border-[#2d3748] hover:border-[#3a4353]">
+              className="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">
               👥 Revisar mi equipo ({aCargo})
             </button>
           </div>
@@ -262,21 +263,21 @@ export default function App() {
 
         <div className="px-6 pb-3">
           <button onClick={() => setVista("historial")}
-            className="w-full py-3 rounded-xl font-semibold text-sm bg-[#242b35] border border-[#2d3748] hover:border-[#3a4353]">
+            className="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">
             📋 Mi historial
           </button>
         </div>
 
         <div className="px-6 pb-6">
-          <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Cartilla de hoy</p>
+          <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Cartilla de hoy</p>
           {historial.length === 0 ? (
-            <p className="text-[#5a6578] text-sm italic">Todavía no fichaste ningún movimiento.</p>
+            <p className="text-[#94a1ab] text-sm italic">Todavía no fichaste ningún movimiento.</p>
           ) : (
             <div className="space-y-1">
               {historial.map((r, i) => (
-                <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-[#242b35] last:border-0">
+                <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-[#f1f4f7] last:border-0">
                   <span className="capitalize">{r.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span>
-                  <span className="text-[#8b95a5] tabular-nums">{r.hora.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}</span>
+                  <span className="text-[#5c6b78] tabular-nums">{r.hora.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}</span>
                 </div>
               ))}
             </div>

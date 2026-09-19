@@ -64,86 +64,86 @@ export default function Configuracion() {
     catch { alert("No se pudo borrar."); }
   };
 
-  if (cargando) return <p className="text-[#8b95a5] text-center py-16">Cargando…</p>;
+  if (cargando) return <p className="text-[#5c6b78] text-center py-16">Cargando…</p>;
   if (error) return <p className="text-[#e5484d] text-center py-10">{error}</p>;
 
   return (
     <div className="max-w-2xl space-y-6">
       {/* RECARGOS */}
-      <div className="bg-[#1c2128] border border-[#2d3748] rounded-2xl p-5">
+      <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-2xl p-5">
         <h2 className="text-base font-bold mb-1">Recargos de horas (50% / 100%)</h2>
-        <p className="text-[#5a6578] text-xs mb-4">Definí qué días y horas se pagan con recargo. Las horas trabajadas dentro de una ventana suman a ese porcentaje.</p>
+        <p className="text-[#94a1ab] text-xs mb-4">Definí qué días y horas se pagan con recargo. Las horas trabajadas dentro de una ventana suman a ese porcentaje.</p>
 
         <div className="space-y-2 mb-4">
-          {recargos.length === 0 && <p className="text-[#5a6578] text-sm italic">No hay reglas cargadas.</p>}
+          {recargos.length === 0 && <p className="text-[#94a1ab] text-sm italic">No hay reglas cargadas.</p>}
           {recargos.map((r) => (
-            <div key={r.id} className="flex items-center gap-3 bg-[#242b35] border border-[#2d3748] rounded-lg px-3 py-2">
-              <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: r.porcentaje >= 100 ? "rgba(229,72,77,.15)" : "rgba(90,169,255,.15)", color: r.porcentaje >= 100 ? "#e5484d" : "#5aa9ff" }}>{r.porcentaje}%</span>
+            <div key={r.id} className="flex items-center gap-3 bg-[#f1f4f7] border border-[#e3e8ed] rounded-lg px-3 py-2">
+              <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: r.porcentaje >= 100 ? "rgba(229,72,77,.15)" : "rgba(43,169,224,.15)", color: r.porcentaje >= 100 ? "#e5484d" : "#2ba9e0" }}>{r.porcentaje}%</span>
               <span className="flex-1 text-sm">{dlabel(r.dias)} · {r.hora_desde}–{r.hora_hasta}</span>
               <button onClick={() => borrarRecargo(r.id)} className="text-xs text-[#e5484d]">Borrar</button>
             </div>
           ))}
         </div>
 
-        <div className="border-t border-[#2d3748] pt-4">
-          <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Nueva regla</p>
+        <div className="border-t border-[#e3e8ed] pt-4">
+          <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Nueva regla</p>
           <div className="flex gap-1.5 mb-3">
             {DIAS.map((d) => (
               <button key={d.n} onClick={() => toggleDia(d.n)} className="w-8 h-8 rounded-lg text-xs font-bold border"
-                style={{ backgroundColor: rDias.includes(d.n) ? "#f2a900" : "#242b35", color: rDias.includes(d.n) ? "#12161c" : "#8b95a5", borderColor: rDias.includes(d.n) ? "#f2a900" : "#3a4353" }}>{d.l}</button>
+                style={{ backgroundColor: rDias.includes(d.n) ? "#e1251b" : "#f1f4f7", color: rDias.includes(d.n) ? "#ffffff" : "#5c6b78", borderColor: rDias.includes(d.n) ? "#e1251b" : "#cfd6dd" }}>{d.l}</button>
             ))}
           </div>
           <div className="flex gap-3 items-end flex-wrap">
             <div>
-              <label className="text-[10px] uppercase tracking-wider text-[#5a6578]">Desde</label>
-              <input type="time" value={rDesde} onChange={(e) => setRDesde(e.target.value)} className="block bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Desde</label>
+              <input type="time" value={rDesde} onChange={(e) => setRDesde(e.target.value)} className="block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
             </div>
             <div>
-              <label className="text-[10px] uppercase tracking-wider text-[#5a6578]">Hasta</label>
-              <input type="time" value={rHasta === "24:00" ? "23:59" : rHasta} onChange={(e) => setRHasta(e.target.value === "23:59" ? "24:00" : e.target.value)} className="block bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Hasta</label>
+              <input type="time" value={rHasta === "24:00" ? "23:59" : rHasta} onChange={(e) => setRHasta(e.target.value === "23:59" ? "24:00" : e.target.value)} className="block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
             </div>
             <div className="flex gap-1">
               {[50, 100].map((p) => (
                 <button key={p} onClick={() => setRPct(p)} className="px-3 py-2 rounded-lg text-sm font-bold border"
-                  style={{ backgroundColor: rPct === p ? "#f2a900" : "#242b35", color: rPct === p ? "#12161c" : "#8b95a5", borderColor: rPct === p ? "#f2a900" : "#3a4353" }}>{p}%</button>
+                  style={{ backgroundColor: rPct === p ? "#e1251b" : "#f1f4f7", color: rPct === p ? "#ffffff" : "#5c6b78", borderColor: rPct === p ? "#e1251b" : "#cfd6dd" }}>{p}%</button>
               ))}
             </div>
-            <button onClick={agregarRecargo} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#3ddc84] text-[#12161c]">+ Agregar</button>
+            <button onClick={agregarRecargo} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#16a34a] text-white">+ Agregar</button>
           </div>
-          <p className="text-[10px] text-[#5a6578] mt-2">Tip: para "hasta fin del día" poné 23:59 (se toma como 24:00).</p>
+          <p className="text-[10px] text-[#94a1ab] mt-2">Tip: para "hasta fin del día" poné 23:59 (se toma como 24:00).</p>
         </div>
       </div>
 
       {/* FERIADOS */}
-      <div className="bg-[#1c2128] border border-[#2d3748] rounded-2xl p-5">
+      <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-2xl p-5">
         <h2 className="text-base font-bold mb-1">Feriados</h2>
-        <p className="text-[#5a6578] text-xs mb-4">Los días marcados acá aplican el recargo indicado a todas las horas trabajadas.</p>
+        <p className="text-[#94a1ab] text-xs mb-4">Los días marcados acá aplican el recargo indicado a todas las horas trabajadas.</p>
 
         <div className="flex gap-2 items-end flex-wrap mb-4">
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-[#5a6578]">Fecha</label>
-            <input type="date" value={fFecha} onChange={(e) => setFFecha(e.target.value)} className="block bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+            <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Fecha</label>
+            <input type="date" value={fFecha} onChange={(e) => setFFecha(e.target.value)} className="block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
           </div>
           <div className="flex-1 min-w-[140px]">
-            <label className="text-[10px] uppercase tracking-wider text-[#5a6578]">Nombre (opcional)</label>
-            <input value={fNombre} onChange={(e) => setFNombre(e.target.value)} placeholder="Ej: Día del trabajador" className="block w-full bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+            <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Nombre (opcional)</label>
+            <input value={fNombre} onChange={(e) => setFNombre(e.target.value)} placeholder="Ej: Día del trabajador" className="block w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
           </div>
           <div className="flex gap-1">
             {[50, 100].map((p) => (
               <button key={p} onClick={() => setFPct(p)} className="px-3 py-2 rounded-lg text-sm font-bold border"
-                style={{ backgroundColor: fPct === p ? "#f2a900" : "#242b35", color: fPct === p ? "#12161c" : "#8b95a5", borderColor: fPct === p ? "#f2a900" : "#3a4353" }}>{p}%</button>
+                style={{ backgroundColor: fPct === p ? "#e1251b" : "#f1f4f7", color: fPct === p ? "#ffffff" : "#5c6b78", borderColor: fPct === p ? "#e1251b" : "#cfd6dd" }}>{p}%</button>
             ))}
           </div>
-          <button onClick={agregarFeriado} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#3ddc84] text-[#12161c]">+ Agregar</button>
+          <button onClick={agregarFeriado} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#16a34a] text-white">+ Agregar</button>
         </div>
 
         <div className="space-y-1">
-          {feriados.length === 0 && <p className="text-[#5a6578] text-sm italic">No hay feriados cargados.</p>}
+          {feriados.length === 0 && <p className="text-[#94a1ab] text-sm italic">No hay feriados cargados.</p>}
           {feriados.map((f) => (
-            <div key={f.fecha} className="flex items-center gap-3 bg-[#242b35] border border-[#2d3748] rounded-lg px-3 py-2">
+            <div key={f.fecha} className="flex items-center gap-3 bg-[#f1f4f7] border border-[#e3e8ed] rounded-lg px-3 py-2">
               <span className="text-sm tabular-nums">{new Date(f.fecha + "T00:00:00").toLocaleDateString("es-AR", { weekday: "short", day: "2-digit", month: "short" })}</span>
-              <span className="flex-1 text-sm text-[#8b95a5]">{f.nombre || ""}</span>
-              <span className="text-xs font-bold" style={{ color: f.porcentaje >= 100 ? "#e5484d" : "#5aa9ff" }}>{f.porcentaje}%</span>
+              <span className="flex-1 text-sm text-[#5c6b78]">{f.nombre || ""}</span>
+              <span className="text-xs font-bold" style={{ color: f.porcentaje >= 100 ? "#e5484d" : "#2ba9e0" }}>{f.porcentaje}%</span>
               <button onClick={() => borrarFeriado(f.fecha)} className="text-xs text-[#e5484d]">Borrar</button>
             </div>
           ))}

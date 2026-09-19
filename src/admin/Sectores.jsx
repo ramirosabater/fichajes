@@ -58,34 +58,34 @@ export default function Sectores() {
     } catch { flash("No se pudo borrar.", false); }
   };
 
-  if (cargando) return <p className="text-[#8b95a5] text-center py-16">Cargando…</p>;
+  if (cargando) return <p className="text-[#5c6b78] text-center py-16">Cargando…</p>;
   if (error) return <p className="text-[#e5484d] text-center py-10">{error}</p>;
 
   return (
     <div className="max-w-lg">
       <h2 className="text-base font-bold mb-4">Sectores</h2>
-      <div className="bg-[#1c2128] border border-[#2d3748] rounded-xl p-4">
+      <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4">
         <div className="flex gap-2">
           <input value={nuevo} onChange={(e) => setNuevo(e.target.value)} onKeyDown={(e) => e.key === "Enter" && agregar()}
             placeholder="Nombre del nuevo sector"
-            className="flex-1 bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2 text-sm outline-none" />
-          <button onClick={agregar} className="px-4 rounded-lg font-bold text-sm bg-[#f2a900] text-[#12161c]">Agregar</button>
+            className="flex-1 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
+          <button onClick={agregar} className="px-4 rounded-lg font-bold text-sm bg-[#e1251b] text-white">Agregar</button>
         </div>
-        {msg && <p className={`text-xs mt-2 ${msg.ok ? "text-[#3ddc84]" : "text-[#e5484d]"}`}>{msg.t}</p>}
+        {msg && <p className={`text-xs mt-2 ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.t}</p>}
 
-        <div className="mt-4 divide-y divide-[#242b35]">
-          {sectores.length === 0 && <p className="text-[#5a6578] text-sm italic py-3">No hay sectores. Agregá el primero.</p>}
+        <div className="mt-4 divide-y divide-[#f1f4f7]">
+          {sectores.length === 0 && <p className="text-[#94a1ab] text-sm italic py-3">No hay sectores. Agregá el primero.</p>}
           {sectores.map((s) => (
             <div key={s.id} className="flex items-center gap-3 py-2.5">
               <span className="flex-1 font-medium text-sm">{s.nombre}</span>
-              <span className="text-xs text-[#8b95a5] bg-[#242b35] px-2 py-0.5 rounded">{contar(s.nombre)} emp.</span>
-              <button onClick={() => renombrar(s)} className="text-xs text-[#8b95a5] hover:text-[#f5f6f7] px-2 py-1 rounded-lg border border-[#3a4353]">Renombrar</button>
+              <span className="text-xs text-[#5c6b78] bg-[#f1f4f7] px-2 py-0.5 rounded">{contar(s.nombre)} emp.</span>
+              <button onClick={() => renombrar(s)} className="text-xs text-[#5c6b78] hover:text-[#1f2d38] px-2 py-1 rounded-lg border border-[#cfd6dd]">Renombrar</button>
               <button onClick={() => borrar(s)} className="text-xs text-[#e5484d] px-2 py-1 rounded-lg border border-[#e5484d]/40">Borrar</button>
             </div>
           ))}
         </div>
       </div>
-      <p className="text-[11px] text-[#5a6578] mt-3">La asignación de sector a cada empleado se hace en la pestaña <b>Empleados</b>.</p>
+      <p className="text-[11px] text-[#94a1ab] mt-3">La asignación de sector a cada empleado se hace en la pestaña <b>Empleados</b>.</p>
     </div>
   );
 }

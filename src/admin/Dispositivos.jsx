@@ -70,21 +70,21 @@ export default function Dispositivos() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-        <div className="max-w-[280px] grow rounded-xl bg-[#1c2128] border border-[#2d3748] p-3 flex items-center justify-between">
-          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))} className="text-[#8b95a5] px-2 text-lg">‹</button>
+        <div className="max-w-[280px] grow rounded-xl bg-[#ffffff] border border-[#e3e8ed] p-3 flex items-center justify-between">
+          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))} className="text-[#5c6b78] px-2 text-lg">‹</button>
           <p className="text-sm font-semibold">{etiquetaPeriodo(desde, hasta)}</p>
-          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#8b95a5] px-2 text-lg">›</button>
+          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#5c6b78] px-2 text-lg">›</button>
         </div>
         {data && data.compartidos.length > 0 && (
-          <button onClick={exportar} className="px-3 py-2.5 rounded-xl text-sm font-bold bg-[#f2a900] text-[#12161c]">⬇ Exportar Excel</button>
+          <button onClick={exportar} className="px-3 py-2.5 rounded-xl text-sm font-bold bg-[#e1251b] text-white">⬇ Exportar Excel</button>
         )}
       </div>
 
-      {cargando ? <p className="text-[#8b95a5] text-center py-16">Analizando…</p>
+      {cargando ? <p className="text-[#5c6b78] text-center py-16">Analizando…</p>
         : error ? <p className="text-[#e5484d] text-center py-10">{error}</p>
           : !data ? null : (
             <>
-              <p className="text-xs text-[#8b95a5] mb-4">
+              <p className="text-xs text-[#5c6b78] mb-4">
                 {data.compartidos.length === 0 ? "No se detectaron dispositivos usados por más de una persona. ✓"
                   : `${data.compartidos.length} dispositivo(s) usados por 2+ personas.`}
               </p>
@@ -92,30 +92,30 @@ export default function Dispositivos() {
                 {data.compartidos.map((d) => {
                   const op = abierto === d.device_id;
                   return (
-                    <div key={d.device_id} className="bg-[#1c2128] border rounded-xl overflow-hidden" style={{ borderColor: "rgba(229,72,77,.4)" }}>
+                    <div key={d.device_id} className="bg-[#ffffff] border rounded-xl overflow-hidden" style={{ borderColor: "rgba(229,72,77,.4)" }}>
                       <button onClick={() => setAbierto(op ? null : d.device_id)} className="w-full px-4 py-3 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2 flex-wrap min-w-0">
                           <span>📱</span>
-                          <span className="text-[10px] font-mono text-[#8b95a5] bg-[#242b35] px-2 py-0.5 rounded">…{d.device_id.slice(-8)}</span>
-                          <span className="text-[11px] text-[#8b95a5]">{parseUA(d.ua)}</span>
+                          <span className="text-[10px] font-mono text-[#5c6b78] bg-[#f1f4f7] px-2 py-0.5 rounded">…{d.device_id.slice(-8)}</span>
+                          <span className="text-[11px] text-[#5c6b78]">{parseUA(d.ua)}</span>
                           <span className="text-[11px] text-[#e5484d] font-semibold">{d.empleados.length} personas</span>
                         </div>
-                        <span className="text-[#5a6578] text-xs">{op ? "▲" : "▼"}</span>
+                        <span className="text-[#94a1ab] text-xs">{op ? "▲" : "▼"}</span>
                       </button>
                       <div className="px-4 pb-3 flex flex-wrap gap-1.5">
                         {d.empleados.map((e) => (
-                          <span key={e.legajo} className="text-[11px] bg-[#242b35] rounded-lg px-2 py-1">{e.apellido}, {e.nombre} <span className="text-[#5a6578]">· {e.veces}</span></span>
+                          <span key={e.legajo} className="text-[11px] bg-[#f1f4f7] rounded-lg px-2 py-1">{e.apellido}, {e.nombre} <span className="text-[#94a1ab]">· {e.veces}</span></span>
                         ))}
                       </div>
                       {op && (
-                        <div className="border-t border-[#2d3748] px-4 py-3">
-                          <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Línea de tiempo</p>
+                        <div className="border-t border-[#e3e8ed] px-4 py-3">
+                          <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Línea de tiempo</p>
                           {d.fichajes.map((f, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs py-1 border-b border-[#242b35] last:border-0">
-                              <span className="tabular-nums text-[#8b95a5] w-28 shrink-0">{new Date(f.timestamp).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                            <div key={i} className="flex items-center gap-2 text-xs py-1 border-b border-[#f1f4f7] last:border-0">
+                              <span className="tabular-nums text-[#5c6b78] w-28 shrink-0">{new Date(f.timestamp).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
                               <span>{f.tipo === "entrada" ? "🟢" : "🔴"}</span>
                               <span className="flex-1 truncate">{f.apellido}, {f.nombre}</span>
-                              <span className="text-[10px] text-[#5a6578]">{f.estado}</span>
+                              <span className="text-[10px] text-[#94a1ab]">{f.estado}</span>
                             </div>
                           ))}
                         </div>
@@ -126,16 +126,16 @@ export default function Dispositivos() {
               </div>
 
               {data.multi.length > 0 && (
-                <div className="bg-[#1c2128] border border-[#2d3748] rounded-xl overflow-hidden">
-                  <div className="px-4 py-3 border-b border-[#2d3748]">
+                <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl overflow-hidden">
+                  <div className="px-4 py-3 border-b border-[#e3e8ed]">
                     <p className="text-sm font-bold">Empleados con varios aparatos</p>
-                    <p className="text-[10px] text-[#5a6578]">Puede ser normal (casa + trabajo).</p>
+                    <p className="text-[10px] text-[#94a1ab]">Puede ser normal (casa + trabajo).</p>
                   </div>
-                  <div className="divide-y divide-[#242b35]">
+                  <div className="divide-y divide-[#f1f4f7]">
                     {data.multi.map((m) => (
                       <div key={m.legajo} className="px-4 py-2.5 flex items-center justify-between">
-                        <p className="text-xs">{m.apellido}, {m.nombre} <span className="text-[#5a6578]">· leg. {m.legajo}</span></p>
-                        <span className="text-xs text-[#f2a900] font-bold">{m.dispositivos} aparatos</span>
+                        <p className="text-xs">{m.apellido}, {m.nombre} <span className="text-[#94a1ab]">· leg. {m.legajo}</span></p>
+                        <span className="text-xs text-[#e1251b] font-bold">{m.dispositivos} aparatos</span>
                       </div>
                     ))}
                   </div>

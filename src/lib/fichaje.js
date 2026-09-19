@@ -20,18 +20,18 @@ export function bloqueDeHoy(horario, fecha) {
 export function calcularEstado(tipo, hora, horario) {
   const bloque = bloqueDeHoy(horario, hora);
   if (!bloque) {
-    return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", color: "#8b95a5", minutosTarde: 0 };
+    return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", color: "#5c6b78", minutosTarde: 0 };
   }
   const tolerancia = horario.tolerancia_minutos ?? 10;
   const min = minutosDesdeMedianoche(hora);
   if (tipo === "entrada") {
     const inicio = hhmmAMinutos(bloque.inicio);
-    if (min <= inicio + tolerancia) return { estado: "a_horario", label: "A horario", color: "#3ddc84", minutosTarde: 0 };
+    if (min <= inicio + tolerancia) return { estado: "a_horario", label: "A horario", color: "#16a34a", minutosTarde: 0 };
     return { estado: "tarde", label: `Tarde · +${min - inicio} min`, color: "#e5484d", minutosTarde: min - inicio };
   }
   const fin = hhmmAMinutos(bloque.fin);
-  if (min < fin - tolerancia) return { estado: "salida_anticipada", label: `Salida anticipada · -${fin - min} min`, color: "#f2a900", minutosTarde: fin - min };
-  return { estado: "a_horario", label: "A horario", color: "#3ddc84", minutosTarde: 0 };
+  if (min < fin - tolerancia) return { estado: "salida_anticipada", label: `Salida anticipada · -${fin - min} min`, color: "#e1251b", minutosTarde: fin - min };
+  return { estado: "a_horario", label: "A horario", color: "#16a34a", minutosTarde: 0 };
 }
 
 // ---------- Ubicación ----------

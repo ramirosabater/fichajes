@@ -95,48 +95,48 @@ export default function Reportes() {
 
   return (
     <div className="max-w-xl">
-      <div className="bg-[#1c2128] border border-[#2d3748] rounded-2xl p-5">
+      <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-2xl p-5">
         <h2 className="text-base font-bold mb-1">Exportar a Excel</h2>
-        <p className="text-[#5a6578] text-xs mb-5">Descargá las fichadas o un resumen por empleado del período.</p>
+        <p className="text-[#94a1ab] text-xs mb-5">Descargá las fichadas o un resumen por empleado del período.</p>
 
-        <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Alcance</p>
+        <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Alcance</p>
         <div className="flex gap-2 mb-4 flex-wrap">
           {[{ id: "todos", label: "Todos" }, { id: "sector", label: "Un sector" }, { id: "empleado", label: "Un empleado" }].map((o) => (
             <button key={o.id} onClick={() => { setAlcance(o.id); setError(null); setOk(null); }}
               className="px-3 py-2 rounded-lg text-xs font-semibold border"
-              style={{ backgroundColor: alcance === o.id ? "#f2a900" : "#242b35", color: alcance === o.id ? "#12161c" : "#8b95a5", borderColor: alcance === o.id ? "#f2a900" : "#3a4353" }}>
+              style={{ backgroundColor: alcance === o.id ? "#e1251b" : "#f1f4f7", color: alcance === o.id ? "#ffffff" : "#5c6b78", borderColor: alcance === o.id ? "#e1251b" : "#cfd6dd" }}>
               {o.label}
             </button>
           ))}
         </div>
 
         {alcance === "sector" && (
-          <select value={sector} onChange={(e) => setSector(e.target.value)} className="w-full bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2.5 text-sm outline-none mb-4">
+          <select value={sector} onChange={(e) => setSector(e.target.value)} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mb-4">
             <option value="">— Elegí un sector —</option>
             {datos.sectores.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         )}
         {alcance === "empleado" && (
-          <select value={legajo} onChange={(e) => setLegajo(e.target.value)} className="w-full bg-[#242b35] border border-[#3a4353] rounded-lg px-3 py-2.5 text-sm outline-none mb-4">
+          <select value={legajo} onChange={(e) => setLegajo(e.target.value)} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mb-4">
             <option value="">— Elegí un empleado —</option>
             {datos.empleados.map((e) => <option key={e.legajo} value={e.legajo}>{e.apellido}, {e.nombre} ({e.legajo})</option>)}
           </select>
         )}
 
-        <p className="text-[10px] uppercase tracking-widest text-[#5a6578] mb-2">Período</p>
-        <div className="rounded-xl bg-[#242b35] border border-[#2d3748] p-3 flex items-center justify-between mb-5">
-          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))} className="text-[#8b95a5] px-2 text-lg">‹</button>
+        <p className="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Período</p>
+        <div className="rounded-xl bg-[#f1f4f7] border border-[#e3e8ed] p-3 flex items-center justify-between mb-5">
+          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))} className="text-[#5c6b78] px-2 text-lg">‹</button>
           <p className="text-sm font-semibold">{etiquetaPeriodo(desde, hasta)}</p>
-          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#8b95a5] px-2 text-lg">›</button>
+          <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#5c6b78] px-2 text-lg">›</button>
         </div>
 
         {error && <p className="text-[#e5484d] text-xs mb-3">{error}</p>}
-        {ok && <p className="text-[#3ddc84] text-xs mb-3 font-semibold">{ok}</p>}
+        {ok && <p className="text-[#16a34a] text-xs mb-3 font-semibold">{ok}</p>}
 
-        <button onClick={descargarDetalle} disabled={!!bajando} className="w-full py-3 rounded-xl font-bold text-sm bg-[#f2a900] text-[#12161c] disabled:opacity-50">
+        <button onClick={descargarDetalle} disabled={!!bajando} className="w-full py-3 rounded-xl font-bold text-sm bg-[#e1251b] text-white disabled:opacity-50">
           {bajando === "detalle" ? "Generando…" : "⬇ Descargar fichadas (detalle)"}
         </button>
-        <button onClick={descargarResumen} disabled={!!bajando} className="w-full mt-2 py-3 rounded-xl font-bold text-sm bg-[#242b35] border border-[#3a4353] disabled:opacity-50">
+        <button onClick={descargarResumen} disabled={!!bajando} className="w-full mt-2 py-3 rounded-xl font-bold text-sm bg-[#f1f4f7] border border-[#cfd6dd] disabled:opacity-50">
           {bajando === "resumen" ? "Generando…" : "📊 Resumen por empleado (descuentos, 100%, faltantes)"}
         </button>
       </div>
