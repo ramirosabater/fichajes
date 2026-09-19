@@ -6,6 +6,7 @@ import {
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
 import { LOGO } from "./lib/logo.js";
+import { cargarConfig } from "./lib/cumplimiento.js";
 
 export default function App() {
   // Identificación
@@ -57,10 +58,11 @@ export default function App() {
       if (!r || !r.ok) {
         setErrorLogin(r?.motivo === "pin_incorrecto" ? "PIN incorrecto." : "No se encontró ningún empleado con ese legajo.");
       } else {
-        const [hs, ls, cfg] = await Promise.all([sbGet("horarios?select=*"), sbGet("locales?select=*"), cargarConfig(sbGet)]);
+        const [hs, ls] = await Promise.all([sbGet("horarios?select=*"), sbGet("locales?select=*")]);
         setHorarios(hs);
         setLocales(ls);
-        setConfig(cfg);
+        // La config de recargos es opcional: si falla, se usan los valores por defecto y el login igual funciona.
+        try { setConfig(await cargarConfig(sbGet)); } catch { /* usa defaults */ }
         setEmpleado(r.empleado);
         setPinAuth(pin);
         setTardanzas(r.tardanzas_periodo || 0);
