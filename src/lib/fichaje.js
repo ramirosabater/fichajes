@@ -57,16 +57,23 @@ export function obtenerPosicion() {
 
 // Busca el local más cercano dentro de su radio
 export function localMasCercano(pos, locales) {
-  if (!pos) return { local: null, distancia: null };
-  let mejor = null;
+  const e = estadoUbicacion(pos, locales);
+  return e.tipo === "dentro" ? { local: e.local, distancia: e.distancia } : { local: null, distancia: e.distancia ?? null };
+}
+
+// Evalúa dónde está el empleado: dentro de un depósito, fuera del radio, remoto o sin GPS.
+export function estadoUbicacion(pos, locales) {
+  if (!pos) return { tipo: "sin_gps" };
+  if (!locales || !locales.length) return { tipo: "remoto" };
+  let cerca = null;
   for (const l of locales) {
     if (l.lat == null || l.lng == null) continue;
     const d = distanciaMetros(pos.lat, pos.lng, Number(l.lat), Number(l.lng));
-    if (d <= (l.radio_metros ?? 150) && (!mejor || d < mejor.distancia)) {
-      mejor = { local: l, distancia: d };
-    }
+    if (!cerca || d < cerca.distancia) cerca = { local: l, distancia: d };
   }
-  return mejor || { local: null, distancia: null };
+  if (!cerca) return { tipo: "remoto" };
+  const dentro = cerca.distancia <= (cerca.local.radio_metros ?? 150);
+  return { tipo: dentro ? "dentro" : "fuera", local: cerca.local, distancia: cerca.distancia };
 }
 
 // ---------- Dispositivo ----------

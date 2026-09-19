@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { sbGet, sbRpc } from "./lib/supabase.js";
 import {
-  calcularEstado, obtenerPosicion, localMasCercano, obtenerDeviceId,
+  calcularEstado, obtenerPosicion, estadoUbicacion, obtenerDeviceId,
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
@@ -39,6 +39,8 @@ export default function App() {
   const [historial, setHistorial] = useState([]);
   const [guardando, setGuardando] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [ubic, setUbic] = useState(null); // { tipo, local, distancia }
+  const [ubicCargando, setUbicCargando] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => setAhora(new Date()), 1000);
@@ -46,6 +48,21 @@ export default function App() {
   }, []);
 
   const horarioEmpleado = empleado ? horarios.find((h) => String(h.id) === String(empleado.horario_id)) : null;
+
+  const refrescarUbicacion = async () => {
+    setUbicCargando(true);
+    try {
+      const pos = await obtenerPosicion();
+      setUbic(estadoUbicacion(pos, locales));
+    } catch { setUbic({ tipo: "sin_gps" }); }
+    finally { setUbicCargando(false); }
+  };
+
+  // Al entrar al fichaje, obtener la ubicación para mostrarla
+  useEffect(() => {
+    if (empleado && vista === "fichaje") refrescarUbicacion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [empleado, vista, locales]);
 
   const ingresar = async () => {
     setErrorLogin(null);
@@ -117,7 +134,9 @@ export default function App() {
     try {
       const hora = new Date();
       const pos = await obtenerPosicion();
-      const ubic = localMasCercano(pos, locales);
+      const eu = estadoUbicacion(pos, locales);
+      setUbic(eu);
+      const dentro = eu.tipo === "dentro";
       const est = calcularEstado(tipo, hora, horarioEmpleado);
       const r = await sbRpc("registrar_fichaje", {
         p_legajo: empleado.legajo,
@@ -127,8 +146,8 @@ export default function App() {
           timestamp: hora.toISOString(),
           lat: pos?.lat ?? null,
           lng: pos?.lng ?? null,
-          local_id: ubic.local ? ubic.local.id : null,
-          distancia_metros: ubic.distancia ?? null,
+          local_id: dentro ? eu.local.id : null,
+          distancia_metros: eu.distancia ?? null,
           estado: est.estado,
           minutos_tarde: est.minutosTarde || 0,
           device_id: obtenerDeviceId(),
@@ -245,6 +264,26 @@ export default function App() {
         </div>
 
         {msg && <p className={`mx-6 mb-3 text-xs text-center font-semibold ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.texto}</p>}
+
+        {/* Estado de ubicación */}
+        <div className="px-6 pb-3">
+          {(() => {
+            const cfg = {
+              sin_gps: { bg: "rgba(148,161,171,.12)", bd: "#cfd6dd", col: "#5c6b78", ico: "📍", txt: "Ubicación no disponible (revisá el permiso del navegador)" },
+              remoto: { bg: "rgba(43,169,224,.1)", bd: "rgba(43,169,224,.4)", col: "#2ba9e0", ico: "📡", txt: "Ubicación remota — sin depósitos cargados cerca" },
+              fuera: { bg: "rgba(229,72,77,.1)", bd: "rgba(229,72,77,.4)", col: "#e5484d", ico: "⚠️", txt: ubic ? `Fuera del radio de ${ubic.local?.nombre} (a ${ubic.distancia} m)` : "" },
+              dentro: { bg: "rgba(22,163,74,.1)", bd: "rgba(22,163,74,.4)", col: "#16a34a", ico: "✅", txt: ubic ? `En ${ubic.local?.nombre} (a ${ubic.distancia} m)` : "" },
+            };
+            const c = ubicCargando || !ubic ? { bg: "#f1f4f7", bd: "#e3e8ed", col: "#5c6b78", ico: "📍", txt: "Obteniendo ubicación…" } : (cfg[ubic.tipo] || cfg.remoto);
+            return (
+              <div className="rounded-xl p-3 flex items-center gap-2 border" style={{ backgroundColor: c.bg, borderColor: c.bd }}>
+                <span>{c.ico}</span>
+                <span className="text-xs flex-1" style={{ color: c.col }}>{c.txt}</span>
+                {!ubicCargando && <button onClick={refrescarUbicacion} className="text-[11px] text-[#5c6b78] hover:text-[#1f2d38]" title="Actualizar">↻</button>}
+              </div>
+            );
+          })()}
+        </div>
 
         <div className="px-6 pb-3">
           <button onClick={fichar} disabled={guardando}
