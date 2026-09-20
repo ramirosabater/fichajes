@@ -10,6 +10,7 @@ import Aprobaciones from "./Aprobaciones.jsx";
 import Configuracion from "./Configuracion.jsx";
 import Depositos from "./Depositos.jsx";
 import Fichadas from "./Fichadas.jsx";
+import Presentismo from "./Presentismo.jsx";
 import { LOGO } from "../lib/logo.js";
 
 export default function Admin() {
@@ -61,6 +62,7 @@ export default function Admin() {
 
   const tabs = [
     { id: "dashboard", label: "Dashboard" },
+    { id: "presentismo", label: "En vivo" },
     { id: "empleados", label: "Empleados" },
     { id: "plantillas", label: "Plantillas" },
     { id: "sectores", label: "Sectores" },
@@ -91,6 +93,7 @@ export default function Admin() {
         </div>
 
         {vista === "dashboard" && <Dashboard />}
+        {vista === "presentismo" && <Presentismo />}
         {vista === "empleados" && <Empleados />}
         {vista === "plantillas" && <Plantillas />}
         {vista === "sectores" && <Sectores />}

@@ -72,7 +72,7 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
   const res = {
     sinTurno: !horario || !horario.bloques || horario.bloques.length === 0,
     diasEsperados: 0, diasTrabajados: 0, sinRegistro: 0, sinEntrada: 0, sinSalida: 0,
-    minTarde: 0, minRetiro: 0, descuentoMin: 0, horas50Min: 0, horas100Min: 0,
+    minTarde: 0, minRetiro: 0, descuentoMin: 0, horas50Min: 0, horas100Min: 0, trabajadoMin: 0,
   };
   fichajes.forEach((f) => {
     if (f.autorizado) return; // justificado por el jefe → no descuenta
@@ -87,7 +87,9 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
     if (f.tipo === "entrada") pend = new Date(f.timestamp);
     else if (f.tipo === "salida" && pend) {
       const { min50, min100 } = minutosRecargo(pend, new Date(f.timestamp), config);
-      res.horas50Min += min50; res.horas100Min += min100; pend = null;
+      res.horas50Min += min50; res.horas100Min += min100;
+      res.trabajadoMin += (new Date(f.timestamp) - pend) / 60000;
+      pend = null;
     }
   });
 

@@ -76,13 +76,13 @@ export default function Reportes() {
       let lista = datos.empleados.filter((e) => e.activo !== false);
       if (alcance === "sector" && sector) lista = lista.filter((e) => e.sector === sector);
       if (alcance === "empleado" && legajo) lista = lista.filter((e) => String(e.legajo) === String(legajo));
-      const headers = ["Legajo", "Empleado", "Sector", "Días esperados", "Días trabajados", "Sin registro", "Sin entrada", "Sin salida", "Min. tarde", "Min. retiro", "Descuento (min)", "Horas 50%", "Horas 100%"];
+      const headers = ["Legajo", "Empleado", "Sector", "Días esperados", "Días trabajados", "Sin registro", "Sin entrada", "Sin salida", "Min. tarde", "Min. retiro", "Horas trabajadas", "Descuento (min)", "Horas 50%", "Horas 100%"];
       const rows = lista.map((e) => {
         const c = computarCumplimiento(porEmp[e.legajo] || [], mapHor[e.horario_id] || null, desde, hasta, config);
         return [e.legajo, `${e.apellido}, ${e.nombre}`, e.sector || "",
           c.sinTurno ? "" : c.diasEsperados, c.sinTurno ? "" : c.diasTrabajados,
           c.sinTurno ? "" : c.sinRegistro, c.sinTurno ? "" : c.sinEntrada, c.sinTurno ? "" : c.sinSalida,
-          c.minTarde, c.minRetiro, c.descuentoMin, Math.round(c.horas50Min / 6) / 10, Math.round(c.horas100Min / 6) / 10];
+          Math.round(c.trabajadoMin / 6) / 10, c.minTarde, c.minRetiro, c.descuentoMin, Math.round(c.horas50Min / 6) / 10, Math.round(c.horas100Min / 6) / 10];
       });
       if (!rows.length) { setError("No hay empleados para ese filtro."); setBajando(""); return; }
       descargarBytes(generarXlsx(headers, rows), `resumen_${desde.toISOString().slice(0, 10)}_a_${hasta.toISOString().slice(0, 10)}.xlsx`);
