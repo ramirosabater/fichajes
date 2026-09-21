@@ -91,12 +91,16 @@ export function obtenerDeviceId() {
 }
 
 // ---------- Período de nómina (21 al 20) ----------
+// El período de liquidación es del 1 al último día del mes.
 export function calcularPeriodo(ref) {
   const y = ref.getFullYear();
   const m = ref.getMonth();
-  return { desde: new Date(y, m - 1, 21, 0, 0, 0, 0), hasta: new Date(y, m, 20, 23, 59, 59, 999) };
+  return {
+    desde: new Date(y, m, 1, 0, 0, 0, 0),
+    hasta: new Date(y, m + 1, 0, 23, 59, 59, 999), // día 0 del mes siguiente = último día de este mes
+  };
 }
 export function etiquetaPeriodo(desde, hasta) {
-  const f = (d) => d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
-  return `${f(desde)} al ${f(hasta)}`;
+  // Como ahora el período es un mes completo, mostramos el nombre del mes.
+  return desde.toLocaleDateString("es-AR", { month: "long", year: "numeric" });
 }
