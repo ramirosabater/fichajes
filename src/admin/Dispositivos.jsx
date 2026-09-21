@@ -85,7 +85,7 @@ export default function Dispositivos() {
           <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#5c6b78] px-2 text-lg">›</button>
         </div>
         {data && data.compartidos.length > 0 && (
-          <button onClick={exportar} className="px-3 py-2.5 rounded-xl text-sm font-bold bg-[#e1251b] text-white">⬇ Exportar Excel</button>
+          <button onClick={exportar} className="px-3 py-2.5 rounded-xl text-sm font-bold bg-[#223c7e] text-white">⬇ Exportar Excel</button>
         )}
       </div>
 
@@ -144,7 +144,7 @@ export default function Dispositivos() {
                     {data.multi.map((m) => (
                       <div key={m.legajo} className="px-4 py-2.5 flex items-center justify-between">
                         <p className="text-xs">{m.apellido}, {m.nombre} <span className="text-[#94a1ab]">· leg. {m.legajo}</span></p>
-                        <span className="text-xs text-[#e1251b] font-bold">{m.dispositivos} aparatos</span>
+                        <span className="text-xs text-[#223c7e] font-bold">{m.dispositivos} aparatos</span>
                       </div>
                     ))}
                   </div>

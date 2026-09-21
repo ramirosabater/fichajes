@@ -104,7 +104,7 @@ export default function Reportes() {
           {[{ id: "todos", label: "Todos" }, { id: "sector", label: "Un sector" }, { id: "empleado", label: "Un empleado" }].map((o) => (
             <button key={o.id} onClick={() => { setAlcance(o.id); setError(null); setOk(null); }}
               className="px-3 py-2 rounded-lg text-xs font-semibold border"
-              style={{ backgroundColor: alcance === o.id ? "#e1251b" : "#f1f4f7", color: alcance === o.id ? "#ffffff" : "#5c6b78", borderColor: alcance === o.id ? "#e1251b" : "#cfd6dd" }}>
+              style={{ backgroundColor: alcance === o.id ? "#223c7e" : "#f1f4f7", color: alcance === o.id ? "#ffffff" : "#5c6b78", borderColor: alcance === o.id ? "#223c7e" : "#cfd6dd" }}>
               {o.label}
             </button>
           ))}
@@ -133,7 +133,7 @@ export default function Reportes() {
         {error && <p className="text-[#e5484d] text-xs mb-3">{error}</p>}
         {ok && <p className="text-[#16a34a] text-xs mb-3 font-semibold">{ok}</p>}
 
-        <button onClick={descargarDetalle} disabled={!!bajando} className="w-full py-3 rounded-xl font-bold text-sm bg-[#e1251b] text-white disabled:opacity-50">
+        <button onClick={descargarDetalle} disabled={!!bajando} className="w-full py-3 rounded-xl font-bold text-sm bg-[#223c7e] text-white disabled:opacity-50">
           {bajando === "detalle" ? "Generando…" : "⬇ Descargar fichadas (detalle)"}
         </button>
         <button onClick={descargarResumen} disabled={!!bajando} className="w-full mt-2 py-3 rounded-xl font-bold text-sm bg-[#f1f4f7] border border-[#cfd6dd] disabled:opacity-50">

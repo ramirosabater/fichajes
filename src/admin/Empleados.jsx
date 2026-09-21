@@ -101,7 +101,7 @@ export default function Empleados() {
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar empleado…"
           className="max-w-sm flex-1 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
-        <button onClick={() => setMostrarNuevo((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#e1251b] text-white">
+        <button onClick={() => setMostrarNuevo((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
           {mostrarNuevo ? "Cancelar" : "+ Nuevo empleado"}
         </button>
       </div>
@@ -175,7 +175,7 @@ export default function Empleados() {
                   <input value={pinValor} onChange={(ev) => setPinValor(ev.target.value)} inputMode="numeric" autoFocus placeholder="PIN nuevo"
                     onKeyDown={(ev) => ev.key === "Enter" && guardarPin(e.legajo)}
                     className="w-24 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2 py-1 text-xs outline-none" />
-                  <button onClick={() => guardarPin(e.legajo)} className="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#e1251b] text-white">OK</button>
+                  <button onClick={() => guardarPin(e.legajo)} className="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#223c7e] text-white">OK</button>
                   <button onClick={() => { setPinEdit(null); setPinValor(""); }} className="px-1.5 py-1 text-[11px] text-[#5c6b78]">✕</button>
                 </div>
               ) : (

@@ -69,7 +69,7 @@ export default function Sectores() {
           <input value={nuevo} onChange={(e) => setNuevo(e.target.value)} onKeyDown={(e) => e.key === "Enter" && agregar()}
             placeholder="Nombre del nuevo sector"
             className="flex-1 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
-          <button onClick={agregar} className="px-4 rounded-lg font-bold text-sm bg-[#e1251b] text-white">Agregar</button>
+          <button onClick={agregar} className="px-4 rounded-lg font-bold text-sm bg-[#223c7e] text-white">Agregar</button>
         </div>
         {msg && <p className={`text-xs mt-2 ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.t}</p>}
 

@@ -44,7 +44,7 @@ export default function Aprobaciones() {
   return (
     <div className="max-w-2xl">
       <h2 className="text-base font-bold mb-1">Observaciones para revisar</h2>
-      <p className="text-[#94a1ab] text-xs mb-5">Casos que un encargado marcó como <span className="text-[#e1251b]">no aprobados</span>.</p>
+      <p className="text-[#94a1ab] text-xs mb-5">Casos que un encargado marcó como <span className="text-[#223c7e]">no aprobados</span>.</p>
 
       {pendientes.length === 0 ? (
         <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl px-4 py-10 text-center">

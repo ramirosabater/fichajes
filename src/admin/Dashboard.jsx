@@ -62,9 +62,9 @@ export default function Dashboard() {
   const kpis = data ? [
     { label: "Horas trabajadas", valor: formatHoras(data.totalTrabajadoMs), color: "#16a34a" },
     { label: "Tiempo perdido (tarde+salidas)", valor: formatHoras(data.totalMinDesvio * 60000), color: "#e5484d", small: true },
-    { label: "Puntualidad", valor: `${data.puntualidad.toFixed(0)}%`, color: "#e1251b" },
+    { label: "Puntualidad", valor: `${data.puntualidad.toFixed(0)}%`, color: "#223c7e" },
     { label: "Llegadas tarde", valor: String(data.totalTarde), color: "#e5484d" },
-    { label: "Salidas anticipadas", valor: String(data.totalSalidaAnt), color: "#e1251b" },
+    { label: "Salidas anticipadas", valor: String(data.totalSalidaAnt), color: "#223c7e" },
     { label: "Min. tarde / temprano", valor: `${data.totalMinTarde} / ${data.totalMinTemprano}`, color: "#2ba9e0", small: true },
     { label: "Empleados activos", valor: `${data.empleadosActivos}/${data.empleadosTotal}`, color: "#1f2d38" },
     { label: "Sector + tardanzas", valor: data.sectorTop ? data.sectorTop.sector : "—", color: "#1f2d38", small: true },

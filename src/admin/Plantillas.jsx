@@ -64,7 +64,7 @@ export default function Plantillas() {
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base font-bold">Plantillas de turnos</h2>
-        <button onClick={() => setMostrarForm((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#e1251b] text-white">
+        <button onClick={() => setMostrarForm((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
           {mostrarForm ? "Cancelar" : "+ Nueva plantilla"}
         </button>
       </div>
@@ -80,7 +80,7 @@ export default function Plantillas() {
             {DIAS.map((d) => (
               <button key={d.n} onClick={() => toggleDia(d.n)}
                 className="w-8 h-8 rounded-lg text-xs font-bold border"
-                style={{ backgroundColor: dias.includes(d.n) ? "#e1251b" : "#f1f4f7", color: dias.includes(d.n) ? "#ffffff" : "#5c6b78", borderColor: dias.includes(d.n) ? "#e1251b" : "#cfd6dd" }}>
+                style={{ backgroundColor: dias.includes(d.n) ? "#223c7e" : "#f1f4f7", color: dias.includes(d.n) ? "#ffffff" : "#5c6b78", borderColor: dias.includes(d.n) ? "#223c7e" : "#cfd6dd" }}>
                 {d.l}
               </button>
             ))}
@@ -101,7 +101,7 @@ export default function Plantillas() {
             </div>
           </div>
 
-          <button onClick={agregarBloque} className="text-xs text-[#e1251b] mb-2">+ Agregar otro bloque (para días con horario distinto)</button>
+          <button onClick={agregarBloque} className="text-xs text-[#223c7e] mb-2">+ Agregar otro bloque (para días con horario distinto)</button>
           {bloques.length > 0 && (
             <div className="mb-3 space-y-1">
               {bloques.map((b, i) => (

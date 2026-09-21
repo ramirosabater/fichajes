@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginAdmin, logoutAdmin } from "./supabase-admin.js";
+import { loginAdmin, logoutAdmin, getAdminEmail } from "./supabase-admin.js";
 import Empleados from "./Empleados.jsx";
 import Plantillas from "./Plantillas.jsx";
 import Sectores from "./Sectores.jsx";
@@ -80,20 +80,38 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen w-full">
-      <div className="max-w-5xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-          <div className="flex rounded-xl bg-[#ffffff] border border-[#e3e8ed] p-1">
+      <div className="max-w-6xl mx-auto px-4 py-5">
+        {/* Header estilo Gestión Anafer */}
+        <div className="bg-white rounded-2xl shadow-md border border-[#e3e8ed] overflow-hidden mb-4">
+          <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #223c7e 0%, #223c7e 42%, #2ba9e0 42%, #2ba9e0 68%, #e1251b 68%, #e1251b 100%)" }} />
+          <div className="px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3">
+              <img src={LOGO} alt="ANAFER" className="h-11" />
+              <div>
+                <h1 className="text-xl font-extrabold leading-tight" style={{ color: "#223c7e" }}>Gestión Fichaje</h1>
+                <p className="text-xs text-[#94a1ab]">Control de asistencia y presentismo · ANAFER S.A.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[#5c6b78] bg-[#f1f4f7] border border-[#e3e8ed] rounded-full px-3 py-1.5 max-w-[240px] truncate">{getAdminEmail() || "admin"}</span>
+              <button onClick={salir} className="text-sm font-semibold text-[#5c6b78] hover:text-[#223c7e] py-1.5 px-3 rounded-lg border border-[#e3e8ed] bg-white">
+                Salir
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Menú de pestañas (barra separada, activa en pastilla roja) */}
+        <div className="bg-white rounded-2xl shadow-sm border border-[#e3e8ed] px-2 py-2 mb-5">
+          <div className="flex flex-wrap gap-1">
             {tabs.map((t) => (
               <button key={t.id} onClick={() => setVista(t.id)}
-                className="px-3 py-2 rounded-lg text-sm font-semibold transition-colors"
+                className="px-3.5 py-2 rounded-xl text-sm font-semibold transition-colors"
                 style={{ backgroundColor: vista === t.id ? "#e1251b" : "transparent", color: vista === t.id ? "#ffffff" : "#5c6b78" }}>
                 {t.label}
               </button>
             ))}
           </div>
-          <button onClick={salir} className="text-xs text-[#5c6b78] hover:text-[#1f2d38] py-1.5 px-3 rounded-lg border border-[#e3e8ed] bg-[#ffffff]">
-            Cerrar sesión
-          </button>
         </div>
 
         {vista === "dashboard" && <Dashboard />}

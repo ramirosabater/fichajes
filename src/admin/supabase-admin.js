@@ -21,6 +21,7 @@ export async function loginAdmin(email, password) {
 }
 
 export function logoutAdmin() { AUTH_TOKEN = null; REFRESH_TOKEN = null; }
+export function getAdminEmail() { return ADMIN_EMAIL; }
 
 async function refrescar() {
   if (!REFRESH_TOKEN) return false;

@@ -90,7 +90,7 @@ export default function Configuracion() {
           <div className="flex gap-1.5 mb-3">
             {DIAS.map((d) => (
               <button key={d.n} onClick={() => toggleDia(d.n)} className="w-8 h-8 rounded-lg text-xs font-bold border"
-                style={{ backgroundColor: rDias.includes(d.n) ? "#e1251b" : "#f1f4f7", color: rDias.includes(d.n) ? "#ffffff" : "#5c6b78", borderColor: rDias.includes(d.n) ? "#e1251b" : "#cfd6dd" }}>{d.l}</button>
+                style={{ backgroundColor: rDias.includes(d.n) ? "#223c7e" : "#f1f4f7", color: rDias.includes(d.n) ? "#ffffff" : "#5c6b78", borderColor: rDias.includes(d.n) ? "#223c7e" : "#cfd6dd" }}>{d.l}</button>
             ))}
           </div>
           <div className="flex gap-3 items-end flex-wrap">
@@ -105,7 +105,7 @@ export default function Configuracion() {
             <div className="flex gap-1">
               {[50, 100].map((p) => (
                 <button key={p} onClick={() => setRPct(p)} className="px-3 py-2 rounded-lg text-sm font-bold border"
-                  style={{ backgroundColor: rPct === p ? "#e1251b" : "#f1f4f7", color: rPct === p ? "#ffffff" : "#5c6b78", borderColor: rPct === p ? "#e1251b" : "#cfd6dd" }}>{p}%</button>
+                  style={{ backgroundColor: rPct === p ? "#223c7e" : "#f1f4f7", color: rPct === p ? "#ffffff" : "#5c6b78", borderColor: rPct === p ? "#223c7e" : "#cfd6dd" }}>{p}%</button>
               ))}
             </div>
             <button onClick={agregarRecargo} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#16a34a] text-white">+ Agregar</button>
@@ -131,7 +131,7 @@ export default function Configuracion() {
           <div className="flex gap-1">
             {[50, 100].map((p) => (
               <button key={p} onClick={() => setFPct(p)} className="px-3 py-2 rounded-lg text-sm font-bold border"
-                style={{ backgroundColor: fPct === p ? "#e1251b" : "#f1f4f7", color: fPct === p ? "#ffffff" : "#5c6b78", borderColor: fPct === p ? "#e1251b" : "#cfd6dd" }}>{p}%</button>
+                style={{ backgroundColor: fPct === p ? "#223c7e" : "#f1f4f7", color: fPct === p ? "#ffffff" : "#5c6b78", borderColor: fPct === p ? "#223c7e" : "#cfd6dd" }}>{p}%</button>
             ))}
           </div>
           <button onClick={agregarFeriado} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#16a34a] text-white">+ Agregar</button>
