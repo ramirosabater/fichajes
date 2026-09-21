@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPost, sbPatch, sbDelete } from "./supabase-admin.js";
+import { sbGet, sbPost, sbPatch, sbDelete, registrarAuditoria } from "./supabase-admin.js";
 
 export default function Depositos() {
   const [locales, setLocales] = useState([]);
@@ -37,6 +37,7 @@ export default function Depositos() {
         lat: Number(form.lat), lng: Number(form.lng), radio_metros: Number(form.radio_metros) || 150,
       });
       setForm({ nombre: "", lat: "", lng: "", radio_metros: 150 });
+      registrarAuditoria(`Creó el depósito "${form.nombre.trim()}"`, null);
       await cargar();
     } catch { alert("No se pudo crear el depósito."); }
     finally { setGuardando(false); }
@@ -50,7 +51,7 @@ export default function Depositos() {
 
   const borrar = async (id, nombre) => {
     if (!confirm(`¿Borrar el depósito "${nombre}"?`)) return;
-    try { await sbDelete(`locales?id=eq.${id}`); setLocales((ls) => ls.filter((l) => l.id !== id)); }
+    try { await sbDelete(`locales?id=eq.${id}`); setLocales((ls) => ls.filter((l) => l.id !== id)); registrarAuditoria(`Borró el depósito "${nombre}"`, null); }
     catch { alert("No se pudo borrar."); }
   };
 

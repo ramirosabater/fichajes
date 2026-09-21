@@ -5,6 +5,7 @@ import {
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
+import Ausencias from "./screens/Ausencias.jsx";
 import { LOGO } from "./lib/logo.js";
 import { cargarConfig } from "./lib/cumplimiento.js";
 
@@ -221,6 +222,10 @@ export default function App() {
     return <Historial empleado={empleado} pin={pinAuth} onVolver={() => setVista("fichaje")} />;
   }
 
+  if (vista === "ausencias") {
+    return <Ausencias empleado={empleado} pin={pinAuth} esJefe={aCargo > 0} onVolver={() => setVista("fichaje")} />;
+  }
+
   // ---------- Equipo ----------
   if (vista === "equipo") {
     return <Equipo empleado={empleado} pin={pinAuth} horarios={horarios} config={config} onVolver={() => setVista("fichaje")} />;
@@ -306,6 +311,13 @@ export default function App() {
           <button onClick={() => setVista("historial")}
             className="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">
             📋 Mi historial
+          </button>
+        </div>
+
+        <div className="px-6 pb-3">
+          <button onClick={() => setVista("ausencias")}
+            className="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">
+            📅 Ausencias / días libres
           </button>
         </div>
 

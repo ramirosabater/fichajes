@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPost, sbPatch, sbDelete } from "./supabase-admin.js";
+import { sbGet, sbPost, sbPatch, sbDelete, registrarAuditoria } from "./supabase-admin.js";
 import { calcularPeriodo, etiquetaPeriodo, calcularEstado } from "../lib/fichaje.js";
 
 // Convierte un input datetime-local a Date, y una Date a valor de input
@@ -64,6 +64,7 @@ export default function Fichadas() {
         estado: e.estado, minutos_tarde: e.minutos_tarde,
         user_agent: "Corrección manual (admin)", device_id: null,
       });
+      registrarAuditoria(`Agregó fichada manual (${nTipo}) al legajo ${legajo}`, nCuando);
       await cargarFichajes();
     } catch { alert("No se pudo agregar la fichada."); }
   };
@@ -78,13 +79,13 @@ export default function Fichadas() {
       ? { timestamp: fecha.toISOString(), estado: e.estado, minutos_tarde: e.minutos_tarde }
       : { tipo, estado: e.estado, minutos_tarde: e.minutos_tarde };
     setFichajes((fs) => fs.map((x) => (x.id === f.id ? { ...x, ...patch } : x)));
-    try { await sbPatch(`fichajes?id=eq.${f.id}`, patch); }
+    try { await sbPatch(`fichajes?id=eq.${f.id}`, patch); registrarAuditoria(`Editó fichada del legajo ${f.legajo}`, campo); }
     catch { alert("No se pudo guardar."); cargarFichajes(); }
   };
 
   const borrar = async (f) => {
     if (!confirm("¿Borrar esta fichada?")) return;
-    try { await sbDelete(`fichajes?id=eq.${f.id}`); setFichajes((fs) => fs.filter((x) => x.id !== f.id)); }
+    try { await sbDelete(`fichajes?id=eq.${f.id}`); setFichajes((fs) => fs.filter((x) => x.id !== f.id)); registrarAuditoria(`Borró fichada del legajo ${f.legajo}`, null); }
     catch { alert("No se pudo borrar."); }
   };
 

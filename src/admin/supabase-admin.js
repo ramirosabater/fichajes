@@ -2,6 +2,7 @@ import { SUPABASE_URL, SUPABASE_KEY } from "../lib/supabase.js";
 
 let AUTH_TOKEN = null;
 let REFRESH_TOKEN = null;
+let ADMIN_EMAIL = null;
 
 const authHeader = () => `Bearer ${AUTH_TOKEN || SUPABASE_KEY}`;
 
@@ -15,6 +16,7 @@ export async function loginAdmin(email, password) {
   const d = await res.json();
   AUTH_TOKEN = d.access_token;
   REFRESH_TOKEN = d.refresh_token || null;
+  ADMIN_EMAIL = d.user?.email || email;
   return d;
 }
 
@@ -89,4 +91,15 @@ export async function sbRpc(fn, body) {
   });
   if (!res.ok) throw new Error(`Error RPC ${fn}: ${res.status}`);
   return res.json();
+}
+
+// Registra una acción en la auditoría (no bloquea si falla)
+export async function registrarAuditoria(accion, detalle) {
+  try {
+    await sbFetch("auditoria", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quien: ADMIN_EMAIL || "admin", accion, detalle: detalle || null }),
+    });
+  } catch { /* la auditoría no debe romper la acción principal */ }
 }

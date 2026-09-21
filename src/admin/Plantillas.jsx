@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPost, sbDelete } from "./supabase-admin.js";
+import { sbGet, sbPost, sbDelete, registrarAuditoria } from "./supabase-admin.js";
 
 const DIAS = [
   { n: 1, l: "L" }, { n: 2, l: "M" }, { n: 3, l: "X" }, { n: 4, l: "J" },
@@ -45,6 +45,7 @@ export default function Plantillas() {
       const id = `custom_${Date.now()}`;
       const [creada] = await sbPost("horarios", { id, nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: Number(tolerancia) || 0 });
       setPlantillas((p) => [...p, creada]);
+      registrarAuditoria(`Creó la plantilla "${nombre.trim()}"`, null);
       setNombre(""); setBloques([]); setMostrarForm(false);
     } catch { alert("No se pudo crear la plantilla."); }
     finally { setGuardando(false); }
@@ -52,7 +53,7 @@ export default function Plantillas() {
 
   const borrar = async (id, nom) => {
     if (!confirm(`¿Borrar la plantilla "${nom}"? Los empleados que la tenían quedan sin turno.`)) return;
-    try { await sbDelete(`horarios?id=eq.${id}`); setPlantillas((p) => p.filter((x) => x.id !== id)); }
+    try { await sbDelete(`horarios?id=eq.${id}`); setPlantillas((p) => p.filter((x) => x.id !== id)); registrarAuditoria(`Borró la plantilla "${nom}"`, null); }
     catch { alert("No se pudo borrar."); }
   };
 

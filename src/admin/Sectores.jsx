@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPost, sbPatch, sbDelete } from "./supabase-admin.js";
+import { sbGet, sbPost, sbPatch, sbDelete, registrarAuditoria } from "./supabase-admin.js";
 
 export default function Sectores() {
   const [sectores, setSectores] = useState([]);
@@ -30,7 +30,7 @@ export default function Sectores() {
     const nombre = nuevo.trim();
     if (!nombre) return;
     if (sectores.some((s) => s.nombre.toLowerCase() === nombre.toLowerCase())) return flash("Ese sector ya existe.", false);
-    try { await sbPost("sectores", { nombre }); setNuevo(""); await cargar(); flash("Sector agregado.", true); }
+    try { await sbPost("sectores", { nombre }); registrarAuditoria(`Creó el sector "${nombre}"`, null); setNuevo(""); await cargar(); flash("Sector agregado.", true); }
     catch { flash("No se pudo agregar.", false); }
   };
 
@@ -41,7 +41,7 @@ export default function Sectores() {
     try {
       await sbPatch(`sectores?id=eq.${s.id}`, { nombre });
       await sbPatch(`empleados?sector=eq.${encodeURIComponent(s.nombre)}`, { sector: nombre });
-      await cargar(); flash("Sector renombrado.", true);
+      registrarAuditoria(`Renombró sector "${s.nombre}" a "${nombre}"`, null); await cargar(); flash("Sector renombrado.", true);
     } catch { flash("No se pudo renombrar.", false); }
   };
 
@@ -54,7 +54,7 @@ export default function Sectores() {
     try {
       if (n > 0) await sbPatch(`empleados?sector=eq.${encodeURIComponent(s.nombre)}`, { sector: null });
       await sbDelete(`sectores?id=eq.${s.id}`);
-      await cargar(); flash("Sector borrado.", true);
+      registrarAuditoria(`Borró el sector "${s.nombre}"`, null); await cargar(); flash("Sector borrado.", true);
     } catch { flash("No se pudo borrar.", false); }
   };
 

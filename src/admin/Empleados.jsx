@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPatch, sbPost, sbRpc } from "./supabase-admin.js";
+import { sbGet, sbPatch, sbPost, sbRpc, registrarAuditoria } from "./supabase-admin.js";
 
 export default function Empleados() {
   const [empleados, setEmpleados] = useState([]);
@@ -34,6 +34,7 @@ export default function Empleados() {
         activo: true,
       });
       await sbRpc("set_pin_admin", { p_legajo: legajo, p_nuevo_pin: nuevo.pin });
+      registrarAuditoria(`Creó al empleado ${legajo}`, `${nuevo.apellido}, ${nuevo.nombre}`);
       setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", pin: "1234" });
       setMostrarNuevo(false);
       await cargar();
@@ -69,6 +70,7 @@ export default function Empleados() {
     setEmpleados((prev) => prev.map((e) => (e.legajo === legajo ? { ...e, [campo]: valor } : e)));
     try {
       await sbPatch(`empleados?legajo=eq.${legajo}`, { [campo]: valor });
+      registrarAuditoria(`Editó ${campo} de empleado ${legajo}`, String(valor));
       setGuardado(legajo);
       setTimeout(() => setGuardado((c) => (c === legajo ? null : c)), 1400);
     } catch {
@@ -81,6 +83,7 @@ export default function Empleados() {
     if (!pinValor || pinValor.length < 4) { alert("El PIN debe tener al menos 4 dígitos."); return; }
     try {
       const r = await sbRpc("set_pin_admin", { p_legajo: legajo, p_nuevo_pin: pinValor });
+      registrarAuditoria(`Cambió el PIN del empleado ${legajo}`, null);
       if (!r || !r.ok) throw new Error();
       setPinEdit(null); setPinValor(""); setPinOk(legajo);
       setTimeout(() => setPinOk((c) => (c === legajo ? null : c)), 1800);

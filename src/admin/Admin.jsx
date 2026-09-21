@@ -11,6 +11,8 @@ import Configuracion from "./Configuracion.jsx";
 import Depositos from "./Depositos.jsx";
 import Fichadas from "./Fichadas.jsx";
 import Presentismo from "./Presentismo.jsx";
+import AusenciasAdmin from "./AusenciasAdmin.jsx";
+import Auditoria from "./Auditoria.jsx";
 import { LOGO } from "../lib/logo.js";
 
 export default function Admin() {
@@ -71,6 +73,8 @@ export default function Admin() {
     { id: "reportes", label: "Reportes" },
     { id: "dispositivos", label: "Dispositivos" },
     { id: "aprobaciones", label: "Aprobaciones" },
+    { id: "ausencias", label: "Ausencias" },
+    { id: "auditoria", label: "Auditoría" },
     { id: "config", label: "Configuración" },
   ];
 
@@ -102,6 +106,8 @@ export default function Admin() {
         {vista === "reportes" && <Reportes />}
         {vista === "dispositivos" && <Dispositivos />}
         {vista === "aprobaciones" && <Aprobaciones />}
+        {vista === "ausencias" && <AusenciasAdmin />}
+        {vista === "auditoria" && <Auditoria />}
         {vista === "config" && <Configuracion />}
       </div>
     </div>

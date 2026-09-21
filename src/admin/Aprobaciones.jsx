@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPatch } from "./supabase-admin.js";
+import { sbGet, sbPatch, registrarAuditoria } from "./supabase-admin.js";
 
 export default function Aprobaciones() {
   const [pendientes, setPendientes] = useState([]);
@@ -30,6 +30,7 @@ export default function Aprobaciones() {
         resolucion: (resol[obs.id] || "").trim() || null,
         resuelto_en: new Date().toISOString(),
       });
+      registrarAuditoria(`${decision === "aprobar" ? "Aprobó" : "Rechazó"} observación de ${obs.sector || ""}`, obs.motivo || null);
       setPendientes((p) => p.filter((o) => o.id !== obs.id));
     } catch { alert("No se pudo guardar la decisión."); }
     finally { setProcesando(null); }
