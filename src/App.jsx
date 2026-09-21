@@ -19,6 +19,7 @@ export default function App() {
   const [buscando, setBuscando] = useState(false);
   const [tardanzas, setTardanzas] = useState(0);
   const [aCargo, setACargo] = useState(0);
+  const [ausenciasPend, setAusenciasPend] = useState(0);
   const [vista, setVista] = useState("fichaje"); // "fichaje" | "historial" | "equipo"
 
   // Cambio de PIN (desde el login)
@@ -85,6 +86,7 @@ export default function App() {
         setPinAuth(pin);
         setTardanzas(r.tardanzas_periodo || 0);
         setACargo(r.a_cargo || 0);
+        setAusenciasPend(r.ausencias_pendientes || 0);
         setVista("fichaje");
         const hoy = Array.isArray(r.fichajes_hoy) ? r.fichajes_hoy : [];
         if (hoy.length) {
@@ -125,7 +127,7 @@ export default function App() {
 
   const salir = () => {
     setEmpleado(null); setPinAuth(null); setLegajo(""); setPin("");
-    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setACargo(0); setVista("fichaje");
+    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setACargo(0); setAusenciasPend(0); setVista("fichaje");
   };
 
   const fichar = async () => {
@@ -250,6 +252,15 @@ export default function App() {
           </div>
           <button onClick={salir} className="text-[#94a1ab] hover:text-[#5c6b78] text-xs">Salir</button>
         </div>
+
+        {aCargo > 0 && ausenciasPend > 0 && (
+          <button onClick={() => setVista("ausencias")} className="mx-6 mt-3 w-[calc(100%-3rem)] rounded-xl p-3 flex items-center gap-2 border text-left"
+            style={{ backgroundColor: "rgba(242,169,0,.12)", borderColor: "rgba(242,169,0,.5)" }}>
+            <span>🔔</span>
+            <span className="text-xs flex-1" style={{ color: "#b9820b" }}>Tenés <b>{ausenciasPend} solicitud{ausenciasPend !== 1 ? "es" : ""} de ausencia</b> de tu equipo esperando aprobación.</span>
+            <span className="text-xs font-bold" style={{ color: "#e1251b" }}>Revisar ›</span>
+          </button>
+        )}
 
         {tardanzas >= 3 && (
           <div className="mx-6 mt-3 rounded-xl p-3 flex items-center gap-2 border"

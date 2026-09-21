@@ -4,7 +4,7 @@ export const EMAILJS = {
   publicKey: "TU_PUBLIC_KEY",
   serviceId: "TU_SERVICE_ID",
   templateId: "TU_TEMPLATE_ID",
-  emailRRHH: "rrhh@sagosa.com.ar",
+  emailRRHH: "rrhh@anafer.com.ar",
 };
 
 export async function enviarEmailRRHH(params) {
