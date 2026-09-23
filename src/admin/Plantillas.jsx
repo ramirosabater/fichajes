@@ -31,24 +31,56 @@ export default function Plantillas() {
 
   const toggleDia = (n) => setDias((d) => d.includes(n) ? d.filter((x) => x !== n) : [...d, n].sort());
 
-  const agregarBloque = () => {
-    if (!dias.length) return alert("Elegí al menos un día.");
-    setBloques((b) => [...b, { dias: [...dias], inicio, fin }]);
+  const mismoBloque = (a, b) =>
+    a.inicio === b.inicio && a.fin === b.fin &&
+    (a.dias || []).length === (b.dias || []).length && (a.dias || []).every((d) => (b.dias || []).includes(d));
+
+  // Dos tramos "chocan" si comparten al menos un día y sus horarios se superponen.
+  const seSuperponen = (a, b) => {
+    if (!(a.dias || []).some((d) => (b.dias || []).includes(d))) return false;
+    const [ai, af] = [a.inicio, a.fin], [bi, bf] = [b.inicio, b.fin];
+    return ai < bf && bi < af;
   };
 
+  const agregarBloque = () => {
+    if (!dias.length) return alert("Elegí al menos un día.");
+    if (inicio >= fin) return alert("La salida tiene que ser después de la entrada.");
+    const nuevo = { dias: [...dias], inicio, fin };
+    if (bloques.some((b) => seSuperponen(b, nuevo))) return alert("Ese tramo se superpone con uno ya agregado, para alguno de esos días.");
+    setBloques((b) => [...b, nuevo]);
+  };
+
+  // Para un turno partido con un solo bloque a la vez alcanza con completar los
+  // campos y tocar "Guardar plantilla" (no hace falta tocar "+ Agregar otro
+  // bloque"). Si se agregaron varios tramos con "+ Agregar otro bloque" y además
+  // quedaron valores cargados en los campos que todavía no se agregaron, también
+  // se incluyen al guardar, para no perderlos.
   const guardar = async () => {
-    const bloquesFinales = bloques.length ? bloques : (dias.length ? [{ dias: [...dias], inicio, fin }] : []);
+    const actual = (dias.length && inicio && fin) ? { dias: [...dias], inicio, fin } : null;
+    const yaEstaba = actual && bloques.some((b) => mismoBloque(b, actual));
+    const bloquesFinales = actual && !yaEstaba ? [...bloques, actual] : bloques;
     if (!nombre.trim()) return alert("Poné un nombre.");
     if (!bloquesFinales.length) return alert("Agregá al menos un bloque de horario.");
+    if (actual && inicio >= fin) return alert("La salida tiene que ser después de la entrada.");
+    for (let i = 0; i < bloquesFinales.length; i++) {
+      for (let j = i + 1; j < bloquesFinales.length; j++) {
+        if (seSuperponen(bloquesFinales[i], bloquesFinales[j])) return alert("Hay dos tramos que se superponen para el mismo día. Revisalos antes de guardar.");
+      }
+    }
     setGuardando(true);
     try {
       const id = `custom_${Date.now()}`;
       const [creada] = await sbPost("horarios", { id, nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: Number(tolerancia) || 0 });
       setPlantillas((p) => [...p, creada]);
       registrarAuditoria(`Creó la plantilla "${nombre.trim()}"`, null);
-      setNombre(""); setBloques([]); setMostrarForm(false);
+      cerrarForm();
     } catch { alert("No se pudo crear la plantilla."); }
     finally { setGuardando(false); }
+  };
+
+  const cerrarForm = () => {
+    setNombre(""); setTolerancia(10); setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00");
+    setBloques([]); setMostrarForm(false);
   };
 
   const borrar = async (id, nom) => {
@@ -64,7 +96,7 @@ export default function Plantillas() {
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base font-bold">Plantillas de turnos</h2>
-        <button onClick={() => setMostrarForm((v) => !v)} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
+        <button onClick={() => (mostrarForm ? cerrarForm() : setMostrarForm(true))} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
           {mostrarForm ? "Cancelar" : "+ Nueva plantilla"}
         </button>
       </div>
@@ -101,7 +133,12 @@ export default function Plantillas() {
             </div>
           </div>
 
-          <button onClick={agregarBloque} className="text-xs text-[#223c7e] mb-2">+ Agregar otro bloque (para días con horario distinto)</button>
+          <button onClick={agregarBloque} className="text-xs text-[#223c7e] mb-1">+ Agregar otro bloque</button>
+          <p className="text-[11px] text-[#94a1ab] mb-2">
+            Usalo para <b>turnos partidos</b> (ej. mismos días, entrada y salida al mediodía y otra vez a la tarde)
+            o para días con un horario distinto. Cargá el primer tramo, tocá acá para agregarlo, y completá el
+            siguiente tramo antes de guardar.
+          </p>
           {bloques.length > 0 && (
             <div className="mb-3 space-y-1">
               {bloques.map((b, i) => (
@@ -124,10 +161,10 @@ export default function Plantillas() {
         {plantillas.map((p) => (
           <div key={p.id} className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-3 flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold">{p.nombre}</p>
+              <p className="text-sm font-semibold">{p.nombre}{(p.bloques || []).length > 1 ? " · turno partido" : ""}</p>
               <div className="flex flex-wrap gap-2 mt-1">
-                {(p.bloques || []).map((b, i) => (
-                  <span key={i} className="text-[11px] text-[#5c6b78]">
+                {(p.bloques || []).slice().sort((a, b) => (a.inicio || "").localeCompare(b.inicio || "")).map((b, i) => (
+                  <span key={i} className="text-[11px] text-[#5c6b78] bg-[#f1f4f7] rounded px-1.5 py-0.5">
                     {(b.dias || []).map((n) => DIAS.find((d) => d.n === n)?.l).join("")} {b.inicio}–{b.fin}
                   </span>
                 ))}

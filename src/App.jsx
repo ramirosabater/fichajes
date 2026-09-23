@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { sbGet, sbRpc } from "./lib/supabase.js";
 import {
-  calcularEstado, obtenerPosicion, estadoUbicacion, obtenerDeviceId,
+  calcularEstado, obtenerPosicion, estadoUbicacion, obtenerDeviceId, bloqueDeHoy,
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
@@ -277,6 +277,13 @@ export default function App() {
             {enTurno ? `EN TURNO · ${duracion()}` : "FUERA DE TURNO"}
           </span>
           {!horarioEmpleado && <p className="text-[11px] text-[#94a1ab] mt-3">Sin turno asignado</p>}
+          {horarioEmpleado && (() => {
+            // Con turno partido puede haber más de un tramo hoy; se muestra el que
+            // corresponde a la próxima marcación (entrada o salida), para confirmar
+            // contra qué horario se está comparando.
+            const tramo = bloqueDeHoy(horarioEmpleado, ahora, enTurno ? "salida" : "entrada");
+            return tramo ? <p className="text-[11px] text-[#94a1ab] mt-3">Tramo {tramo.inicio}–{tramo.fin}</p> : null;
+          })()}
         </div>
 
         {msg && <p className={`mx-6 mb-3 text-xs text-center font-semibold ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.texto}</p>}

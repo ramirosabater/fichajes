@@ -10,18 +10,46 @@ function hhmmAMinutos(hhmm) {
   const [h, m] = hhmm.split(":").map(Number);
   return h * 60 + m;
 }
-export function bloqueDeHoy(horario, fecha) {
-  if (!horario || !horario.bloques) return null;
+// Todos los tramos de "horario" que corren el día de "fecha" (puede haber más de
+// uno: turno partido, ej. mañana y tarde con el mismo o distinto horario).
+export function bloquesDeHoy(horario, fecha) {
+  if (!horario || !horario.bloques) return [];
   const hoy = diaISO(fecha);
-  return horario.bloques.find((b) => (b.dias || []).includes(hoy)) || null;
+  return horario.bloques.filter((b) => (b.dias || []).includes(hoy));
+}
+
+// Con turno partido, una marcación puede corresponder a cualquiera de los tramos
+// del día. Se elige el más cercano: en una entrada, el tramo cuyo inicio está más
+// cerca de la hora actual; en una salida, el tramo cuyo fin está más cerca.
+// Así, una entrada a las 16:05 se compara contra el tramo 16:00–20:00 y no contra
+// el de la mañana.
+function tramoMasCercano(bloques, tipo, minutosAhora) {
+  if (!bloques.length) return null;
+  const campo = tipo === "entrada" ? "inicio" : "fin";
+  let mejor = bloques[0], mejorDist = Infinity;
+  for (const b of bloques) {
+    const dist = Math.abs(hhmmAMinutos(b[campo]) - minutosAhora);
+    if (dist < mejorDist) { mejor = b; mejorDist = dist; }
+  }
+  return mejor;
+}
+
+// Devuelve el tramo de hoy más relevante. Sin "tipo" (uso genérico, ej. mostrar
+// el horario del día) devuelve el primero. Se mantiene por compatibilidad.
+export function bloqueDeHoy(horario, fecha, tipo) {
+  const bloques = bloquesDeHoy(horario, fecha);
+  if (!bloques.length) return null;
+  if (bloques.length === 1 || !tipo) return bloques[0];
+  return tramoMasCercano(bloques, tipo, minutosDesdeMedianoche(fecha));
 }
 
 // Devuelve estado de la fichada: a_horario | tarde | salida_anticipada | sin_turno
 export function calcularEstado(tipo, hora, horario) {
-  const bloque = bloqueDeHoy(horario, hora);
-  if (!bloque) {
+  const bloquesHoy = bloquesDeHoy(horario, hora);
+  if (!bloquesHoy.length) {
     return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", color: "#5c6b78", minutosTarde: 0 };
   }
+  const bloque = tramoMasCercano(bloquesHoy, tipo, minutosDesdeMedianoche(hora));
   const tolerancia = horario.tolerancia_minutos ?? 10;
   const min = minutosDesdeMedianoche(hora);
   if (tipo === "entrada") {
