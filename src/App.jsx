@@ -21,6 +21,8 @@ export default function App() {
   const [aCargo, setACargo] = useState(0);
   const [debeCambiar, setDebeCambiar] = useState(false);
   const [okPin, setOkPin] = useState(null);
+  const [nvPin, setNvPin] = useState("");
+  const [nvPinRep, setNvPinRep] = useState("");
   const [ausenciasPend, setAusenciasPend] = useState(0);
   const [vista, setVista] = useState("fichaje"); // "fichaje" | "historial" | "equipo"
 
@@ -57,7 +59,7 @@ export default function App() {
     setUbicCargando(true);
     try {
       const pos = await obtenerPosicion();
-      setUbic(estadoUbicacion(pos, locales));
+      setUbic(estadoUbicacion(pos, locales, empleado?.local_asignado));
     } catch { setUbic({ tipo: "sin_gps" }); }
     finally { setUbicCargando(false); }
   };
@@ -140,7 +142,7 @@ export default function App() {
     try {
       const hora = new Date();
       const pos = await obtenerPosicion();
-      const eu = estadoUbicacion(pos, locales);
+      const eu = estadoUbicacion(pos, locales, empleado?.local_asignado);
       setUbic(eu);
       const dentro = eu.tipo === "dentro";
       const est = calcularEstado(tipo, hora, horarioEmpleado);
@@ -237,8 +239,6 @@ export default function App() {
   }
 
   // ---------- Cambio de PIN obligatorio (primer ingreso) ----------
-  const [nvPin, setNvPin] = useState("");
-  const [nvPinRep, setNvPinRep] = useState("");
   const cambiarPinObligatorio = async () => {
     setOkPin(null);
     if (!nvPin || nvPin.length < 4) return setOkPin({ ok: false, texto: "El PIN nuevo debe tener 4 o más dígitos." });

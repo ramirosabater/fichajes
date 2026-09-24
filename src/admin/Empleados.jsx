@@ -5,6 +5,7 @@ export default function Empleados() {
   const [empleados, setEmpleados] = useState([]);
   const [horarios, setHorarios] = useState([]);
   const [sectores, setSectores] = useState([]);
+  const [locales, setLocales] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState("");
@@ -16,7 +17,7 @@ export default function Empleados() {
 
   // Alta de empleado
   const [mostrarNuevo, setMostrarNuevo] = useState(false);
-  const [nuevo, setNuevo] = useState({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", pin: "1234" });
+  const [nuevo, setNuevo] = useState({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", local_asignado: "", pin: "1234" });
   const [creando, setCreando] = useState(false);
 
   const crearEmpleado = async () => {
@@ -31,11 +32,12 @@ export default function Empleados() {
         legajo, apellido: nuevo.apellido.trim(), nombre: nuevo.nombre.trim(),
         sector: nuevo.sector || null, horario_id: nuevo.horario_id || null,
         responsable_legajo: nuevo.responsable_legajo ? parseInt(nuevo.responsable_legajo, 10) : null,
+        local_asignado: nuevo.local_asignado || null,
         activo: true,
       });
       await sbRpc("set_pin_admin", { p_legajo: legajo, p_nuevo_pin: nuevo.pin });
       registrarAuditoria(`Creó al empleado ${legajo}`, `${nuevo.apellido}, ${nuevo.nombre}`);
-      setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", pin: "1234" });
+      setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", local_asignado: "", pin: "1234" });
       setMostrarNuevo(false);
       await cargar();
     } catch { alert("No se pudo crear el empleado."); }
@@ -45,11 +47,12 @@ export default function Empleados() {
   const cargar = async () => {
     setCargando(true); setError(null);
     try {
-      const [emps, hs] = await Promise.all([
+      const [emps, hs, locs] = await Promise.all([
         sbGet("empleados?select=*&order=apellido.asc"),
         sbGet("horarios?select=*&order=nombre.asc"),
+        sbGet("locales?select=id,nombre&order=nombre.asc"),
       ]);
-      setEmpleados(emps); setHorarios(hs);
+      setEmpleados(emps); setHorarios(hs); setLocales(locs);
       // sectores desde su tabla; si no existe, usar los distintos de empleados
       try {
         const sec = await sbGet("sectores?select=nombre&order=nombre.asc");
@@ -137,6 +140,13 @@ export default function Empleados() {
               </select>
             </div>
             <div>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósito / sucursal</label>
+              <select value={nuevo.local_asignado} onChange={(e) => setNuevo({ ...nuevo, local_asignado: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+                <option value="">— Más cercano —</option>
+                {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
+              </select>
+            </div>
+            <div>
               <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Responsable</label>
               <select value={nuevo.responsable_legajo} onChange={(e) => setNuevo({ ...nuevo, responsable_legajo: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
                 <option value="">—</option>
@@ -213,6 +223,15 @@ export default function Empleados() {
                 className="bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-xs outline-none max-w-[220px]">
                 <option value="">— Sin turno —</option>
                 {horarios.map((h) => <option key={h.id} value={h.id}>{h.nombre}</option>)}
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósito / sucursal</label>
+              <select value={e.local_asignado || ""} onChange={(ev) => cambiarCampo(e.legajo, "local_asignado", ev.target.value || null)}
+                className="bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-xs outline-none min-w-[150px] max-w-[200px]">
+                <option value="">— Más cercano —</option>
+                {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
               </select>
             </div>
           </div>
