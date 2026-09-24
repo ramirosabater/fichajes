@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sbGet, sbPost, sbDelete, registrarAuditoria } from "./supabase-admin.js";
+import { sbGet, sbPost, sbPatch, sbDelete, registrarAuditoria } from "./supabase-admin.js";
 
 const DIAS = [
   { n: 1, l: "L" }, { n: 2, l: "M" }, { n: 3, l: "X" }, { n: 4, l: "J" },
@@ -7,10 +7,11 @@ const DIAS = [
 ];
 
 export default function Plantillas() {
-  const [plantillas, setPlantillas] = useState([]);
+  const [horarios, setHorarios] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [mostrarForm, setMostrarForm] = useState(false);
+  const [editando, setEditando] = useState(null); // id que se está editando, o null
 
   // form
   const [nombre, setNombre] = useState("");
@@ -23,69 +24,62 @@ export default function Plantillas() {
 
   const cargar = async () => {
     setCargando(true); setError(null);
-    try { setPlantillas(await sbGet("horarios?select=*&order=nombre.asc")); }
-    catch { setError("No se pudieron cargar las plantillas."); }
+    try { setHorarios(await sbGet("horarios?select=*&order=nombre.asc")); }
+    catch { setError("No se pudieron cargar los horarios."); }
     finally { setCargando(false); }
   };
   useEffect(() => { cargar(); }, []);
 
   const toggleDia = (n) => setDias((d) => d.includes(n) ? d.filter((x) => x !== n) : [...d, n].sort());
 
-  const mismoBloque = (a, b) =>
-    a.inicio === b.inicio && a.fin === b.fin &&
-    (a.dias || []).length === (b.dias || []).length && (a.dias || []).every((d) => (b.dias || []).includes(d));
-
-  // Dos tramos "chocan" si comparten al menos un día y sus horarios se superponen.
-  const seSuperponen = (a, b) => {
-    if (!(a.dias || []).some((d) => (b.dias || []).includes(d))) return false;
-    const [ai, af] = [a.inicio, a.fin], [bi, bf] = [b.inicio, b.fin];
-    return ai < bf && bi < af;
-  };
-
   const agregarBloque = () => {
     if (!dias.length) return alert("Elegí al menos un día.");
-    if (inicio >= fin) return alert("La salida tiene que ser después de la entrada.");
-    const nuevo = { dias: [...dias], inicio, fin };
-    if (bloques.some((b) => seSuperponen(b, nuevo))) return alert("Ese tramo se superpone con uno ya agregado, para alguno de esos días.");
-    setBloques((b) => [...b, nuevo]);
+    setBloques((b) => [...b, { dias: [...dias], inicio, fin }]);
   };
 
-  // Para un turno partido con un solo bloque a la vez alcanza con completar los
-  // campos y tocar "Guardar plantilla" (no hace falta tocar "+ Agregar otro
-  // bloque"). Si se agregaron varios tramos con "+ Agregar otro bloque" y además
-  // quedaron valores cargados en los campos que todavía no se agregaron, también
-  // se incluyen al guardar, para no perderlos.
+  const limpiar = () => {
+    setEditando(null); setNombre(""); setTolerancia(10);
+    setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00"); setBloques([]);
+  };
+
+  const abrirNuevo = () => { limpiar(); setMostrarForm(true); };
+  const cancelar = () => { limpiar(); setMostrarForm(false); };
+
+  const editar = (h) => {
+    setEditando(h.id);
+    setNombre(h.nombre || "");
+    setTolerancia(h.tolerancia_minutos ?? 10);
+    setBloques(Array.isArray(h.bloques) ? h.bloques.map((b) => ({ dias: [...(b.dias || [])], inicio: b.inicio, fin: b.fin })) : []);
+    setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00");
+    setMostrarForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const guardar = async () => {
-    const actual = (dias.length && inicio && fin) ? { dias: [...dias], inicio, fin } : null;
-    const yaEstaba = actual && bloques.some((b) => mismoBloque(b, actual));
-    const bloquesFinales = actual && !yaEstaba ? [...bloques, actual] : bloques;
+    const bloquesFinales = bloques.length ? bloques : (dias.length ? [{ dias: [...dias], inicio, fin }] : []);
     if (!nombre.trim()) return alert("Poné un nombre.");
     if (!bloquesFinales.length) return alert("Agregá al menos un bloque de horario.");
-    if (actual && inicio >= fin) return alert("La salida tiene que ser después de la entrada.");
-    for (let i = 0; i < bloquesFinales.length; i++) {
-      for (let j = i + 1; j < bloquesFinales.length; j++) {
-        if (seSuperponen(bloquesFinales[i], bloquesFinales[j])) return alert("Hay dos tramos que se superponen para el mismo día. Revisalos antes de guardar.");
-      }
-    }
     setGuardando(true);
     try {
-      const id = `custom_${Date.now()}`;
-      const [creada] = await sbPost("horarios", { id, nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: Number(tolerancia) || 0 });
-      setPlantillas((p) => [...p, creada]);
-      registrarAuditoria(`Creó la plantilla "${nombre.trim()}"`, null);
-      cerrarForm();
-    } catch { alert("No se pudo crear la plantilla."); }
+      const datos = { nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: Number(tolerancia) || 0 };
+      if (editando) {
+        await sbPatch(`horarios?id=eq.${editando}`, datos);
+        setHorarios((h) => h.map((x) => (x.id === editando ? { ...x, ...datos } : x)));
+        registrarAuditoria(`Editó el horario "${datos.nombre}"`, null);
+      } else {
+        const id = `custom_${Date.now()}`;
+        const [creado] = await sbPost("horarios", { id, ...datos });
+        setHorarios((h) => [...h, creado]);
+        registrarAuditoria(`Creó el horario "${datos.nombre}"`, null);
+      }
+      limpiar(); setMostrarForm(false);
+    } catch { alert("No se pudo guardar el horario."); }
     finally { setGuardando(false); }
   };
 
-  const cerrarForm = () => {
-    setNombre(""); setTolerancia(10); setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00");
-    setBloques([]); setMostrarForm(false);
-  };
-
   const borrar = async (id, nom) => {
-    if (!confirm(`¿Borrar la plantilla "${nom}"? Los empleados que la tenían quedan sin turno.`)) return;
-    try { await sbDelete(`horarios?id=eq.${id}`); setPlantillas((p) => p.filter((x) => x.id !== id)); registrarAuditoria(`Borró la plantilla "${nom}"`, null); }
+    if (!confirm(`¿Borrar el horario "${nom}"? Los empleados que lo tenían quedan sin turno.`)) return;
+    try { await sbDelete(`horarios?id=eq.${id}`); setHorarios((h) => h.filter((x) => x.id !== id)); registrarAuditoria(`Borró el horario "${nom}"`, null); }
     catch { alert("No se pudo borrar."); }
   };
 
@@ -95,14 +89,15 @@ export default function Plantillas() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-bold">Plantillas de turnos</h2>
-        <button onClick={() => (mostrarForm ? cerrarForm() : setMostrarForm(true))} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
-          {mostrarForm ? "Cancelar" : "+ Nueva plantilla"}
+        <h2 className="text-base font-bold">Horarios de turnos</h2>
+        <button onClick={() => (mostrarForm ? cancelar() : abrirNuevo())} className="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">
+          {mostrarForm ? "Cancelar" : "+ Nuevo horario"}
         </button>
       </div>
 
       {mostrarForm && (
-        <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4 mb-5">
+        <div className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4 mb-5 shadow-sm">
+          <p className="text-sm font-bold mb-3">{editando ? "Editar horario" : "Nuevo horario"}</p>
           <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Nombre</label>
           <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Mañana Lun-Vie"
             className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mb-3 mt-1" />
@@ -133,45 +128,44 @@ export default function Plantillas() {
             </div>
           </div>
 
-          <button onClick={agregarBloque} className="text-xs text-[#223c7e] mb-1">+ Agregar otro bloque</button>
-          <p className="text-[11px] text-[#94a1ab] mb-2">
-            Usalo para <b>turnos partidos</b> (ej. mismos días, entrada y salida al mediodía y otra vez a la tarde)
-            o para días con un horario distinto. Cargá el primer tramo, tocá acá para agregarlo, y completá el
-            siguiente tramo antes de guardar.
-          </p>
+          <button onClick={agregarBloque} className="text-xs text-[#223c7e] mb-2">+ Agregar este bloque (para días con horario distinto)</button>
           {bloques.length > 0 && (
             <div className="mb-3 space-y-1">
               {bloques.map((b, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs text-[#5c6b78] bg-[#f1f4f7] rounded-lg px-2 py-1">
-                  <span>{b.dias.map((n) => DIAS.find((d) => d.n === n).l).join("")} · {b.inicio}–{b.fin}</span>
+                  <span>{b.dias.map((n) => DIAS.find((d) => d.n === n)?.l).join("")} · {b.inicio}–{b.fin}</span>
                   <button onClick={() => setBloques((bs) => bs.filter((_, j) => j !== i))} className="text-[#e5484d]">✕</button>
                 </div>
               ))}
             </div>
           )}
+          {bloques.length === 0 && <p className="text-[11px] text-[#94a1ab] mb-3">Si no agregás bloques, se usa el día/horario de arriba. Para un turno partido o días con horarios distintos, agregá cada bloque.</p>}
 
           <button onClick={guardar} disabled={guardando} className="w-full py-2.5 rounded-lg font-bold text-sm bg-[#16a34a] text-white disabled:opacity-50">
-            {guardando ? "Guardando…" : "Guardar plantilla"}
+            {guardando ? "Guardando…" : (editando ? "Guardar cambios" : "Guardar horario")}
           </button>
         </div>
       )}
 
       <div className="space-y-2">
-        {plantillas.length === 0 && <p className="text-[#94a1ab] text-sm italic">No hay plantillas todavía.</p>}
-        {plantillas.map((p) => (
-          <div key={p.id} className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-3 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold">{p.nombre}{(p.bloques || []).length > 1 ? " · turno partido" : ""}</p>
+        {horarios.length === 0 && <p className="text-[#94a1ab] text-sm italic">No hay horarios todavía.</p>}
+        {horarios.map((h) => (
+          <div key={h.id} className="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-3 flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-sm font-semibold">{h.nombre}</p>
               <div className="flex flex-wrap gap-2 mt-1">
-                {(p.bloques || []).slice().sort((a, b) => (a.inicio || "").localeCompare(b.inicio || "")).map((b, i) => (
+                {(h.bloques || []).map((b, i) => (
                   <span key={i} className="text-[11px] text-[#5c6b78] bg-[#f1f4f7] rounded px-1.5 py-0.5">
                     {(b.dias || []).map((n) => DIAS.find((d) => d.n === n)?.l).join("")} {b.inicio}–{b.fin}
                   </span>
                 ))}
-                <span className="text-[11px] text-[#94a1ab]">· tol. {p.tolerancia_minutos ?? 0}m</span>
+                <span className="text-[11px] text-[#94a1ab]">· tol. {h.tolerancia_minutos ?? 0}m</span>
               </div>
             </div>
-            <button onClick={() => borrar(p.id, p.nombre)} className="text-xs text-[#e5484d] px-2 py-1 rounded-lg border border-[#e5484d]/40">Borrar</button>
+            <div className="flex gap-2 shrink-0">
+              <button onClick={() => editar(h)} className="text-xs text-[#223c7e] px-2 py-1 rounded-lg border border-[#223c7e]/40">Editar</button>
+              <button onClick={() => borrar(h.id, h.nombre)} className="text-xs text-[#e5484d] px-2 py-1 rounded-lg border border-[#e5484d]/40">Borrar</button>
+            </div>
           </div>
         ))}
       </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { sbGet, sbRpc } from "./lib/supabase.js";
 import {
-  calcularEstado, obtenerPosicion, estadoUbicacion, obtenerDeviceId, bloqueDeHoy,
+  calcularEstado, obtenerPosicion, estadoUbicacion, obtenerDeviceId,
 } from "./lib/fichaje.js";
 import Historial from "./screens/Historial.jsx";
 import Equipo from "./screens/Equipo.jsx";
@@ -19,6 +19,8 @@ export default function App() {
   const [buscando, setBuscando] = useState(false);
   const [tardanzas, setTardanzas] = useState(0);
   const [aCargo, setACargo] = useState(0);
+  const [debeCambiar, setDebeCambiar] = useState(false);
+  const [okPin, setOkPin] = useState(null);
   const [ausenciasPend, setAusenciasPend] = useState(0);
   const [vista, setVista] = useState("fichaje"); // "fichaje" | "historial" | "equipo"
 
@@ -87,6 +89,7 @@ export default function App() {
         setTardanzas(r.tardanzas_periodo || 0);
         setACargo(r.a_cargo || 0);
         setAusenciasPend(r.ausencias_pendientes || 0);
+        setDebeCambiar(!!r.debe_cambiar_pin);
         setVista("fichaje");
         const hoy = Array.isArray(r.fichajes_hoy) ? r.fichajes_hoy : [];
         if (hoy.length) {
@@ -127,7 +130,7 @@ export default function App() {
 
   const salir = () => {
     setEmpleado(null); setPinAuth(null); setLegajo(""); setPin("");
-    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setACargo(0); setAusenciasPend(0); setVista("fichaje");
+    setEnTurno(false); setHistorial([]); setMsg(null); setTardanzas(0); setACargo(0); setAusenciasPend(0); setDebeCambiar(false); setVista("fichaje");
   };
 
   const fichar = async () => {
@@ -233,6 +236,51 @@ export default function App() {
     return <Equipo empleado={empleado} pin={pinAuth} horarios={horarios} config={config} onVolver={() => setVista("fichaje")} />;
   }
 
+  // ---------- Cambio de PIN obligatorio (primer ingreso) ----------
+  const [nvPin, setNvPin] = useState("");
+  const [nvPinRep, setNvPinRep] = useState("");
+  const cambiarPinObligatorio = async () => {
+    setOkPin(null);
+    if (!nvPin || nvPin.length < 4) return setOkPin({ ok: false, texto: "El PIN nuevo debe tener 4 o más dígitos." });
+    if (nvPin === pinAuth) return setOkPin({ ok: false, texto: "Elegí un PIN distinto al que te dieron." });
+    if (nvPin !== nvPinRep) return setOkPin({ ok: false, texto: "Los PIN no coinciden." });
+    try {
+      const r = await sbRpc("cambiar_pin", { p_legajo: empleado.legajo, p_pin_actual: pinAuth, p_nuevo_pin: nvPin });
+      if (!r || !r.ok) return setOkPin({ ok: false, texto: r?.motivo === "mismo_pin" ? "Elegí un PIN distinto." : "No se pudo cambiar. Probá de nuevo." });
+      setPinAuth(nvPin); setDebeCambiar(false); setNvPin(""); setNvPinRep(""); setOkPin(null);
+    } catch { setOkPin({ ok: false, texto: "No se pudo conectar. Probá de nuevo." }); }
+  };
+
+  if (debeCambiar) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center p-4">
+        <div className="w-full max-w-[400px] bg-white rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+          <div className="px-6 pt-6 pb-2 flex items-center gap-3 border-b border-dashed border-[#cfd6dd]">
+            <img src={LOGO} alt="ANAFER" className="h-9" />
+            <div><p className="text-sm font-bold">Hola, {empleado.nombre}</p><p className="text-[#94a1ab] text-xs">Legajo {empleado.legajo}</p></div>
+          </div>
+          <div className="px-6 py-5">
+            <div className="rounded-xl p-3 mb-4 text-sm" style={{ backgroundColor: "rgba(43,169,224,.1)", color: "#1f6f96" }}>
+              🔒 Por seguridad, antes de fichar tenés que <b>cambiar el PIN</b> que te dio RR.HH. por uno personal que solo vos sepas.
+            </div>
+            <label className="text-[10px] uppercase tracking-widest text-[#94a1ab]">PIN nuevo</label>
+            <input type="password" inputMode="numeric" value={nvPin} onChange={(e) => setNvPin(e.target.value)} placeholder="Mínimo 4 dígitos"
+              className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mt-1 mb-3" />
+            <label className="text-[10px] uppercase tracking-widest text-[#94a1ab]">Repetir PIN nuevo</label>
+            <input type="password" inputMode="numeric" value={nvPinRep} onChange={(e) => setNvPinRep(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && cambiarPinObligatorio()}
+              className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mt-1 mb-2" />
+            {okPin && <p className={`text-xs mb-2 ${okPin.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{okPin.texto}</p>}
+            <button onClick={cambiarPinObligatorio} className="w-full py-3 rounded-xl font-bold text-sm bg-[#e1251b] text-white">
+              Guardar PIN y continuar
+            </button>
+            <button onClick={salir} className="w-full mt-2 text-xs text-[#94a1ab]">Salir</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ---------- Fichaje ----------
   const duracion = () => {
     if (!enTurno || !historial.length) return "0h 0m";
@@ -277,13 +325,6 @@ export default function App() {
             {enTurno ? `EN TURNO · ${duracion()}` : "FUERA DE TURNO"}
           </span>
           {!horarioEmpleado && <p className="text-[11px] text-[#94a1ab] mt-3">Sin turno asignado</p>}
-          {horarioEmpleado && (() => {
-            // Con turno partido puede haber más de un tramo hoy; se muestra el que
-            // corresponde a la próxima marcación (entrada o salida), para confirmar
-            // contra qué horario se está comparando.
-            const tramo = bloqueDeHoy(horarioEmpleado, ahora, enTurno ? "salida" : "entrada");
-            return tramo ? <p className="text-[11px] text-[#94a1ab] mt-3">Tramo {tramo.inicio}–{tramo.fin}</p> : null;
-          })()}
         </div>
 
         {msg && <p className={`mx-6 mb-3 text-xs text-center font-semibold ${msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}`}>{msg.texto}</p>}

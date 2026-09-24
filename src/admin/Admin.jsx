@@ -66,7 +66,7 @@ export default function Admin() {
     { id: "dashboard", label: "Dashboard" },
     { id: "presentismo", label: "En vivo" },
     { id: "empleados", label: "Empleados" },
-    { id: "plantillas", label: "Plantillas" },
+    { id: "plantillas", label: "Horarios" },
     { id: "sectores", label: "Sectores" },
     { id: "depositos", label: "Depósitos" },
     { id: "fichadas", label: "Corrección" },
