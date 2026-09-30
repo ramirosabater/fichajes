@@ -17,7 +17,7 @@ export default function Empleados() {
 
   // Alta de empleado
   const [mostrarNuevo, setMostrarNuevo] = useState(false);
-  const [nuevo, setNuevo] = useState({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", local_asignado: "", pin: "1234" });
+  const [nuevo, setNuevo] = useState({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", locales: ["","",""], pin: "1234" });
   const [creando, setCreando] = useState(false);
 
   const crearEmpleado = async () => {
@@ -32,12 +32,12 @@ export default function Empleados() {
         legajo, apellido: nuevo.apellido.trim(), nombre: nuevo.nombre.trim(),
         sector: nuevo.sector || null, horario_id: nuevo.horario_id || null,
         responsable_legajo: nuevo.responsable_legajo ? parseInt(nuevo.responsable_legajo, 10) : null,
-        local_asignado: nuevo.local_asignado || null,
+        locales_asignados: nuevo.locales.filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i),
         activo: true,
       });
       await sbRpc("set_pin_admin", { p_legajo: legajo, p_nuevo_pin: nuevo.pin });
       registrarAuditoria(`Creó al empleado ${legajo}`, `${nuevo.apellido}, ${nuevo.nombre}`);
-      setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", local_asignado: "", pin: "1234" });
+      setNuevo({ legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", locales: ["","",""], pin: "1234" });
       setMostrarNuevo(false);
       await cargar();
     } catch { alert("No se pudo crear el empleado."); }
@@ -78,6 +78,23 @@ export default function Empleados() {
       setTimeout(() => setGuardado((c) => (c === legajo ? null : c)), 1400);
     } catch {
       setEmpleados((prev) => prev.map((e) => (e.legajo === legajo ? { ...e, [campo]: anterior } : e)));
+      alert("No se pudo guardar el cambio. Probá de nuevo.");
+    }
+  };
+
+  const cambiarLocales = async (legajo, idx, valor) => {
+    const emp = empleados.find((e) => e.legajo === legajo);
+    const prev = Array.isArray(emp?.locales_asignados) ? emp.locales_asignados : [];
+    const tres = [prev[0] || "", prev[1] || "", prev[2] || ""];
+    tres[idx] = valor || "";
+    const arr = tres.filter(Boolean).filter((v, i, a) => a.indexOf(v) === i);
+    setEmpleados((list) => list.map((e) => (e.legajo === legajo ? { ...e, locales_asignados: arr } : e)));
+    try {
+      await sbPatch(`empleados?legajo=eq.${legajo}`, { locales_asignados: arr });
+      registrarAuditoria(`Editó depósitos del empleado ${legajo}`, arr.join(", ") || "(ninguno)");
+      setGuardado(legajo); setTimeout(() => setGuardado((c) => (c === legajo ? null : c)), 1400);
+    } catch {
+      setEmpleados((list) => list.map((e) => (e.legajo === legajo ? { ...e, locales_asignados: prev } : e)));
       alert("No se pudo guardar el cambio. Probá de nuevo.");
     }
   };
@@ -140,11 +157,13 @@ export default function Empleados() {
               </select>
             </div>
             <div>
-              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósito / sucursal</label>
-              <select value={nuevo.local_asignado} onChange={(e) => setNuevo({ ...nuevo, local_asignado: e.target.value })} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
-                <option value="">— Más cercano —</option>
-                {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
-              </select>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósitos / sucursales (hasta 3)</label>
+              {[0,1,2].map((i) => (
+                <select key={i} value={nuevo.locales[i]} onChange={(e) => { const arr=[...nuevo.locales]; arr[i]=e.target.value; setNuevo({ ...nuevo, locales: arr }); }} className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+                  <option value="">{i === 0 ? "— Más cercano —" : "— (ninguno) —"}</option>
+                  {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
+                </select>
+              ))}
             </div>
             <div>
               <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Responsable</label>
@@ -227,12 +246,14 @@ export default function Empleados() {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósito / sucursal</label>
-              <select value={e.local_asignado || ""} onChange={(ev) => cambiarCampo(e.legajo, "local_asignado", ev.target.value || null)}
-                className="bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-xs outline-none min-w-[150px] max-w-[200px]">
-                <option value="">— Más cercano —</option>
-                {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
-              </select>
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósitos / sucursales (hasta 3)</label>
+              {[0,1,2].map((i) => (
+                <select key={i} value={(e.locales_asignados||[])[i] || ""} onChange={(ev) => cambiarLocales(e.legajo, i, ev.target.value)}
+                  className="bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-1.5 text-xs outline-none min-w-[150px] max-w-[200px]">
+                  <option value="">{i === 0 ? "— Más cercano —" : "— (ninguno) —"}</option>
+                  {locales.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
+                </select>
+              ))}
             </div>
           </div>
         ))}

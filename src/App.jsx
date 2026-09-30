@@ -59,7 +59,7 @@ export default function App() {
     setUbicCargando(true);
     try {
       const pos = await obtenerPosicion();
-      setUbic(estadoUbicacion(pos, locales, empleado?.local_asignado));
+      setUbic(estadoUbicacion(pos, locales, empleado?.locales_asignados));
     } catch { setUbic({ tipo: "sin_gps" }); }
     finally { setUbicCargando(false); }
   };
@@ -142,7 +142,7 @@ export default function App() {
     try {
       const hora = new Date();
       const pos = await obtenerPosicion();
-      const eu = estadoUbicacion(pos, locales, empleado?.local_asignado);
+      const eu = estadoUbicacion(pos, locales, empleado?.locales_asignados);
       setUbic(eu);
       const dentro = eu.tipo === "dentro";
       const est = calcularEstado(tipo, hora, horarioEmpleado);

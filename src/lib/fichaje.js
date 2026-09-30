@@ -62,16 +62,25 @@ export function localMasCercano(pos, locales) {
 }
 
 // Evalúa dónde está el empleado: dentro de un depósito, fuera del radio, remoto o sin GPS.
-export function estadoUbicacion(pos, locales, localAsignadoId) {
+export function estadoUbicacion(pos, locales, asignados) {
   if (!pos) return { tipo: "sin_gps" };
   if (!locales || !locales.length) return { tipo: "remoto" };
-  // Si el empleado tiene un depósito asignado, se valida SOLO contra ese
-  if (localAsignadoId) {
-    const l = locales.find((x) => String(x.id) === String(localAsignadoId));
-    if (l && l.lat != null && l.lng != null) {
-      const d = distanciaMetros(pos.lat, pos.lng, Number(l.lat), Number(l.lng));
-      const dentro = d <= (l.radio_metros ?? 150);
-      return { tipo: dentro ? "dentro" : "fuera", local: l, distancia: d };
+  // Normalizar los depósitos asignados a un arreglo de ids (acepta string o array)
+  let ids = [];
+  if (Array.isArray(asignados)) ids = asignados.filter(Boolean);
+  else if (asignados) ids = [asignados];
+  // Si el empleado tiene depósitos asignados, se valida contra CUALQUIERA de ellos
+  if (ids.length) {
+    const suyos = locales.filter((x) => ids.some((id) => String(id) === String(x.id)));
+    if (suyos.length) {
+      let cerca = null;
+      for (const l of suyos) {
+        if (l.lat == null || l.lng == null) continue;
+        const d = distanciaMetros(pos.lat, pos.lng, Number(l.lat), Number(l.lng));
+        if (d <= (l.radio_metros ?? 150)) return { tipo: "dentro", local: l, distancia: d };
+        if (!cerca || d < cerca.distancia) cerca = { local: l, distancia: d };
+      }
+      if (cerca) return { tipo: "fuera", local: cerca.local, distancia: cerca.distancia };
     }
   }
   // Sin asignación: el depósito más cercano
