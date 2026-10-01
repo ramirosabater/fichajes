@@ -83,6 +83,34 @@ export default function Fichadas() {
     catch { alert("No se pudo guardar."); cargarFichajes(); }
   };
 
+  // Recalcula estado/minutos de TODAS las fichadas del período con el horario actual
+  // de cada empleado (sirve para corregir fichadas viejas tras arreglar turnos partidos).
+  const [recalculando, setRecalculando] = useState(null);
+  const recalcularPeriodo = async () => {
+    if (!confirm(`¿Recalcular el estado de todas las fichadas de ${etiquetaPeriodo(desde, hasta)} con los horarios actuales?`)) return;
+    setRecalculando("Cargando…");
+    try {
+      const todas = await sbGet(`fichajes?select=id,legajo,tipo,timestamp,estado,minutos_tarde&timestamp=gte.${desde.toISOString()}&timestamp=lte.${hasta.toISOString()}&limit=200000`);
+      const horarioDe = {};
+      empleados.forEach((e) => { horarioDe[e.legajo] = horarios.find((h) => String(h.id) === String(e.horario_id)) || null; });
+      const cambios = [];
+      todas.forEach((f) => {
+        const est = calcularEstado(f.tipo, new Date(f.timestamp), horarioDe[f.legajo]);
+        const min = est.minutosTarde || 0;
+        if (est.estado !== f.estado || min !== (Number(f.minutos_tarde) || 0)) cambios.push({ id: f.id, estado: est.estado, minutos_tarde: min });
+      });
+      for (let i = 0; i < cambios.length; i++) {
+        setRecalculando(`Actualizando ${i + 1}/${cambios.length}…`);
+        const c = cambios[i];
+        await sbPatch(`fichajes?id=eq.${c.id}`, { estado: c.estado, minutos_tarde: c.minutos_tarde });
+      }
+      registrarAuditoria(`Recalculó estados de fichadas (${etiquetaPeriodo(desde, hasta)})`, `${cambios.length} de ${todas.length} corregidas`);
+      alert(`Listo: ${cambios.length} de ${todas.length} fichadas corregidas.`);
+      await cargarFichajes();
+    } catch { alert("No se pudo completar el recálculo. Podés volver a ejecutarlo; retoma donde quedó."); }
+    finally { setRecalculando(null); }
+  };
+
   const borrar = async (f) => {
     if (!confirm("¿Borrar esta fichada?")) return;
     try { await sbDelete(`fichajes?id=eq.${f.id}`); setFichajes((fs) => fs.filter((x) => x.id !== f.id)); registrarAuditoria(`Borró fichada del legajo ${f.legajo}`, null); }
@@ -104,6 +132,10 @@ export default function Fichadas() {
           <span className="text-xs font-semibold px-1">{etiquetaPeriodo(desde, hasta)}</span>
           <button onClick={() => setRefMes((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))} className="text-[#5c6b78] px-2 text-lg">›</button>
         </div>
+        <button onClick={recalcularPeriodo} disabled={!!recalculando || !horarios.length}
+          className="px-3 py-2 rounded-lg text-xs font-semibold border border-[#223c7e]/40 text-[#223c7e] disabled:opacity-50">
+          {recalculando || "↻ Recalcular estados del período"}
+        </button>
       </div>
 
       {legajo && (
