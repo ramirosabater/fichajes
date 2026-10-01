@@ -10,20 +10,43 @@ function hhmmAMinutos(hhmm) {
   const [h, m] = hhmm.split(":").map(Number);
   return h * 60 + m;
 }
-export function bloqueDeHoy(horario, fecha) {
-  if (!horario || !horario.bloques) return null;
+// Todos los bloques (tramos) del día, ordenados por hora de inicio.
+// Un turno partido tiene 2 o más bloques el mismo día (ej. 08-12 y 16-20).
+export function bloquesDeHoy(horario, fecha) {
+  if (!horario || !horario.bloques) return [];
   const hoy = diaISO(fecha);
-  return horario.bloques.find((b) => (b.dias || []).includes(hoy)) || null;
+  return horario.bloques
+    .filter((b) => (b.dias || []).includes(hoy) && b.inicio && b.fin)
+    .sort((a, b) => hhmmAMinutos(a.inicio) - hhmmAMinutos(b.inicio));
+}
+// Compatibilidad: primer bloque del día.
+export function bloqueDeHoy(horario, fecha) {
+  return bloquesDeHoy(horario, fecha)[0] || null;
+}
+
+// Elige el tramo al que corresponde una fichada:
+// - entrada → el tramo cuyo INICIO está más cerca de la hora fichada
+// - salida  → el tramo cuyo FIN está más cerca de la hora fichada
+// Así, la vuelta del corte (ej. 15:55) se compara con las 16:00 y no con las 08:00.
+function tramoParaFichada(bloques, tipo, min) {
+  let mejor = null, dist = Infinity;
+  for (const b of bloques) {
+    const ref = hhmmAMinutos(tipo === "entrada" ? b.inicio : b.fin);
+    const d = Math.abs(min - ref);
+    if (d < dist) { dist = d; mejor = b; }
+  }
+  return mejor;
 }
 
 // Devuelve estado de la fichada: a_horario | tarde | salida_anticipada | sin_turno
 export function calcularEstado(tipo, hora, horario) {
-  const bloque = bloqueDeHoy(horario, hora);
-  if (!bloque) {
+  const bloques = bloquesDeHoy(horario, hora);
+  if (!bloques.length) {
     return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", color: "#5c6b78", minutosTarde: 0 };
   }
   const tolerancia = horario.tolerancia_minutos ?? 10;
   const min = minutosDesdeMedianoche(hora);
+  const bloque = tramoParaFichada(bloques, tipo, min);
   if (tipo === "entrada") {
     const inicio = hhmmAMinutos(bloque.inicio);
     if (min <= inicio + tolerancia) return { estado: "a_horario", label: "A horario", color: "#16a34a", minutosTarde: 0 };
