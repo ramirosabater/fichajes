@@ -20,6 +20,8 @@ export default function Plantillas() {
   const [inicio, setInicio] = useState("08:00");
   const [fin, setFin] = useState("17:00");
   const [bloques, setBloques] = useState([]);
+  const [libre, setLibre] = useState(false);
+  const [horasDiarias, setHorasDiarias] = useState(8);
   const [guardando, setGuardando] = useState(false);
 
   const cargar = async () => {
@@ -40,6 +42,7 @@ export default function Plantillas() {
   const limpiar = () => {
     setEditando(null); setNombre(""); setTolerancia(10);
     setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00"); setBloques([]);
+    setLibre(false); setHorasDiarias(8);
   };
 
   const abrirNuevo = () => { limpiar(); setMostrarForm(true); };
@@ -49,6 +52,14 @@ export default function Plantillas() {
     setEditando(h.id);
     setNombre(h.nombre || "");
     setTolerancia(h.tolerancia_minutos ?? 10);
+    setLibre(h.tipo === "libre");
+    setHorasDiarias(h.horas_diarias ?? 8);
+    if (h.tipo === "libre") {
+      const ds = new Set(); (h.bloques || []).forEach((b) => (b.dias || []).forEach((d) => ds.add(d)));
+      setBloques([]); setDias([...ds].sort());
+      setMostrarForm(true); window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     setBloques(Array.isArray(h.bloques) ? h.bloques.map((b) => ({ dias: [...(b.dias || [])], inicio: b.inicio, fin: b.fin })) : []);
     setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00");
     setMostrarForm(true);
@@ -56,12 +67,20 @@ export default function Plantillas() {
   };
 
   const guardar = async () => {
-    const bloquesFinales = bloques.length ? bloques : (dias.length ? [{ dias: [...dias], inicio, fin }] : []);
     if (!nombre.trim()) return alert("Poné un nombre.");
+    if (libre && !dias.length) return alert("Elegí al menos un día laborable.");
+    if (libre && !(Number(horasDiarias) > 0)) return alert("Indicá las horas diarias (mayor a 0).");
+    // Horario libre: un bloque solo con días (sin hora de inicio/fin); lo que cuenta son las horas trabajadas.
+    const bloquesFinales = libre
+      ? [{ dias: [...dias] }]
+      : (bloques.length ? bloques : (dias.length ? [{ dias: [...dias], inicio, fin }] : []));
     if (!bloquesFinales.length) return alert("Agregá al menos un bloque de horario.");
     setGuardando(true);
     try {
-      const datos = { nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: Number(tolerancia) || 0 };
+      const datos = {
+        nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: libre ? 0 : (Number(tolerancia) || 0),
+        tipo: libre ? "libre" : "fijo", horas_diarias: libre ? Number(horasDiarias) : null,
+      };
       if (editando) {
         await sbPatch(`horarios?id=eq.${editando}`, datos);
         setHorarios((h) => h.map((x) => (x.id === editando ? { ...x, ...datos } : x)));
@@ -102,6 +121,16 @@ export default function Plantillas() {
           <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Mañana Lun-Vie"
             className="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mb-3 mt-1" />
 
+          <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Tipo</label>
+          <div className="flex gap-1.5 my-1 mb-3">
+            {[{ v: false, l: "Fijo (con horas de entrada/salida)" }, { v: true, l: "Libre (cuenta horas trabajadas)" }].map((o) => (
+              <button key={String(o.v)} onClick={() => setLibre(o.v)} className="px-3 py-2 rounded-lg text-xs font-bold border"
+                style={{ backgroundColor: libre === o.v ? "#223c7e" : "#f1f4f7", color: libre === o.v ? "#ffffff" : "#5c6b78", borderColor: libre === o.v ? "#223c7e" : "#cfd6dd" }}>
+                {o.l}
+              </button>
+            ))}
+          </div>
+
           <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Días</label>
           <div className="flex gap-1.5 my-1 mb-3">
             {DIAS.map((d) => (
@@ -113,6 +142,15 @@ export default function Plantillas() {
             ))}
           </div>
 
+          {libre && (
+            <div className="mb-3">
+              <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Horas diarias a cumplir</label>
+              <input type="number" min="0" step="0.5" value={horasDiarias} onChange={(e) => setHorasDiarias(e.target.value)}
+                className="w-32 block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+              <p className="text-[11px] text-[#94a1ab] mt-1">No hay llegada tarde ni salida anticipada: se suman las horas entre cada entrada y salida y se comparan con la meta del período.</p>
+            </div>
+          )}
+          {!libre && (<>
           <div className="flex gap-3 mb-3">
             <div className="flex-1">
               <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Entrada</label>
@@ -140,6 +178,7 @@ export default function Plantillas() {
             </div>
           )}
           {bloques.length === 0 && <p className="text-[11px] text-[#94a1ab] mb-3">Si no agregás bloques, se usa el día/horario de arriba. Para un turno partido o días con horarios distintos, agregá cada bloque.</p>}
+          </>)}
 
           <button onClick={guardar} disabled={guardando} className="w-full py-2.5 rounded-lg font-bold text-sm bg-[#16a34a] text-white disabled:opacity-50">
             {guardando ? "Guardando…" : (editando ? "Guardar cambios" : "Guardar horario")}
@@ -154,12 +193,13 @@ export default function Plantillas() {
             <div className="min-w-0">
               <p className="text-sm font-semibold">{h.nombre}</p>
               <div className="flex flex-wrap gap-2 mt-1">
+                {h.tipo === "libre" && <span className="text-[11px] font-bold text-[#223c7e] bg-[#e8eefb] rounded px-1.5 py-0.5">LIBRE · {h.horas_diarias ?? "?"} h/día</span>}
                 {(h.bloques || []).map((b, i) => (
                   <span key={i} className="text-[11px] text-[#5c6b78] bg-[#f1f4f7] rounded px-1.5 py-0.5">
-                    {(b.dias || []).map((n) => DIAS.find((d) => d.n === n)?.l).join("")} {b.inicio}–{b.fin}
+                    {(b.dias || []).map((n) => DIAS.find((d) => d.n === n)?.l).join("")}{b.inicio ? ` ${b.inicio}–${b.fin}` : ""}
                   </span>
                 ))}
-                <span className="text-[11px] text-[#94a1ab]">· tol. {h.tolerancia_minutos ?? 0}m</span>
+                {h.tipo !== "libre" && <span className="text-[11px] text-[#94a1ab]">· tol. {h.tolerancia_minutos ?? 0}m</span>}
               </div>
             </div>
             <div className="flex gap-2 shrink-0">
