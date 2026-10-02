@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fichaje · Demo · FloWer</title>
+<meta name="description" content="Demo navegable con datos ficticios de un sistema de control de asistencia y presentismo." />
+<meta name="theme-color" content="#e1251b" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23223c7e'/%3E%3Cpath d='M12 34 L24 12 L36 34 Z' fill='%232ba9e0'/%3E%3Crect x='10' y='36' width='28' height='4' rx='2' fill='%23e1251b'/%3E%3C/svg%3E" />
+<style>
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}.fixed{position:fixed}.sticky{position:sticky}.inset-0{inset:0}.bottom-5{bottom:1.25rem}.left-1\/2{left:50%}.top-0{top:0}.z-\[150\]{z-index:150}.z-\[200\]{z-index:200}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.ml-auto{margin-left:auto}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.table{display:table}.grid{display:grid}.h-1\.5{height:.375rem}.h-2{height:.5rem}.h-4{height:1rem}.h-\[38px\]{height:38px}.max-h-\[320px\]{max-height:320px}.max-h-\[50vh\]{max-height:50vh}.max-h-\[85vh\]{max-height:85vh}.w-2{width:.5rem}.w-24{width:6rem}.w-5{width:1.25rem}.w-\[calc\(100\%-2rem\)\]{width:calc(100% - 2rem)}.w-\[calc\(100\%-3rem\)\]{width:calc(100% - 3rem)}.w-full{width:100%}.min-w-0{min-width:0}.min-w-\[130px\]{min-width:130px}.min-w-\[150px\]{min-width:150px}.min-w-\[160px\]{min-width:160px}.min-w-\[180px\]{min-width:180px}.max-w-2xl{max-width:42rem}.max-w-6xl{max-width:72rem}.max-w-\[200px\]{max-width:200px}.max-w-\[220px\]{max-width:220px}.max-w-\[240px\]{max-width:240px}.max-w-\[280px\]{max-width:280px}.max-w-\[380px\]{max-width:380px}.max-w-\[400px\]{max-width:400px}.max-w-\[420px\]{max-width:420px}.max-w-\[440px\]{max-width:440px}.max-w-lg{max-width:32rem}.max-w-sm{max-width:24rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.flex-\[2\]{flex:2}.shrink-0{flex-shrink:0}.border-collapse{border-collapse:collapse}.-translate-x-1\/2{--tw-translate-x:-50%}.-translate-x-1\/2,.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.resize-none{resize:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.divide-y>:not([hidden])~:not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px*(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px*var(--tw-divide-y-reverse))}.divide-\[\#e3e8ed\]>:not([hidden])~:not([hidden]){--tw-divide-opacity:1;border-color:rgb(227 232 237/var(--tw-divide-opacity))}.divide-\[\#f1f4f7\]>:not([hidden])~:not([hidden]){--tw-divide-opacity:1;border-color:rgb(241 244 247/var(--tw-divide-opacity))}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis}.truncate,.whitespace-nowrap{white-space:nowrap}.whitespace-pre-line{white-space:pre-line}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-\[28px\]{border-radius:28px}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-\[\#cfd6dd\]{--tw-border-opacity:1;border-color:rgb(207 214 221/var(--tw-border-opacity))}.border-\[\#e3e8ed\]{--tw-border-opacity:1;border-color:rgb(227 232 237/var(--tw-border-opacity))}.border-\[\#e5484d\]\/50{border-color:rgba(229,72,77,.5)}.border-\[\#f1f4f7\]{--tw-border-opacity:1;border-color:rgb(241 244 247/var(--tw-border-opacity))}.bg-\[\#16a34a\]{--tw-bg-opacity:1;background-color:rgb(22 163 74/var(--tw-bg-opacity))}.bg-\[\#1f2d38\]{--tw-bg-opacity:1;background-color:rgb(31 45 56/var(--tw-bg-opacity))}.bg-\[\#1f2d38\]\/40{background-color:rgba(31,45,56,.4)}.bg-\[\#223c7e\]{--tw-bg-opacity:1;background-color:rgb(34 60 126/var(--tw-bg-opacity))}.bg-\[\#e1251b\]{--tw-bg-opacity:1;background-color:rgb(225 37 27/var(--tw-bg-opacity))}.bg-\[\#e5484d\]{--tw-bg-opacity:1;background-color:rgb(229 72 77/var(--tw-bg-opacity))}.bg-\[\#f1f4f7\]{--tw-bg-opacity:1;background-color:rgb(241 244 247/var(--tw-bg-opacity))}.bg-\[\#ffffff\],.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.p-1{padding:.25rem}.p-2\.5{padding:.625rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1\.5{padding-left:.375rem;padding-right:.375rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-2\.5{padding-left:.625rem;padding-right:.625rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-3\.5{padding-left:.875rem;padding-right:.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-2{padding-bottom:.5rem}.pb-2\.5{padding-bottom:.625rem}.pb-3{padding-bottom:.75rem}.pb-4{padding-bottom:1rem}.pb-6{padding-bottom:1.5rem}.pt-2{padding-top:.5rem}.pt-4{padding-top:1rem}.pt-6{padding-top:1.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.capitalize{text-transform:capitalize}.normal-case{text-transform:none}.italic{font-style:italic}.tabular-nums{--tw-numeric-spacing:tabular-nums;font-variant-numeric:var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)}.leading-none{line-height:1}.leading-tight{line-height:1.25}.tracking-\[0\.4em\]{letter-spacing:.4em}.tracking-\[0\.5em\]{letter-spacing:.5em}.tracking-normal{letter-spacing:0}.tracking-wide{letter-spacing:.025em}.tracking-wider{letter-spacing:.05em}.tracking-widest{letter-spacing:.1em}.text-\[\#16a34a\]{--tw-text-opacity:1;color:rgb(22 163 74/var(--tw-text-opacity))}.text-\[\#5c6b78\]{--tw-text-opacity:1;color:rgb(92 107 120/var(--tw-text-opacity))}.text-\[\#94a1ab\]{--tw-text-opacity:1;color:rgb(148 161 171/var(--tw-text-opacity))}.text-\[\#e1251b\]{--tw-text-opacity:1;color:rgb(225 37 27/var(--tw-text-opacity))}.text-\[\#e5484d\]{--tw-text-opacity:1;color:rgb(229 72 77/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.opacity-50{opacity:.5}.opacity-70{opacity:.7}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-lg,.shadow-md{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.last\:border-0:last-child{border-width:0}.hover\:border-\[\#cfd6dd\]:hover{--tw-border-opacity:1;border-color:rgb(207 214 221/var(--tw-border-opacity))}.hover\:text-\[\#1f2d38\]:hover{--tw-text-opacity:1;color:rgb(31 45 56/var(--tw-text-opacity))}.hover\:text-\[\#223c7e\]:hover{--tw-text-opacity:1;color:rgb(34 60 126/var(--tw-text-opacity))}.hover\:text-\[\#5c6b78\]:hover{--tw-text-opacity:1;color:rgb(92 107 120/var(--tw-text-opacity))}.hover\:opacity-90:hover{opacity:.9}.active\:scale-\[0\.98\]:active{--tw-scale-x:0.98;--tw-scale-y:0.98;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.disabled\:opacity-40:disabled{opacity:.4}.disabled\:opacity-50:disabled{opacity:.5}@media (min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width:768px){.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.md\:flex-wrap{flex-wrap:wrap}.md\:overflow-visible{overflow:visible}}
+html, body { min-height: 100%; }
+body { margin: 0; background: #eef1f4; color: #1f2d38; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+#demo-top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+#demo-top .tricolor { height: 4px; background: linear-gradient(90deg, #223c7e 0%, #223c7e 42%, #2ba9e0 42%, #2ba9e0 68%, #e1251b 68%, #e1251b 100%); }
+#demo-spacer { height: 42px; }
+.scroll-x { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.scroll-x::-webkit-scrollbar { display: none; }
+#toast { transition: opacity .25s, transform .25s; }
+#toast.oculto { opacity: 0; transform: translate(-50%, 12px); pointer-events: none; }
+input[type=number]::-webkit-inner-spin-button { opacity: .4; }
+</style>
+</head>
+<body>
+<div id="demo-top">
+  <div class="bg-[#1f2d38] text-white text-xs px-3 h-[38px] flex items-center justify-between gap-2">
+    <span class="truncate"><b>Demo con datos ficticios</b> · FloWer</span>
+    <a href="https://wa.me/5492975212008" target="_blank" rel="noopener" class="shrink-0 font-bold bg-[#e1251b] text-white rounded-full px-3 py-1 hover:opacity-90">Quiero uno así →</a>
+  </div>
+  <div class="tricolor"></div>
+</div>
+<div id="demo-spacer"></div>
+
+<div class="max-w-6xl mx-auto px-4 pt-4 flex justify-center">
+  <div class="inline-flex bg-white border border-[#e3e8ed] rounded-xl p-1 shadow-sm text-sm font-semibold" role="tablist">
+    <button data-a="modo" data-v="empleado" id="sw-empleado" class="px-3 py-1.5 rounded-lg">📱 App del empleado</button>
+    <button data-a="modo" data-v="admin" id="sw-admin" class="px-3 py-1.5 rounded-lg">🖥️ Panel RR.HH.</button>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<div id="toast" class="oculto fixed left-1/2 bottom-5 z-[200] w-[calc(100%-2rem)] max-w-[420px] -translate-x-1/2 bg-[#1f2d38] text-white text-xs rounded-xl px-4 py-3 shadow-lg"></div>
+<div id="modal"></div>
+
+<script>
+/* =====================================================================
+   DEMO_DATA — todos los datos son FICTICIOS. Editá libremente.
+   Las fechas se calculan relativas al día de hoy (offsets en días),
+   así la demo siempre muestra "el mes actual".
+   ===================================================================== */
+const DEMO_DATA = {
+  empresa: { nombre: "Distribuidora Del Sur S.A.", emailAdmin: "rrhh@delsur-demo.com.ar" },
+  usuarioDemo: 112,          // legajo con el que entra la App del empleado (es encargado de un equipo)
+  pinDemo: "1234",
+
+  sectores: ["Administración", "Depósito", "Expedición", "Logística", "Mantenimiento", "Ventas"],
+
+  locales: [
+    { id: "d1", nombre: "Depósito Central", radio_metros: 150 },
+    { id: "d2", nombre: "Sucursal Norte", radio_metros: 120 },
+    { id: "d3", nombre: "Sucursal Ruta 3", radio_metros: 200 },
+  ],
+
+  // dias: 1=lunes … 7=domingo
+  horarios: [
+    { id: "h1", nombre: "Mañana Lun-Vie (07 a 15)", tolerancia_minutos: 10, bloques: [{ dias: [1, 2, 3, 4, 5], inicio: "07:00", fin: "15:00" }] },
+    { id: "h2", nombre: "Tarde Lun-Vie (14 a 22)", tolerancia_minutos: 10, bloques: [{ dias: [1, 2, 3, 4, 5], inicio: "14:00", fin: "22:00" }] },
+    { id: "h3", nombre: "Comercial partido (08-12 / 16-20) + Sáb", tolerancia_minutos: 10, bloques: [
+      { dias: [1, 2, 3, 4, 5], inicio: "08:00", fin: "12:00" }, { dias: [1, 2, 3, 4, 5], inicio: "16:00", fin: "20:00" }, { dias: [6], inicio: "09:00", fin: "13:00" }] },
+    { id: "h4", nombre: "Administración Lun-Vie (09 a 17)", tolerancia_minutos: 15, bloques: [{ dias: [1, 2, 3, 4, 5], inicio: "09:00", fin: "17:00" }] },
+    { id: "h5", nombre: "Depósito (06 a 14) + Sáb (07 a 12)", tolerancia_minutos: 5, bloques: [
+      { dias: [1, 2, 3, 4, 5], inicio: "06:00", fin: "14:00" }, { dias: [6], inicio: "07:00", fin: "12:00" }] },
+  ],
+
+  // Reglas de recargo (pestaña Configuración de la app real)
+  recargos: [
+    { dias: [1, 2, 3, 4, 5], hora_desde: "21:00", hora_hasta: "24:00", porcentaje: 50 },
+    { dias: [6], hora_desde: "13:00", hora_hasta: "24:00", porcentaje: 100 },
+    { dias: [7], hora_desde: "00:00", hora_hasta: "24:00", porcentaje: 100 },
+  ],
+  feriados: {},
+
+  // tardanza = probabilidad de llegar tarde (perfil para generar las fichadas)
+  empleados: [
+    { legajo: 101, apellido: "Acosta", nombre: "Juan Carlos", sector: "Logística", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.06 },
+    { legajo: 102, apellido: "Benítez", nombre: "María José", sector: "Administración", horario_id: "h4", responsable_legajo: 105, locales_asignados: ["d1"], activo: true, tardanza: 0.03 },
+    { legajo: 103, apellido: "Cabrera", nombre: "Diego", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1"], activo: true, tardanza: 0.22 },
+    { legajo: 104, apellido: "Domínguez", nombre: "Lucía", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d2"], activo: true, tardanza: 0.08 },
+    { legajo: 105, apellido: "Castro", nombre: "Laura", sector: "Administración", horario_id: "h4", responsable_legajo: null, locales_asignados: ["d1"], activo: true, tardanza: 0.01 },
+    { legajo: 106, apellido: "Fernández", nombre: "Matías", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1", "d3"], activo: true, tardanza: 0.12 },
+    { legajo: 107, apellido: "Giménez", nombre: "Romina", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d2"], activo: true, tardanza: 0.04 },
+    { legajo: 108, apellido: "González", nombre: "Sergio", sector: "Expedición", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.18 },
+    { legajo: 109, apellido: "Gutiérrez", nombre: "Natalia", sector: "Administración", horario_id: "h4", responsable_legajo: 105, locales_asignados: ["d1"], activo: true, tardanza: 0.05 },
+    { legajo: 110, apellido: "Ibáñez", nombre: "Ezequiel", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d3"], activo: true, tardanza: 0.30 },
+    { legajo: 111, apellido: "Juárez", nombre: "Carolina", sector: "Expedición", horario_id: "h2", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.07 },
+    { legajo: 112, apellido: "Herrera", nombre: "Martín", sector: "Depósito", horario_id: "h5", responsable_legajo: null, locales_asignados: ["d1"], activo: true, tardanza: 0.10 },
+    { legajo: 113, apellido: "Ledesma", nombre: "Facundo", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1"], activo: true, tardanza: 0.02 },
+    { legajo: 114, apellido: "López", nombre: "Valeria", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d2"], activo: true, tardanza: 0.10 },
+    { legajo: 115, apellido: "Martínez", nombre: "Hernán", sector: "Mantenimiento", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1", "d2", "d3"], activo: true, tardanza: 0.15 },
+    { legajo: 116, apellido: "Molina", nombre: "Florencia", sector: "Administración", horario_id: "h4", responsable_legajo: 105, locales_asignados: ["d1"], activo: true, tardanza: 0.04 },
+    { legajo: 117, apellido: "Morales", nombre: "Nicolás", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1"], activo: true, tardanza: 0.14 },
+    { legajo: 118, apellido: "Navarro", nombre: "Agustina", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d3"], activo: true, tardanza: 0.02 },
+    { legajo: 119, apellido: "Ortiz", nombre: "Ramón", sector: "Logística", horario_id: "h2", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.20 },
+    { legajo: 120, apellido: "Medina", nombre: "Pablo", sector: "Ventas", horario_id: "h3", responsable_legajo: null, locales_asignados: ["d2"], activo: true, tardanza: 0.03 },
+    { legajo: 121, apellido: "Pereyra", nombre: "Camila", sector: "Expedición", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.09 },
+    { legajo: 122, apellido: "Quiroga", nombre: "Leandro", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d3"], activo: true, tardanza: 0.25 },
+    { legajo: 123, apellido: "Ramírez", nombre: "Silvina", sector: "Administración", horario_id: "h4", responsable_legajo: 105, locales_asignados: ["d1"], activo: true, tardanza: 0.06 },
+    { legajo: 124, apellido: "Romero", nombre: "Federico", sector: "Logística", horario_id: "h2", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.11 },
+    { legajo: 125, apellido: "Ruiz", nombre: "Daniela", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d2"], activo: true, tardanza: 0.05 },
+    { legajo: 126, apellido: "Sosa", nombre: "Cristian", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1"], activo: true, tardanza: 0.08 },
+    { legajo: 127, apellido: "Suárez", nombre: "Micaela", sector: "Expedición", horario_id: "h2", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.13 },
+    { legajo: 128, apellido: "Torres", nombre: "Javier", sector: "Mantenimiento", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1", "d2"], activo: true, tardanza: 0.04 },
+    { legajo: 129, apellido: "Vega", nombre: "Antonella", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d3"], activo: true, tardanza: 0.16 },
+    { legajo: 130, apellido: "Ríos", nombre: "Gustavo", sector: "Logística", horario_id: "h2", responsable_legajo: null, locales_asignados: ["d1"], activo: true, tardanza: 0.03 },
+    { legajo: 131, apellido: "Villalba", nombre: "Marcos", sector: "Depósito", horario_id: "h5", responsable_legajo: 112, locales_asignados: ["d1"], activo: false, tardanza: 0.20 },
+    { legajo: 132, apellido: "Aguirre", nombre: "Rocío", sector: "Administración", horario_id: "h4", responsable_legajo: 105, locales_asignados: ["d1"], activo: true, tardanza: 0.02 },
+    { legajo: 133, apellido: "Paz", nombre: "Brian", sector: "Expedición", horario_id: "h1", responsable_legajo: 130, locales_asignados: ["d1"], activo: true, tardanza: 0.27 },
+    { legajo: 134, apellido: "Ojeda", nombre: "Tomás", sector: "Mantenimiento", horario_id: null, responsable_legajo: 130, locales_asignados: [], activo: true, tardanza: 0.05 },
+    { legajo: 135, apellido: "Peralta", nombre: "Gabriela", sector: "Ventas", horario_id: "h3", responsable_legajo: 120, locales_asignados: ["d2"], activo: false, tardanza: 0.10 },
+  ],
+
+  // Solicitudes de ausencia. desde = días desde hoy (negativo = pasado), dias = duración.
+  ausencias: [
+    { legajo: 106, tipo: "vacaciones", desde: 12, dias: 5, motivo: "Vacaciones de primavera", estado: "pendiente" },
+    { legajo: 113, tipo: "dia_libre", desde: 3, dias: 1, motivo: "Trámite personal", estado: "pendiente" },
+    { legajo: 122, tipo: "ausencia", desde: 1, dias: 1, motivo: "Turno médico", estado: "pendiente" },
+    { legajo: 126, tipo: "otro", desde: 9, dias: 1, motivo: "Donación de sangre", estado: "pendiente" },
+    { legajo: 102, tipo: "dia_libre", desde: 5, dias: 1, motivo: "Mudanza", estado: "pendiente" },
+    { legajo: 114, tipo: "vacaciones", desde: 20, dias: 7, motivo: "", estado: "pendiente" },
+    { legajo: 127, tipo: "otro", desde: 2, dias: 1, motivo: "Examen final en la facultad", estado: "pendiente" },
+    { legajo: 133, tipo: "dia_libre", desde: 8, dias: 1, motivo: "Acto escolar de mi hijo", estado: "pendiente" },
+    { legajo: 116, tipo: "dia_libre", desde: 11, dias: 1, motivo: "Trámite personal", estado: "pendiente" },
+    { legajo: 112, tipo: "dia_libre", desde: 15, dias: 1, motivo: "Casamiento de un familiar", estado: "pendiente" },
+    { legajo: 112, tipo: "vacaciones", desde: -40, dias: 7, motivo: "Vacaciones de invierno", estado: "aprobada" },
+    { legajo: 103, tipo: "ausencia", desde: -3, dias: 1, motivo: "Enfermedad (presentó certificado)", estado: "aprobada" },
+    { legajo: 109, tipo: "vacaciones", desde: -10, dias: 5, motivo: "", estado: "aprobada" },
+    { legajo: 119, tipo: "dia_libre", desde: -6, dias: 1, motivo: "Trámite en el registro civil", estado: "aprobada" },
+    { legajo: 125, tipo: "dia_libre", desde: -2, dias: 1, motivo: "Cumpleaños", estado: "aprobada" },
+    { legajo: 117, tipo: "ausencia", desde: -12, dias: 2, motivo: "Problema familiar", estado: "aprobada" },
+    { legajo: 128, tipo: "vacaciones", desde: 30, dias: 10, motivo: "Viaje familiar", estado: "aprobada" },
+    { legajo: 132, tipo: "dia_libre", desde: -1, dias: 1, motivo: "Trámite bancario", estado: "aprobada" },
+    { legajo: 124, tipo: "ausencia", desde: -5, dias: 1, motivo: "Turno con el odontólogo", estado: "aprobada" },
+    { legajo: 104, tipo: "dia_libre", desde: -8, dias: 1, motivo: "", estado: "rechazada", resolucion: "Coincide con el inventario mensual" },
+    { legajo: 110, tipo: "dia_libre", desde: 4, dias: 1, motivo: "Partido del torneo", estado: "rechazada", resolucion: "Ese día hay carga de camiones" },
+    { legajo: 121, tipo: "vacaciones", desde: 6, dias: 14, motivo: "", estado: "rechazada", resolucion: "Pedir con 30 días de anticipación" },
+  ],
+
+  // Parámetros del generador de fichadas (determinístico: mismos datos en cada recarga)
+  generador: { semilla: 2026, mesesHistoria: 6, probAusente: 0.03, probOlvidoSalida: 0.015, probSalidaAnticipada: 0.04, probRemoto: 0.03, presentesHoy: 0.75 },
+};
+
+/* ===================== Utilidades ===================== */
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pad = (n) => String(n).padStart(2, "0");
+const fechaKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const sumarDias = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const hhmmAMinutos = (hhmm) => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
+const diaISO = (d) => (d.getDay() === 0 ? 7 : d.getDay());
+const hora = (d) => d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+const horaSeg = (d) => d.toLocaleTimeString("es-AR", { hour12: false });
+
+function mulberry32(a) {
+  return function () { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+
+/* ===================== Lógica (portada de src/lib) ===================== */
+function bloquesDeHoy(horario, fecha) {
+  if (!horario || !horario.bloques) return [];
+  const hoy = diaISO(fecha);
+  return horario.bloques.filter((b) => (b.dias || []).includes(hoy) && b.inicio && b.fin)
+    .sort((a, b) => hhmmAMinutos(a.inicio) - hhmmAMinutos(b.inicio));
+}
+function tramoParaFichada(bloques, tipo, min) {
+  let mejor = null, dist = Infinity;
+  for (const b of bloques) { const ref = hhmmAMinutos(tipo === "entrada" ? b.inicio : b.fin); const d = Math.abs(min - ref); if (d < dist) { dist = d; mejor = b; } }
+  return mejor;
+}
+function calcularEstado(tipo, hora, horario) {
+  const bloques = bloquesDeHoy(horario, hora);
+  if (!bloques.length) return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", minutosTarde: 0 };
+  const tol = horario.tolerancia_minutos ?? 10;
+  const min = hora.getHours() * 60 + hora.getMinutes();
+  const bloque = tramoParaFichada(bloques, tipo, min);
+  if (tipo === "entrada") {
+    const ini = hhmmAMinutos(bloque.inicio);
+    if (min <= ini + tol) return { estado: "a_horario", label: "A horario", minutosTarde: 0 };
+    return { estado: "tarde", label: `Tarde · +${min - ini} min`, minutosTarde: min - ini };
+  }
+  const fin = hhmmAMinutos(bloque.fin);
+  if (min < fin - tol) return { estado: "salida_anticipada", label: `Salida anticipada · -${fin - min} min`, minutosTarde: fin - min };
+  return { estado: "a_horario", label: "A horario", minutosTarde: 0 };
+}
+function calcularPeriodo(ref) {
+  const y = ref.getFullYear(), m = ref.getMonth();
+  return { desde: new Date(y, m, 1, 0, 0, 0, 0), hasta: new Date(y, m + 1, 0, 23, 59, 59, 999) };
+}
+const etiquetaPeriodo = (desde) => desde.toLocaleDateString("es-AR", { month: "long", year: "numeric" });
+
+function hhmmR(x) { if (x === "24:00" || x === "24") return 1440; const [h, m] = String(x).split(":").map(Number); return h * 60 + (m || 0); }
+function tasaEn(t, feriados, recargos) {
+  const fk = fechaKey(t);
+  if (feriados && feriados[fk] != null) return feriados[fk];
+  const iso = diaISO(t), minDia = t.getHours() * 60 + t.getMinutes();
+  let best = 0;
+  for (const r of recargos) { if (!(r.dias || []).includes(iso)) continue; if (minDia >= hhmmR(r.hora_desde) && minDia < hhmmR(r.hora_hasta)) best = Math.max(best, r.porcentaje); }
+  return best;
+}
+function minutosRecargo(s, e, config) {
+  let min50 = 0, min100 = 0;
+  let t = new Date(s.getFullYear(), s.getMonth(), s.getDate(), s.getHours(), s.getMinutes());
+  const end = e.getTime(); let guard = 0;
+  while (t.getTime() < end && guard++ < 100000) {
+    const r = tasaEn(t, config.feriados, config.recargos);
+    if (r >= 100) min100++; else if (r >= 50) min50++;
+    t = new Date(t.getTime() + 60000);
+  }
+  return { min50, min100 };
+}
+const minAHoras = (min) => { const t = Math.round(min); return `${Math.floor(t / 60)}h ${t % 60}m`; };
+const formatHoras = (ms) => { const t = Math.round(ms / 60000); return `${Math.floor(t / 60)} h ${t % 60} m`; };
+
+function computarCumplimiento(fichajes, horario, desde, hasta, config) {
+  const res = { sinTurno: !horario || !horario.bloques || !horario.bloques.length, diasEsperados: 0, diasTrabajados: 0, sinRegistro: 0, sinEntrada: 0, sinSalida: 0, minTarde: 0, minRetiro: 0, descuentoMin: 0, horas50Min: 0, horas100Min: 0, trabajadoMin: 0 };
+  fichajes.forEach((f) => {
+    if (f.autorizado) return;
+    if (f.estado === "tarde") res.minTarde += Number(f.minutos_tarde) || 0;
+    else if (f.estado === "salida_anticipada") res.minRetiro += Number(f.minutos_tarde) || 0;
+  });
+  res.descuentoMin = res.minTarde + res.minRetiro;
+  const orden = fichajes.slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  let pend = null;
+  orden.forEach((f) => {
+    if (f.tipo === "entrada") pend = new Date(f.timestamp);
+    else if (f.tipo === "salida" && pend) {
+      const { min50, min100 } = minutosRecargo(pend, new Date(f.timestamp), config);
+      res.horas50Min += min50; res.horas100Min += min100;
+      res.trabajadoMin += (new Date(f.timestamp) - pend) / 60000; pend = null;
+    }
+  });
+  if (!res.sinTurno) {
+    const dias = new Set(); horario.bloques.forEach((b) => (b.dias || []).forEach((d) => dias.add(d)));
+    const porFecha = {};
+    fichajes.forEach((f) => { const k = fechaKey(new Date(f.timestamp)); const r = (porFecha[k] = porFecha[k] || { entrada: false, salida: false }); if (f.tipo === "entrada") r.entrada = true; if (f.tipo === "salida") r.salida = true; });
+    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    const cur = new Date(desde.getFullYear(), desde.getMonth(), desde.getDate());
+    const fin = new Date(hasta.getFullYear(), hasta.getMonth(), hasta.getDate());
+    while (cur <= fin) {
+      if (cur <= hoy && dias.has(diaISO(cur))) {
+        res.diasEsperados++;
+        const reg = porFecha[fechaKey(cur)];
+        if (!reg) res.sinRegistro++;
+        else { if (reg.entrada && reg.salida) res.diasTrabajados++; if (!reg.entrada) res.sinEntrada++; if (!reg.salida) res.sinSalida++; }
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+  }
+  return res;
+}
+function textoIncumplimientos(eq, desde) {
+  const lineas = [];
+  eq.forEach((m) => {
+    const c = m.cumpl, p = [];
+    if (c.sinRegistro > 0) p.push(`${c.sinRegistro} día(s) sin registro`);
+    if (c.sinEntrada > 0) p.push(`${c.sinEntrada} sin entrada`);
+    if (c.sinSalida > 0) p.push(`${c.sinSalida} sin salida`);
+    if (c.minTarde > 0) p.push(`${c.minTarde} min tarde`);
+    if (c.minRetiro > 0) p.push(`${c.minRetiro} min retiro`);
+    if (p.length) lineas.push(`• ${m.apellido}, ${m.nombre}: ${p.join(", ")} (descuento ${c.descuentoMin} min)`);
+  });
+  if (!lineas.length) return `Período ${etiquetaPeriodo(desde)} — sin incumplimientos detectados.`;
+  return `Período ${etiquetaPeriodo(desde)} — incumplimientos:\n` + lineas.join("\n");
+}
+function computarDashboard(fichajes, empleados) {
+  const activos = {}; empleados.forEach((e) => { if (e.activo !== false) activos[e.legajo] = e; });
+  const byEmp = {}; fichajes.forEach((f) => { if (!activos[f.legajo]) return; (byEmp[f.legajo] = byEmp[f.legajo] || []).push(f); });
+  let totalTrabajadoMs = 0, totalMinTarde = 0, totalMinTemprano = 0, totalTarde = 0, totalEntradas = 0, totalAHorario = 0, totalSalidaAnt = 0;
+  const sectorTarde = {}, porEmp = {};
+  Object.keys(byEmp).forEach((legajo) => {
+    const arr = byEmp[legajo].slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    const e = activos[legajo];
+    let tarde = 0, minTarde = 0, minTemprano = 0, salidaAnt = 0, entradas = 0, trabajadoMs = 0, pend = null;
+    arr.forEach((f) => {
+      if (f.tipo === "entrada") {
+        entradas++;
+        if (f.estado === "tarde") { tarde++; if (!f.autorizado) minTarde += Number(f.minutos_tarde) || 0; }
+        else if (f.estado === "a_horario") totalAHorario++;
+        pend = new Date(f.timestamp);
+      } else if (f.tipo === "salida") {
+        if (f.estado === "salida_anticipada") { salidaAnt++; if (!f.autorizado) minTemprano += Number(f.minutos_tarde) || 0; }
+        if (pend) { trabajadoMs += new Date(f.timestamp) - pend; pend = null; }
+      }
+    });
+    const minDesvio = minTarde + minTemprano;
+    porEmp[legajo] = { legajo: Number(legajo), nombre: e.nombre, apellido: e.apellido, sector: e.sector || "—", tarde, minTarde, minTemprano, minDesvio, salidaAnt, entradas, trabajadoMs };
+    totalTrabajadoMs += trabajadoMs; totalMinTarde += minTarde; totalMinTemprano += minTemprano;
+    totalTarde += tarde; totalEntradas += entradas; totalSalidaAnt += salidaAnt;
+    if (tarde > 0) sectorTarde[e.sector || "—"] = (sectorTarde[e.sector || "—"] || 0) + tarde;
+  });
+  const lista = Object.values(porEmp);
+  const masTarde = lista.filter((x) => x.tarde > 0).sort((a, b) => b.tarde - a.tarde || b.minDesvio - a.minDesvio || a.apellido.localeCompare(b.apellido)).slice(0, 20);
+  const menosTarde = lista.filter((x) => x.entradas > 0).sort((a, b) => a.tarde - b.tarde || a.minDesvio - b.minDesvio || a.apellido.localeCompare(b.apellido)).slice(0, 20);
+  let sectorTop = null; Object.entries(sectorTarde).forEach(([s, n]) => { if (!sectorTop || n > sectorTop.n) sectorTop = { sector: s, n }; });
+  return { totalTrabajadoMs, totalMinTarde, totalMinTemprano, totalMinDesvio: totalMinTarde + totalMinTemprano, totalTarde, totalEntradas,
+    puntualidad: totalEntradas ? (totalAHorario / totalEntradas) * 100 : 0, totalSalidaAnt,
+    empleadosActivos: Object.keys(activos).length, empleadosTotal: empleados.length, sectorTop, masTarde, menosTarde };
+}
+
+/* ===================== Estado en memoria ===================== */
+const DATA = {
+  empleados: DEMO_DATA.empleados.map((e) => ({ ...e })),
+  horarios: DEMO_DATA.horarios,
+  locales: DEMO_DATA.locales,
+  sectores: DEMO_DATA.sectores.slice(),
+  config: { recargos: DEMO_DATA.recargos, feriados: DEMO_DATA.feriados },
+  fichajes: [],
+  ausencias: [],
+};
+let nextId = 1;
+
+(function generar() {
+  const G = DEMO_DATA.generador;
+  const ahora = new Date();
+  const hoy0 = new Date(ahora); hoy0.setHours(0, 0, 0, 0);
+  const inicio = new Date(ahora.getFullYear(), ahora.getMonth() - (G.mesesHistoria - 1), 1);
+  DATA.empleados.forEach((e) => {
+    const r = mulberry32(G.semilla * 1000 + e.legajo);
+    const h = DATA.horarios.find((x) => x.id === e.horario_id) || null;
+    const loc = () => (r() < G.probRemoto ? null : (e.locales_asignados[0] || "d1"));
+    const push = (tipo, ts, hor) => {
+      let est = hor ? calcularEstado(tipo, ts, hor) : { estado: "sin_turno", minutosTarde: 0 };
+      const l = loc();
+      DATA.fichajes.push({ id: nextId++, legajo: e.legajo, tipo, timestamp: ts.toISOString(), estado: est.estado, minutos_tarde: est.minutosTarde || 0,
+        local_id: l, distancia_metros: l ? 10 + Math.floor(r() * 110) : 900 + Math.floor(r() * 4000), autorizado: false });
+    };
+    // Días pasados
+    for (let d = new Date(inicio); d < hoy0; d = sumarDias(d, 1)) {
+      let bloques = bloquesDeHoy(h, d);
+      if (!h) bloques = diaISO(d) <= 5 ? [{ inicio: "08:00", fin: "16:00" }] : []; // sin turno asignado, igual ficha
+      if (!bloques.length || r() < G.probAusente) continue;
+      const tol = h ? (h.tolerancia_minutos ?? 10) : 10;
+      bloques.forEach((b) => {
+        const tarde = r() < e.tardanza;
+        const offE = tarde ? tol + 1 + Math.floor(r() * 38) : Math.floor(r() * (tol + 12)) - 12;
+        const te = new Date(d); te.setHours(0, hhmmAMinutos(b.inicio) + offE, Math.floor(r() * 60), 0);
+        push("entrada", te, h);
+        if (r() < G.probOlvidoSalida) return;
+        const ant = r() < G.probSalidaAnticipada;
+        const offS = ant ? -(tol + 1 + Math.floor(r() * 55)) : Math.floor(r() * 22);
+        const ts = new Date(d); ts.setHours(0, hhmmAMinutos(b.fin) + offS, Math.floor(r() * 60), 0);
+        push("salida", ts, h);
+      });
+    }
+    // Hoy: presentes ahora mismo (para "En vivo")
+    if (e.activo && e.legajo !== DEMO_DATA.usuarioDemo && r() < G.presentesHoy) {
+      const minDesdeCero = (ahora - hoy0) / 60000;
+      let hace = 15 + Math.floor(r() * 420);
+      if (hace > minDesdeCero - 5) hace = Math.floor(minDesdeCero * (0.3 + r() * 0.6));
+      if (hace >= 3) {
+        const te = new Date(ahora.getTime() - hace * 60000);
+        const tarde = r() < e.tardanza;
+        const l = e.locales_asignados[0] || "d1";
+        DATA.fichajes.push({ id: nextId++, legajo: e.legajo, tipo: "entrada", timestamp: te.toISOString(), estado: tarde ? "tarde" : "a_horario",
+          minutos_tarde: tarde ? 11 + Math.floor(r() * 30) : 0, local_id: l, distancia_metros: 10 + Math.floor(r() * 100), autorizado: false });
+      }
+    }
+  });
+  DATA.fichajes.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  // Ausencias
+  DEMO_DATA.ausencias.forEach((a, i) => {
+    const d = sumarDias(hoy0, a.desde), h = sumarDias(hoy0, a.desde + a.dias - 1);
+    DATA.ausencias.push({ id: i + 1, legajo: a.legajo, tipo: a.tipo, fecha_desde: fechaKey(d), fecha_hasta: fechaKey(h), motivo: a.motivo || "", estado: a.estado, resolucion: a.resolucion || "", creado: DEMO_DATA.ausencias.length - i });
+  });
+})();
+
+// Período inicial: el mes actual; si recién empieza (primeros 7 días), el anterior para que se vea con datos.
+function mesInicial() { const n = new Date(); return n.getDate() < 8 ? new Date(n.getFullYear(), n.getMonth() - 1, 1) : new Date(n.getFullYear(), n.getMonth(), 1); }
+const mover = (d, delta) => new Date(d.getFullYear(), d.getMonth() + delta, 1);
+const keyMes = (d) => `${d.getFullYear()}-${d.getMonth()}`;
+
+const S = {
+  modo: "empleado",
+  e: {
+    logueado: true, vista: "fichaje", legajoLogin: String(DEMO_DATA.usuarioDemo), modoPin: false, pinMsg: null,
+    enTurno: false, historial: [], guardando: false, msg: null, ubic: null, ubicCargando: false,
+    refEq: mesInicial(), refHist: mesInicial(), expandido: null, verif: {}, resultado: null, modoObservar: false, motivo: "", enviando: false,
+    ausTab: "mias", ausMsg: null, ausForm: { tipo: "dia_libre", desde: "", hasta: "", motivo: "" },
+  },
+  a: {
+    logueado: true, vista: "dashboard", refMes: mesInicial(), busqueda: "", mostrarNuevo: false,
+    nuevo: { legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", locales: ["", "", ""], pin: "1234" },
+    guardado: null, pinEdit: null, pinOk: null, ausFiltro: "pendiente", actualizado: new Date(),
+    rep: { alcance: "todos", sector: "", legajo: "", refMes: mesInicial(), ok: null, error: null, bajando: "" },
+  },
+};
+// Meses anteriores al de referencia ya figuran aprobados por el encargado
+for (let i = 1; i <= 8; i++) S.e.verif[keyMes(mover(mesInicial(), -i))] = { estado: "aprobado" };
+
+const empPorLegajo = (l) => DATA.empleados.find((e) => String(e.legajo) === String(l));
+const horarioDe = (e) => (e ? DATA.horarios.find((h) => String(h.id) === String(e.horario_id)) || null : null);
+const localDe = (id) => DATA.locales.find((l) => l.id === id);
+const empDemo = () => empPorLegajo(DEMO_DATA.usuarioDemo);
+const equipoDe = (legajo) => DATA.empleados.filter((e) => e.responsable_legajo === legajo && e.activo !== false).sort((a, b) => a.apellido.localeCompare(b.apellido));
+const fichajesEn = (desde, hasta, legajo) => DATA.fichajes.filter((f) => { const t = new Date(f.timestamp); return t >= desde && t <= hasta && (legajo == null || f.legajo === legajo); });
+const nombreDe = (l) => { const e = empPorLegajo(l); return e ? `${e.apellido}, ${e.nombre}` : `Legajo ${l}`; };
+
+/* ===================== UI helpers ===================== */
+let toastT = null;
+function toast(txt) {
+  const t = $("#toast"); t.innerHTML = txt; t.classList.remove("oculto");
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add("oculto"), 4200);
+}
+const AVISO = '<span class="opacity-70">🔒 En la demo esto no se envía.</span>';
+function abrirModal(html) {
+  $("#modal").innerHTML = `<div class="fixed inset-0 z-[150] bg-[#1f2d38]/40 flex items-center justify-center p-4" data-a="cerrarModalFondo">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg border border-[#e3e8ed] max-h-[85vh] overflow-auto">${html}</div></div>`;
+}
+function cerrarModal() { $("#modal").innerHTML = ""; }
+
+function logoSVG(h) {
+  return `<svg viewBox="0 0 152 60" style="height:${h}px;width:auto" role="img" aria-label="Del Sur (logo ficticio)">
+    <rect x="0" y="6" width="48" height="48" rx="12" fill="#223c7e"/>
+    <path d="M11 41 L24 17 L37 41 Z" fill="#2ba9e0"/><path d="M19 41 L28 26 L37 41 Z" fill="#ffffff" opacity=".85"/>
+    <rect x="10" y="43" width="28" height="4" rx="2" fill="#e1251b"/>
+    <text x="56" y="31" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-weight="900" font-size="18" fill="#223c7e">DEL SUR</text>
+    <text x="56" y="47" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.6" fill="#5c6b78">DISTRIBUIDORA</text></svg>`;
+}
+const selectorPeriodo = (accion, desde, extraCls, label) => `
+  <div class="${extraCls} rounded-xl p-3 flex items-center justify-between">
+    <button data-a="${accion}" data-d="-1" class="text-[#5c6b78] hover:text-[#1f2d38] px-2 text-lg" aria-label="Mes anterior">‹</button>
+    <div class="text-center"><p class="text-[10px] uppercase tracking-widest text-[#94a1ab]">Período</p><p class="text-sm font-semibold">${label || etiquetaPeriodo(desde)}</p></div>
+    <button data-a="${accion}" data-d="1" class="text-[#5c6b78] hover:text-[#1f2d38] px-2 text-lg" aria-label="Mes siguiente">›</button>
+  </div>`;
+const durDesde = (d) => { const ms = Date.now() - d; return `${Math.floor(ms / 3600000)}h ${Math.floor((ms % 3600000) / 60000)}m`; };
+
+/* ===================== APP DEL EMPLEADO ===================== */
+function vLoginEmpleado() {
+  const e = S.e;
+  return `<div class="w-full flex items-center justify-center p-4 pt-6">
+    <div class="w-full max-w-[380px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] p-6">
+      <div class="flex flex-col items-center text-center mb-6">${logoSVG(48)}
+        <h1 class="text-lg font-bold mt-3">Identificate para fichar</h1>
+        <p class="text-[#94a1ab] text-sm mt-1">Ingresá tu legajo y tu PIN</p></div>
+      <input value="${esc(e.legajoLogin)}" type="number" placeholder="Legajo" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 text-center text-lg outline-none" />
+      <input value="1234" type="password" inputmode="numeric" placeholder="PIN" class="w-full mt-3 bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 text-center text-lg tracking-[0.5em] outline-none" />
+      <p class="text-[11px] text-[#94a1ab] mt-2 text-center">Demo: cualquier legajo y PIN funcionan.</p>
+      <button data-a="loginEmp" class="w-full mt-4 py-3 rounded-xl font-bold bg-[#e1251b] text-white">Continuar</button>
+      ${!e.modoPin ? `<button data-a="modoPin" data-v="1" class="w-full mt-3 text-xs text-[#94a1ab] hover:text-[#5c6b78]">Cambiar mi PIN</button>` : `
+      <div class="mt-4 pt-4 border-t border-dashed border-[#cfd6dd]">
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Cambiar mi PIN</p>
+        <p class="text-[11px] text-[#94a1ab] mb-3">Usá el legajo de arriba. Necesitás tu PIN actual.</p>
+        <input type="password" inputmode="numeric" placeholder="PIN actual" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
+        <input type="password" inputmode="numeric" placeholder="PIN nuevo" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none mb-2" />
+        <input type="password" inputmode="numeric" placeholder="Repetir PIN nuevo" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-2.5 text-center tracking-[0.4em] outline-none" />
+        ${e.pinMsg ? `<p class="text-xs mt-2 text-[#16a34a]">${e.pinMsg}</p>` : ""}
+        <div class="flex gap-2 mt-3">
+          <button data-a="modoPin" data-v="0" class="flex-1 py-2.5 rounded-xl font-semibold text-xs bg-[#f1f4f7] border border-[#cfd6dd] text-[#5c6b78]">Volver</button>
+          <button data-a="guardarPinLogin" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-[#e1251b] text-white">Guardar PIN</button>
+        </div></div>`}
+    </div></div>`;
+}
+
+function tardanzasRecientes(legajo) {
+  const desde = sumarDias(new Date(), -30);
+  return DATA.fichajes.filter((f) => f.legajo === legajo && f.estado === "tarde" && new Date(f.timestamp) >= desde).length;
+}
+
+function vFichaje() {
+  const e = S.e, emp = empDemo(), h = horarioDe(emp);
+  const aCargo = equipoDe(emp.legajo).length;
+  const equipoIds = new Set(equipoDe(emp.legajo).map((x) => x.legajo));
+  const pend = DATA.ausencias.filter((s) => s.estado === "pendiente" && equipoIds.has(s.legajo)).length;
+  const tard = tardanzasRecientes(emp.legajo);
+  const ahora = new Date();
+  const cfg = {
+    dentro: { bg: "rgba(22,163,74,.1)", bd: "rgba(22,163,74,.4)", col: "#16a34a", ico: "✅", txt: e.ubic ? `En ${e.ubic.local.nombre} (a ${e.ubic.distancia} m)` : "" },
+  };
+  const c = e.ubicCargando || !e.ubic ? { bg: "#f1f4f7", bd: "#e3e8ed", col: "#5c6b78", ico: "📍", txt: "Obteniendo ubicación…" } : cfg[e.ubic.tipo];
+  return `<div class="w-full flex items-center justify-center p-4">
+    <div class="w-full max-w-[400px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#cfd6dd]">
+        <div><p class="text-[#5c6b78] text-xs uppercase tracking-widest">${esc(emp.apellido)}, ${esc(emp.nombre)}</p>
+          <p class="text-sm capitalize">${ahora.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" })}</p></div>
+        <button data-a="salirEmp" class="text-[#94a1ab] hover:text-[#5c6b78] text-xs">Salir</button>
+      </div>
+      ${aCargo > 0 && pend > 0 ? `<button data-a="vistaEmp" data-v="ausencias" data-tab="equipo" class="mx-6 mt-3 w-[calc(100%-3rem)] rounded-xl p-3 flex items-center gap-2 border text-left" style="background-color:rgba(242,169,0,.12);border-color:rgba(242,169,0,.5)">
+        <span>🔔</span><span class="text-xs flex-1" style="color:#b9820b">Tenés <b>${pend} solicitud${pend !== 1 ? "es" : ""} de ausencia</b> de tu equipo esperando aprobación.</span>
+        <span class="text-xs font-bold" style="color:#e1251b">Revisar ›</span></button>` : ""}
+      ${tard >= 3 ? `<div class="mx-6 mt-3 rounded-xl p-3 flex items-center gap-2 border" style="background-color:rgba(229,72,77,.1);border-color:rgba(229,72,77,.4)">
+        <span>⚠️</span><span class="text-xs text-[#e5484d]">Llevás <b>${tard} llegadas tarde</b> este período. Tené en cuenta la puntualidad.</span></div>` : ""}
+      <div class="px-6 py-6 text-center">
+        <p id="reloj" class="text-5xl font-black tabular-nums">${horaSeg(ahora)}</p>
+        <span class="inline-block mt-3 text-xs font-semibold px-3 py-1 rounded-full" style="background-color:${e.enTurno ? "rgba(61,220,132,.12)" : "#f1f4f7"};color:${e.enTurno ? "#16a34a" : "#5c6b78"}">
+          ${e.enTurno ? `EN TURNO · <span data-dur-turno>${durTurno()}</span>` : "FUERA DE TURNO"}</span>
+        ${!h ? `<p class="text-[11px] text-[#94a1ab] mt-3">Sin turno asignado</p>` : ""}
+      </div>
+      ${e.msg ? `<p class="mx-6 mb-3 text-xs text-center font-semibold ${e.msg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}">${esc(e.msg.texto)}</p>` : ""}
+      <div class="px-6 pb-3">
+        <div class="rounded-xl p-3 flex items-center gap-2 border" style="background-color:${c.bg};border-color:${c.bd}">
+          <span>${c.ico}</span><span class="text-xs flex-1" style="color:${c.col}">${esc(c.txt)}</span>
+          ${!e.ubicCargando ? `<button data-a="ubicar" class="text-[11px] text-[#5c6b78] hover:text-[#1f2d38]" title="Actualizar">↻</button>` : ""}
+        </div>
+        <p class="text-[10px] text-[#94a1ab] mt-1 text-center">Demo: la ubicación GPS es simulada.</p>
+      </div>
+      <div class="px-6 pb-3">
+        <button data-a="fichar" ${e.guardando ? "disabled" : ""} class="w-full py-4 rounded-xl font-bold text-base transition active:scale-[0.98] disabled:opacity-50"
+          style="background-color:${e.enTurno ? "#e5484d" : "#e1251b"};color:#fff">${e.guardando ? "Registrando…" : e.enTurno ? "FICHAR SALIDA" : "FICHAR ENTRADA"}</button>
+      </div>
+      ${aCargo > 0 ? `<div class="px-6 pb-3"><button data-a="vistaEmp" data-v="equipo" class="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">👥 Revisar mi equipo (${aCargo})</button></div>` : ""}
+      <div class="px-6 pb-3"><button data-a="vistaEmp" data-v="historial" class="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">📋 Mi historial</button></div>
+      <div class="px-6 pb-3"><button data-a="vistaEmp" data-v="ausencias" data-tab="mias" class="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#e3e8ed] hover:border-[#cfd6dd]">📅 Ausencias / días libres</button></div>
+      <div class="px-6 pb-6">
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Cartilla de hoy</p>
+        ${e.historial.length === 0 ? `<p class="text-[#94a1ab] text-sm italic">Todavía no fichaste ningún movimiento.</p>` : `<div class="space-y-1">
+          ${e.historial.map((r) => `<div class="flex items-center justify-between text-sm py-1.5 border-b border-[#f1f4f7] last:border-0">
+            <span>${r.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span><span class="text-[#5c6b78] tabular-nums">${hora(r.hora)}</span></div>`).join("")}</div>`}
+      </div>
+    </div></div>`;
+}
+function durTurno() {
+  const ent = S.e.historial.find((h) => h.tipo === "entrada");
+  if (!S.e.enTurno || !ent) return "0h 0m";
+  return durDesde(ent.hora);
+}
+
+function vHistorial() {
+  const emp = empDemo();
+  const { desde, hasta } = calcularPeriodo(S.e.refHist);
+  const fs = fichajesEn(desde, hasta, emp.legajo).slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const porDia = {};
+  fs.forEach((f) => { const dia = new Date(f.timestamp).toLocaleDateString("es-AR", { weekday: "short", day: "2-digit", month: "2-digit" }); (porDia[dia] = porDia[dia] || []).push(f); });
+  const tarde = fs.filter((f) => f.estado === "tarde").length;
+  const fmt = (d) => d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+  return `<div class="w-full flex items-start justify-center p-4">
+    <div class="w-full max-w-[420px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#cfd6dd]">
+        <div><p class="text-sm font-bold">Mi historial</p><p class="text-[#94a1ab] text-xs">${esc(emp.apellido)}, ${esc(emp.nombre)}</p></div>
+        <button data-a="vistaEmp" data-v="fichaje" class="text-[#94a1ab] hover:text-[#5c6b78] text-xl leading-none" aria-label="Volver">×</button>
+      </div>
+      ${selectorPeriodo("mesHist", desde, "mx-6 mt-4 mb-3 bg-[#f1f4f7] border border-[#e3e8ed]", `${fmt(desde)} al ${fmt(hasta)}`)}
+      <div class="px-6 pb-6">
+        ${fs.length === 0 ? `<p class="text-[#94a1ab] text-sm text-center py-8 italic">No hay fichadas en este período.</p>` : `
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-3">${fs.length} fichada${fs.length !== 1 ? "s" : ""}${tarde > 0 ? `<span class="text-[#e5484d]"> · ${tarde} tarde</span>` : ""}</p>
+        <div class="space-y-3">${Object.keys(porDia).map((dia) => `<div>
+          <p class="text-[11px] font-semibold text-[#5c6b78] capitalize mb-1">${dia}</p>
+          <div class="rounded-xl bg-[#f1f4f7] border border-[#e3e8ed] divide-y divide-[#e3e8ed]">
+            ${porDia[dia].map((f) => `<div class="flex items-center justify-between px-3 py-2 text-sm">
+              <span>${f.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span>
+              <span class="flex items-center gap-2">
+                ${f.estado === "tarde" ? `<span class="text-[10px] text-[#e5484d] font-semibold">+${f.minutos_tarde || 0}m</span>` : ""}
+                ${f.estado === "salida_anticipada" ? `<span class="text-[10px] text-[#e1251b] font-semibold">-${f.minutos_tarde || 0}m</span>` : ""}
+                <span class="text-[#5c6b78] tabular-nums">${hora(new Date(f.timestamp))}</span></span></div>`).join("")}
+          </div></div>`).join("")}</div>`}
+      </div></div></div>`;
+}
+
+const chip = (label, valor, color) => `<span class="inline-flex items-center gap-1 text-[10px] rounded-md px-1.5 py-0.5" style="background-color:rgba(0,0,0,0.05);color:${color}"><span class="opacity-70">${label}</span><b>${valor}</b></span>`;
+
+function equipoCumpl() {
+  const emp = empDemo();
+  const { desde, hasta } = calcularPeriodo(S.e.refEq);
+  return equipoDe(emp.legajo).map((m) => {
+    const fichajes = fichajesEn(desde, hasta, m.legajo);
+    return { ...m, fichajes, cumpl: computarCumplimiento(fichajes, horarioDe(m), desde, hasta, DATA.config) };
+  });
+}
+
+function vEquipo() {
+  const e = S.e, emp = empDemo();
+  const { desde } = calcularPeriodo(e.refEq);
+  const eq = equipoCumpl();
+  const verif = e.verif[keyMes(e.refEq)] || null;
+  const totalMov = eq.reduce((n, m) => n + m.fichajes.length, 0);
+  return `<div class="w-full flex items-start justify-center p-4">
+    <div class="w-full max-w-[420px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#cfd6dd]">
+        <div><p class="text-sm font-bold">👥 Mi equipo</p><p class="text-[#94a1ab] text-xs">${esc(emp.apellido)}, ${esc(emp.nombre)}</p></div>
+        <button data-a="vistaEmp" data-v="fichaje" class="text-[#94a1ab] hover:text-[#5c6b78] text-xl leading-none" aria-label="Volver">×</button>
+      </div>
+      ${selectorPeriodo("mesEq", desde, "mx-6 mt-4 mb-3 bg-[#f1f4f7] border border-[#e3e8ed]")}
+      ${verif && !e.resultado ? `<div class="mx-6 mb-3 rounded-xl p-3 flex items-start gap-2 border" style="background-color:${verif.estado === "observado" ? "rgba(225,37,27,.1)" : "rgba(61,220,132,.1)"};border-color:${verif.estado === "observado" ? "rgba(225,37,27,.4)" : "rgba(61,220,132,.3)"}">
+        <span>${verif.estado === "observado" ? "⚠️" : "✓"}</span><div class="text-xs">
+        ${verif.estado === "observado" ? `<span class="text-[#e1251b] font-semibold">Observado — enviado al admin.</span>${verif.motivo ? `<p class="text-[#5c6b78] mt-1 whitespace-pre-line">Motivo: ${esc(verif.motivo)}</p>` : ""}`
+          : `<span class="text-[#16a34a] font-semibold">Este período ya fue aprobado.</span>`}</div></div>` : ""}
+      <div class="px-6 pb-4">
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">${eq.length} persona${eq.length !== 1 ? "s" : ""} · ${totalMov} fichada${totalMov !== 1 ? "s" : ""}</p>
+        <div class="space-y-2">${eq.map((m) => {
+          const abierto = e.expandido === m.legajo, c = m.cumpl;
+          const alerta = c.sinRegistro > 0 || c.sinEntrada > 0 || c.sinSalida > 0 || c.descuentoMin > 0;
+          const lista = m.fichajes.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+          return `<div class="rounded-xl bg-[#f1f4f7] border border-[#e3e8ed] overflow-hidden">
+            <button data-a="expandir" data-leg="${m.legajo}" class="w-full px-3 py-2.5 flex items-center justify-between text-left">
+              <div class="min-w-0"><p class="text-sm font-medium truncate">${esc(m.apellido)}, ${esc(m.nombre)}</p><p class="text-[11px] text-[#94a1ab]">${esc(m.sector || "Sin sector")}</p></div>
+              <span class="text-[#94a1ab] text-xs">${abierto ? "▲" : "▼"}</span></button>
+            <div class="px-3 pb-2 flex flex-wrap gap-1.5">
+              ${c.sinTurno ? `<span class="text-[10px] text-[#94a1ab] italic">Sin turno asignado</span>` : `${chip("Trab.", c.diasTrabajados, "#16a34a")}
+                ${c.sinRegistro > 0 ? chip("Sin registro", c.sinRegistro, "#e5484d") : ""}${c.sinEntrada > 0 ? chip("Sin entrada", c.sinEntrada, "#e5484d") : ""}${c.sinSalida > 0 ? chip("Sin salida", c.sinSalida, "#e1251b") : ""}`}
+              ${c.trabajadoMin > 0 ? chip("Trabajó", minAHoras(c.trabajadoMin), "#5c6b78") : ""}
+              ${c.descuentoMin > 0 ? chip("Descuento", c.descuentoMin + "m", "#e5484d") : ""}
+              ${c.horas50Min > 0 ? chip("50%", minAHoras(c.horas50Min), "#2ba9e0") : ""}
+              ${c.horas100Min > 0 ? chip("100%", minAHoras(c.horas100Min), "#e5484d") : ""}
+              ${!alerta && !c.sinTurno ? chip("OK", "✓", "#16a34a") : ""}
+            </div>
+            ${abierto ? `<div class="px-3 pb-2.5 border-t border-[#e3e8ed] max-h-[320px] overflow-y-auto">
+              ${lista.length === 0 ? `<p class="text-[11px] text-[#94a1ab] italic py-2">Sin fichadas en el período.</p>` : lista.map((f) => {
+                const justif = f.estado === "tarde" || f.estado === "salida_anticipada";
+                return `<div class="flex items-center justify-between py-1.5 text-xs gap-2">
+                  <span class="shrink-0">${f.tipo === "entrada" ? "🟢 Entrada" : "🔴 Salida"}</span>
+                  ${justif ? (f.autorizado
+                    ? `<button data-a="justificar" data-id="${f.id}" data-v="0" class="text-[10px] px-1.5 py-0.5 rounded font-semibold" style="background-color:rgba(22,163,74,.12);color:#16a34a">✓ justificada</button>`
+                    : `<button data-a="justificar" data-id="${f.id}" data-v="1" class="text-[10px] px-1.5 py-0.5 rounded border border-[#cfd6dd] text-[#5c6b78]">justificar</button>`) : ""}
+                  ${justif ? `<span class="text-[10px] ${f.estado === "tarde" ? "text-[#e5484d]" : "text-[#e1251b]"}">${f.estado === "tarde" ? "+" : "-"}${f.minutos_tarde}m</span>` : ""}
+                  <span class="text-[11px] text-[#5c6b78] tabular-nums ml-auto shrink-0">${new Date(f.timestamp).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })}</span></div>`;
+              }).join("")}</div>` : ""}
+          </div>`; }).join("")}</div>
+      </div>
+      ${e.resultado ? `<p class="mx-6 mb-3 text-xs text-center font-semibold ${e.resultado.ok ? "text-[#16a34a]" : "text-[#e5484d]"}">${e.resultado.texto}</p>` : ""}
+      ${eq.length > 0 && !verif ? `<div class="px-6 pb-6">${!e.modoObservar ? `<div class="space-y-2">
+          <button data-a="aprobar" ${e.enviando ? "disabled" : ""} class="w-full py-4 rounded-xl font-bold text-base transition active:scale-[0.98] disabled:opacity-40" style="background-color:#16a34a;color:#fff">${e.enviando ? "ENVIANDO…" : "✓ APROBAR Y AVISAR A RR.HH."}</button>
+          <button data-a="observarModo" ${e.enviando ? "disabled" : ""} class="w-full py-3 rounded-xl font-semibold text-sm bg-[#f1f4f7] border border-[#cfd6dd] text-[#e1251b] disabled:opacity-40">⚠️ No aprobar (marcar observación)</button></div>`
+        : `<div class="rounded-xl bg-[#f1f4f7] border border-[#cfd6dd] p-3">
+          <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Motivo de la observación</p>
+          <textarea id="motivoObs" rows="5" class="w-full bg-[#ffffff] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none resize-none">${esc(e.motivo)}</textarea>
+          <div class="flex gap-2 mt-3">
+            <button data-a="observarVolver" class="flex-1 py-2.5 rounded-xl font-semibold text-xs bg-[#ffffff] border border-[#cfd6dd] text-[#5c6b78]">Volver</button>
+            <button data-a="observar" ${e.enviando ? "disabled" : ""} class="flex-[2] py-2.5 rounded-xl font-bold text-xs disabled:opacity-40" style="background-color:#e1251b;color:#fff">${e.enviando ? "…" : "Enviar observación al admin"}</button></div></div>`}</div>` : ""}
+    </div></div>`;
+}
+
+const TIPOS = { dia_libre: "Día libre", ausencia: "Ausencia", vacaciones: "Vacaciones", otro: "Otro" };
+const fechaCorta = (f, anio) => (f ? new Date(f + "T00:00:00").toLocaleDateString("es-AR", anio ? { day: "2-digit", month: "2-digit", year: "2-digit" } : { day: "2-digit", month: "2-digit" }) : "");
+const badge = (estado) => ({ pendiente: ["#f2a900", "rgba(242,169,0,.12)", "Pendiente"], aprobada: ["#16a34a", "rgba(22,163,74,.12)", "Aprobada"], rechazada: ["#e5484d", "rgba(229,72,77,.12)", "Rechazada"] }[estado] || ["#f2a900", "rgba(242,169,0,.12)", "Pendiente"]);
+const rango = (s, anio) => `${fechaCorta(s.fecha_desde, anio)}${s.fecha_hasta !== s.fecha_desde ? ` al ${fechaCorta(s.fecha_hasta, anio)}` : ""}`;
+
+function vAusenciasEmp() {
+  const e = S.e, emp = empDemo();
+  const ids = new Set(equipoDe(emp.legajo).map((x) => x.legajo));
+  const esJefe = ids.size > 0;
+  const mias = DATA.ausencias.filter((s) => s.legajo === emp.legajo).sort((a, b) => b.creado - a.creado);
+  const equipo = DATA.ausencias.filter((s) => ids.has(s.legajo)).sort((a, b) => b.creado - a.creado);
+  const pendEq = equipo.filter((s) => s.estado === "pendiente").length;
+  const f = e.ausForm;
+  return `<div class="w-full flex items-start justify-center p-4">
+    <div class="w-full max-w-[440px] bg-white rounded-[28px] shadow-lg border border-[#e3e8ed] overflow-hidden">
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-dashed border-[#cfd6dd]">
+        <div><p class="text-sm font-bold">📅 Ausencias</p><p class="text-[#94a1ab] text-xs">${esc(emp.apellido)}, ${esc(emp.nombre)}</p></div>
+        <button data-a="vistaEmp" data-v="fichaje" class="text-[#94a1ab] hover:text-[#1f2d38] text-xl leading-none" aria-label="Volver">×</button>
+      </div>
+      ${esJefe ? `<div class="flex border-b border-[#e3e8ed]">${[["mias", "Mis solicitudes"], ["equipo", `Mi equipo${pendEq ? ` (${pendEq})` : ""}`]].map(([id, label]) =>
+        `<button data-a="ausTab" data-v="${id}" class="flex-1 py-2.5 text-sm font-semibold" style="color:${e.ausTab === id ? "#e1251b" : "#94a1ab"};border-bottom:2px solid ${e.ausTab === id ? "#e1251b" : "transparent"}">${label}</button>`).join("")}</div>` : ""}
+      <div class="px-6 py-4">
+      ${e.ausTab === "mias" ? `
+        <div class="bg-[#f1f4f7] border border-[#e3e8ed] rounded-xl p-3 mb-4">
+          <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Pedir ausencia / día libre</p>
+          <select data-in="ausForm.tipo" class="w-full bg-white border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mb-2">
+            ${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}" ${f.tipo === k ? "selected" : ""}>${v}</option>`).join("")}</select>
+          <div class="flex gap-2 mb-2">
+            <div class="flex-1"><label class="text-[10px] text-[#94a1ab]">Desde</label><input type="date" data-in="ausForm.desde" value="${f.desde}" class="w-full bg-white border border-[#cfd6dd] rounded-lg px-2 py-2 text-sm outline-none" /></div>
+            <div class="flex-1"><label class="text-[10px] text-[#94a1ab]">Hasta</label><input type="date" data-in="ausForm.hasta" value="${f.hasta}" class="w-full bg-white border border-[#cfd6dd] rounded-lg px-2 py-2 text-sm outline-none" /></div>
+          </div>
+          <textarea data-in="ausForm.motivo" rows="2" placeholder="Motivo (opcional)" class="w-full bg-white border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none resize-none">${esc(f.motivo)}</textarea>
+          ${e.ausMsg ? `<p class="text-xs mt-2 ${e.ausMsg.ok ? "text-[#16a34a]" : "text-[#e5484d]"}">${e.ausMsg.t}</p>` : ""}
+          <button data-a="pedirAusencia" class="w-full mt-2 py-2.5 rounded-lg font-bold text-sm bg-[#e1251b] text-white">Enviar solicitud</button>
+        </div>
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Mis solicitudes</p>
+        ${mias.length === 0 ? `<p class="text-[#94a1ab] text-sm italic">Todavía no hiciste ninguna.</p>` : `<div class="space-y-2">${mias.map((s) => { const [col, bg, txt] = badge(s.estado); return `
+          <div class="border border-[#e3e8ed] rounded-lg p-2.5">
+            <div class="flex items-center justify-between gap-2"><span class="text-sm font-medium">${TIPOS[s.tipo]} · ${rango(s)}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="color:${col};background-color:${bg}">${txt}</span></div>
+            ${s.motivo ? `<p class="text-xs text-[#94a1ab] mt-1">${esc(s.motivo)}</p>` : ""}
+            ${s.resolucion ? `<p class="text-xs text-[#e5484d] mt-1">Nota: ${esc(s.resolucion)}</p>` : ""}</div>`; }).join("")}</div>`}
+      ` : `
+        <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Solicitudes de mi equipo</p>
+        ${equipo.length === 0 ? `<p class="text-[#94a1ab] text-sm italic">No hay solicitudes.</p>` : `<div class="space-y-2">${equipo.map((s) => { const [col, bg, txt] = badge(s.estado); return `
+          <div class="border border-[#e3e8ed] rounded-lg p-3">
+            <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">${esc(nombreDe(s.legajo))}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded" style="color:${col};background-color:${bg}">${txt}</span></div>
+            <p class="text-xs">${TIPOS[s.tipo]} · ${rango(s)}</p>
+            ${s.motivo ? `<p class="text-xs text-[#94a1ab] mt-1">${esc(s.motivo)}</p>` : ""}
+            ${s.resolucion ? `<p class="text-xs text-[#e5484d] mt-1">Nota: ${esc(s.resolucion)}</p>` : ""}
+            ${s.estado === "pendiente" ? `<div class="flex gap-2 mt-2">
+              <button data-a="rechazarAus" data-id="${s.id}" class="flex-1 py-2 rounded-lg text-xs font-bold border border-[#e5484d]/50 text-[#e5484d]">Rechazar</button>
+              <button data-a="aprobarAus" data-id="${s.id}" class="flex-1 py-2 rounded-lg text-xs font-bold bg-[#16a34a] text-white">Aprobar</button></div>` : ""}
+          </div>`; }).join("")}</div>`}
+      `}</div></div></div>`;
+}
+
+/* ===================== PANEL RR.HH. ===================== */
+const TABS = [
+  { id: "dashboard", label: "Dashboard" }, { id: "presentismo", label: "En vivo" }, { id: "empleados", label: "Empleados" },
+  { id: "plantillas", label: "Horarios" }, { id: "sectores", label: "Sectores" }, { id: "depositos", label: "Depósitos" },
+  { id: "fichadas", label: "Corrección" }, { id: "reportes", label: "Reportes" }, { id: "dispositivos", label: "Dispositivos" },
+  { id: "aprobaciones", label: "Aprobaciones" }, { id: "ausencias", label: "Ausencias" }, { id: "auditoria", label: "Auditoría" },
+  { id: "config", label: "Configuración" },
+];
+const VERSION_COMPLETA = {
+  plantillas: ["🕒", "Horarios de turnos", "Armado de turnos por bloques: turnos partidos, sábados y tolerancia en minutos. Cada empleado tiene su turno y el sistema calcula solo si llegó a horario, tarde o se retiró antes."],
+  sectores: ["🏷️", "Sectores", "Alta, renombre y baja de sectores para agrupar al personal y filtrar reportes y rankings."],
+  depositos: ["📍", "Depósitos / sucursales", "Cada depósito tiene su ubicación GPS y un radio en metros: al fichar se valida si el empleado está dentro o fuera."],
+  fichadas: ["✎", "Corrección de fichadas", "RR.HH. puede agregar, editar o borrar fichadas de un empleado y recalcular los estados del período con los horarios actuales."],
+  dispositivos: ["📱", "Dispositivos", "Control antifraude: detecta celulares usados por más de una persona, empleados con varios aparatos y fichajes remotos fuera de un depósito."],
+  aprobaciones: ["✓", "Aprobaciones", "Observaciones que los encargados marcaron al cerrar el período, para que RR.HH. las apruebe o rechace con un comentario."],
+  auditoria: ["🗂️", "Auditoría de cambios", "Registro de cada cambio hecho en el panel: quién lo hizo, qué cambió y cuándo."],
+  config: ["⚙️", "Configuración", "Reglas de recargo de horas (50% / 100%) por día y franja horaria, y calendario de feriados."],
+};
+
+function vLoginAdmin() {
+  return `<div class="w-full flex items-center justify-center p-4 pt-6">
+    <div class="w-full max-w-[380px] bg-[#ffffff] rounded-[28px] shadow-lg border border-[#e3e8ed] p-6">
+      <div class="flex flex-col items-center text-center mb-6">${logoSVG(48)}
+        <h1 class="text-lg font-bold mt-3">Panel de RR.HH.</h1><p class="text-[#94a1ab] text-sm mt-1">Acceso solo para personal autorizado</p></div>
+      <input value="${DEMO_DATA.empresa.emailAdmin}" type="email" placeholder="Email" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 outline-none" />
+      <input value="demo1234" type="password" placeholder="Contraseña" class="w-full mt-3 bg-[#f1f4f7] border border-[#cfd6dd] rounded-xl px-4 py-3 outline-none" />
+      <p class="text-[11px] text-[#94a1ab] mt-2 text-center">Demo: cualquier email y contraseña funcionan.</p>
+      <button data-a="loginAdmin" class="w-full mt-4 py-3 rounded-xl font-bold bg-[#e1251b] text-white">Entrar</button>
+    </div></div>`;
+}
+
+function vAdmin() {
+  const a = S.a;
+  const contenido = { dashboard: vDashboard, presentismo: vPresentismo, empleados: vEmpleados, reportes: vReportes, ausencias: vAusenciasAdmin }[a.vista];
+  return `<div class="w-full"><div class="max-w-6xl mx-auto px-4 py-5">
+    <div class="bg-white rounded-2xl shadow-md border border-[#e3e8ed] overflow-hidden mb-4">
+      <div class="h-1.5 w-full" style="background:linear-gradient(90deg,#223c7e 0%,#223c7e 42%,#2ba9e0 42%,#2ba9e0 68%,#e1251b 68%,#e1251b 100%)"></div>
+      <div class="px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
+        <div class="flex items-center gap-3">${logoSVG(44)}
+          <div><h1 class="text-xl font-extrabold leading-tight" style="color:#223c7e">Gestión Fichaje</h1>
+            <p class="text-xs text-[#94a1ab]">Control de asistencia y presentismo · ${esc(DEMO_DATA.empresa.nombre)}</p></div></div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-[#5c6b78] bg-[#f1f4f7] border border-[#e3e8ed] rounded-full px-3 py-1.5 max-w-[240px] truncate">${esc(DEMO_DATA.empresa.emailAdmin)}</span>
+          <button data-a="salirAdmin" class="text-sm font-semibold text-[#5c6b78] hover:text-[#223c7e] py-1.5 px-3 rounded-lg border border-[#e3e8ed] bg-white">Salir</button></div>
+      </div></div>
+    <div class="bg-white rounded-2xl shadow-sm border border-[#e3e8ed] px-2 py-2 mb-5">
+      <div class="flex md:flex-wrap gap-1 overflow-x-auto md:overflow-visible scroll-x">
+        ${TABS.map((t) => `<button data-a="tab" data-v="${t.id}" ${a.vista === t.id ? "data-activo" : ""} class="shrink-0 whitespace-nowrap px-3.5 py-2 rounded-xl text-sm font-semibold transition-colors"
+          style="background-color:${a.vista === t.id ? "#e1251b" : "transparent"};color:${a.vista === t.id ? "#ffffff" : "#5c6b78"}">${t.label}${VERSION_COMPLETA[t.id] ? '<span class="opacity-50"> 🔒</span>' : ""}</button>`).join("")}
+      </div></div>
+    <div id="admin-contenido">${contenido ? contenido() : vVersionCompleta(a.vista)}</div>
+  </div></div>`;
+}
+
+function vVersionCompleta(id) {
+  const [ico, titulo, desc] = VERSION_COMPLETA[id];
+  return `<div class="max-w-xl bg-white border border-[#e3e8ed] rounded-2xl p-6 shadow-sm">
+    <p class="text-3xl mb-3">${ico}</p>
+    <h2 class="text-base font-bold mb-1">${titulo}</h2>
+    <p class="text-sm text-[#5c6b78] mb-4">${desc}</p>
+    <div class="rounded-xl p-3 text-sm border mb-4" style="background-color:rgba(43,169,224,.1);border-color:rgba(43,169,224,.4);color:#1f6f96">🔒 Disponible en la versión completa.</div>
+    <div class="flex gap-2 flex-wrap">
+      <button data-a="tab" data-v="dashboard" class="px-4 py-2 rounded-lg text-sm font-semibold bg-[#f1f4f7] border border-[#cfd6dd] text-[#5c6b78]">← Volver al Dashboard</button>
+      <a href="https://wa.me/5492975212008" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg text-sm font-bold bg-[#e1251b] text-white">Quiero uno así</a>
+    </div></div>`;
+}
+
+function ranking(titulo, color, filas, vacio) {
+  return `<div class="bg-[#ffffff] border border-[#e3e8ed] rounded-xl overflow-hidden">
+    <div class="px-4 py-3 border-b border-[#e3e8ed]"><p class="text-sm font-bold" style="color:${color}">${titulo}</p></div>
+    ${filas.length === 0 ? `<p class="text-[#94a1ab] text-xs italic px-4 py-6 text-center">${vacio}</p>` : `<div class="divide-y divide-[#f1f4f7]">
+      ${filas.map((f, i) => `<div class="px-4 py-2.5 flex items-center gap-3">
+        <span class="w-5 text-xs font-bold tabular-nums text-[#94a1ab]">${i + 1}</span>
+        <div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">${esc(f.apellido)}, ${esc(f.nombre)}</p><p class="text-[10px] text-[#94a1ab]">${esc(f.sector)} · leg. ${f.legajo}</p></div>
+        <div class="text-right shrink-0"><p class="text-sm font-bold tabular-nums" style="color:${color}">${f.tarde}</p><p class="text-[10px] text-[#94a1ab]">${f.minDesvio > 0 ? `${f.minDesvio} min` : "—"}</p></div>
+      </div>`).join("")}</div>`}</div>`;
+}
+
+function vDashboard() {
+  const { desde, hasta } = calcularPeriodo(S.a.refMes);
+  const d = computarDashboard(fichajesEn(desde, hasta), DATA.empleados);
+  const kpis = [
+    { label: "Horas trabajadas", valor: formatHoras(d.totalTrabajadoMs), color: "#16a34a" },
+    { label: "Tiempo perdido (tarde+salidas)", valor: formatHoras(d.totalMinDesvio * 60000), color: "#e5484d", small: true },
+    { label: "Puntualidad", valor: `${d.puntualidad.toFixed(0)}%`, color: "#223c7e" },
+    { label: "Llegadas tarde", valor: String(d.totalTarde), color: "#e5484d" },
+    { label: "Salidas anticipadas", valor: String(d.totalSalidaAnt), color: "#223c7e" },
+    { label: "Min. tarde / temprano", valor: `${d.totalMinTarde} / ${d.totalMinTemprano}`, color: "#2ba9e0", small: true },
+    { label: "Empleados activos", valor: `${d.empleadosActivos}/${d.empleadosTotal}`, color: "#1f2d38" },
+    { label: "Sector + tardanzas", valor: d.sectorTop ? d.sectorTop.sector : "—", color: "#1f2d38", small: true },
+  ];
+  const trab = d.totalTrabajadoMs / 60000, perd = d.totalMinDesvio, tot = trab + perd || 1, p = (trab / tot) * 100;
+  return `<div>
+    ${selectorPeriodo("mesDash", desde, "max-w-[280px] bg-[#ffffff] border border-[#e3e8ed] mb-5")}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      ${kpis.map((k) => `<div class="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4">
+        <p class="text-[10px] uppercase tracking-wider text-[#94a1ab] mb-1">${k.label}</p>
+        <p class="${k.small ? "text-base font-bold" : "text-2xl font-black"}" style="color:${k.color}">${k.valor}</p></div>`).join("")}
+    </div>
+    <div class="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4 mb-6">
+      <p class="text-xs text-[#5c6b78] mb-2 font-semibold">Trabajado vs. tiempo perdido (empresa)</p>
+      <div class="w-full h-4 rounded-full overflow-hidden flex bg-[#f1f4f7]"><div style="width:${p}%;background-color:#16a34a"></div><div style="width:${trab || perd ? 100 - p : 0}%;background-color:#e5484d"></div></div>
+      <div class="flex justify-between mt-2 text-[11px]"><span class="text-[#16a34a]">${formatHoras(d.totalTrabajadoMs)} trabajadas</span><span class="text-[#e5484d]">${formatHoras(perd * 60000)} perdidas</span></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      ${ranking("Top 20 · Más llegadas tarde", "#e5484d", d.masTarde, "No hubo llegadas tarde en el período.")}
+      ${ranking("Top 20 · Más puntuales", "#16a34a", d.menosTarde, "Sin datos de fichadas en el período.")}
+    </div></div>`;
+}
+
+function vPresentismo() {
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const ultimo = {};
+  DATA.fichajes.forEach((f) => { if (new Date(f.timestamp) >= hoy) ultimo[f.legajo] = f; });
+  const dentro = Object.values(ultimo).filter((f) => f.tipo === "entrada" && (empPorLegajo(f.legajo) || {}).activo !== false)
+    .map((f) => { const e = empPorLegajo(f.legajo) || {}; return { legajo: f.legajo, nombre: e.nombre, apellido: e.apellido, sector: e.sector || "Sin sector", desde: new Date(f.timestamp) }; })
+    .sort((a, b) => a.apellido.localeCompare(b.apellido));
+  const porSector = {}; dentro.forEach((d) => (porSector[d.sector] = porSector[d.sector] || []).push(d));
+  return `<div class="max-w-2xl">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div><h2 class="text-base font-bold">Presentismo en vivo</h2>
+        <p class="text-[#94a1ab] text-xs">${dentro.length} persona${dentro.length !== 1 ? "s" : ""} fichada${dentro.length !== 1 ? "s" : ""} ahora · ${hora(S.a.actualizado)}</p></div>
+      <button data-a="actualizarVivo" class="text-xs px-3 py-1.5 rounded-lg border border-[#e3e8ed] bg-white text-[#5c6b78]">↻ Actualizar</button>
+    </div>
+    ${dentro.length === 0 ? `<div class="bg-white border border-[#e3e8ed] rounded-xl px-4 py-10 text-center shadow-sm"><p class="text-2xl mb-2">🌙</p><p class="text-[#94a1ab] text-sm">No hay nadie fichado en este momento.</p></div>` : `
+    <div class="space-y-4">${Object.keys(porSector).sort().map((sector) => `
+      <div class="bg-white border border-[#e3e8ed] rounded-xl overflow-hidden shadow-sm">
+        <div class="px-4 py-2 border-b border-[#e3e8ed] flex items-center justify-between bg-[#f1f4f7]">
+          <p class="text-xs font-bold uppercase tracking-wide text-[#5c6b78]">${esc(sector)}</p><span class="text-xs text-[#94a1ab]">${porSector[sector].length}</span></div>
+        <div class="divide-y divide-[#f1f4f7]">${porSector[sector].map((d) => `
+          <div class="px-4 py-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 shrink-0 rounded-full bg-[#16a34a]"></span>
+              <p class="text-sm truncate">${esc(d.apellido)}, ${esc(d.nombre)} <span class="text-[#94a1ab] text-xs">· leg. ${d.legajo}</span></p></div>
+            <div class="text-right shrink-0"><p class="text-xs font-semibold text-[#16a34a] tabular-nums" data-desde="${d.desde.getTime()}">${durDesde(d.desde)}</p>
+              <p class="text-[10px] text-[#94a1ab]">desde ${hora(d.desde)}</p></div>
+          </div>`).join("")}</div></div>`).join("")}</div>`}
+  </div>`;
+}
+
+const selCls = "bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-xs outline-none";
+function vEmpleados() {
+  const a = S.a, n = a.nuevo;
+  const inp = (campo, label, tipo) => `<div><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">${label}</label>
+    <input data-in="nuevo.${campo}" value="${esc(n[campo])}" ${tipo ? `type="${tipo}"` : ""} class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1" /></div>`;
+  return `<div>
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <input id="buscar" data-in="busqueda" value="${esc(a.busqueda)}" placeholder="Buscar empleado…" class="max-w-sm flex-1 min-w-[180px] bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none" />
+      <button data-a="toggleNuevo" class="px-3 py-2 rounded-lg text-sm font-bold bg-[#223c7e] text-white">${a.mostrarNuevo ? "Cancelar" : "+ Nuevo empleado"}</button>
+    </div>
+    ${a.mostrarNuevo ? `<div class="bg-white border border-[#e3e8ed] rounded-xl p-4 mb-5 shadow-lg">
+      <p class="text-sm font-bold mb-3">Nuevo empleado</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        ${inp("legajo", "Legajo *", "number")}${inp("apellido", "Apellido *")}${inp("nombre", "Nombre *")}
+        <div><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Sector</label>
+          <select data-in="nuevo.sector" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1"><option value="">—</option>
+          ${DATA.sectores.map((s) => `<option ${n.sector === s ? "selected" : ""}>${s}</option>`).join("")}</select></div>
+        <div><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Turno</label>
+          <select data-in="nuevo.horario_id" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1"><option value="">—</option>
+          ${DATA.horarios.map((h) => `<option value="${h.id}" ${n.horario_id === h.id ? "selected" : ""}>${h.nombre}</option>`).join("")}</select></div>
+        <div><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósitos / sucursales (hasta 3)</label>
+          ${[0, 1, 2].map((i) => `<select data-in="nuevo.locales.${i}" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1">
+            <option value="">${i === 0 ? "— Más cercano —" : "— (ninguno) —"}</option>${DATA.locales.map((l) => `<option value="${l.id}" ${n.locales[i] === l.id ? "selected" : ""}>${l.nombre}</option>`).join("")}</select>`).join("")}</div>
+        <div><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Responsable</label>
+          <select data-in="nuevo.responsable_legajo" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-2 text-sm outline-none mt-1"><option value="">—</option>
+          ${DATA.empleados.slice().sort((x, y) => x.apellido.localeCompare(y.apellido)).map((r) => `<option value="${r.legajo}" ${String(n.responsable_legajo) === String(r.legajo) ? "selected" : ""}>${esc(r.apellido)}, ${esc(r.nombre)}</option>`).join("")}</select></div>
+        ${inp("pin", "PIN inicial")}
+      </div>
+      <button data-a="crearEmpleado" class="mt-4 w-full py-2.5 rounded-lg font-bold text-sm bg-[#16a34a] text-white">Crear empleado</button>
+    </div>` : ""}
+    <div id="emp-lista" class="space-y-3">${listaEmpleadosHTML()}</div></div>`;
+}
+
+function listaEmpleadosHTML() {
+  const a = S.a, q = a.busqueda.toLowerCase();
+  const todos = DATA.empleados.slice().sort((x, y) => x.apellido.localeCompare(y.apellido));
+  const lista = todos.filter((e) => `${e.apellido} ${e.nombre} ${e.legajo} ${e.sector || ""}`.toLowerCase().includes(q));
+  if (!lista.length) return `<p class="text-[#94a1ab] text-sm italic">No se encontraron empleados.</p>`;
+  return lista.map((e) => {
+    const act = e.activo !== false, locs = e.locales_asignados || [];
+    return `<div class="bg-[#ffffff] border border-[#e3e8ed] rounded-xl p-4 flex items-start gap-4 flex-wrap" style="opacity:${act ? 1 : 0.55}">
+      <div class="min-w-[160px]">
+        <p class="text-sm font-semibold">${esc(e.apellido)}, ${esc(e.nombre)}</p>
+        <p class="text-[11px] text-[#94a1ab]">Legajo ${e.legajo}</p>
+        <button data-a="toggleActivo" data-leg="${e.legajo}" class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold border"
+          style="background-color:${act ? "rgba(61,220,132,.12)" : "rgba(90,101,120,.15)"};color:${act ? "#16a34a" : "#5c6b78"};border-color:${act ? "rgba(61,220,132,.4)" : "#cfd6dd"}">${act ? "● Activo" : "○ Inactivo"}</button>
+        ${a.pinEdit === e.legajo ? `<div class="flex items-center gap-1 mt-2">
+            <input id="pinNuevo" inputmode="numeric" placeholder="PIN nuevo" class="w-24 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2 py-1 text-xs outline-none" />
+            <button data-a="guardarPin" data-leg="${e.legajo}" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#223c7e] text-white">OK</button>
+            <button data-a="cancelarPin" class="px-1.5 py-1 text-[11px] text-[#5c6b78]">✕</button></div>`
+          : `<button data-a="editarPin" data-leg="${e.legajo}" class="mt-2 block text-[11px] text-[#94a1ab] hover:text-[#5c6b78]">${a.pinOk === e.legajo ? '<span class="text-[#16a34a] font-semibold">🔑 PIN actualizado ✓</span>' : "🔑 Cambiar PIN"}</button>`}
+      </div>
+      <div class="flex flex-col gap-1"><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Sector</label>
+        <select data-campo="sector" data-leg="${e.legajo}" class="${selCls} min-w-[130px]"><option value="">— Sin sector —</option>
+        ${DATA.sectores.map((s) => `<option ${e.sector === s ? "selected" : ""}>${s}</option>`).join("")}</select></div>
+      <div class="flex flex-col gap-1"><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Responsable</label>
+        <select data-campo="responsable_legajo" data-leg="${e.legajo}" class="${selCls} min-w-[160px] max-w-[200px]"><option value="">— Sin responsable —</option>
+        ${todos.filter((r) => r.legajo !== e.legajo).map((r) => `<option value="${r.legajo}" ${e.responsable_legajo === r.legajo ? "selected" : ""}>${esc(r.apellido)}, ${esc(r.nombre)} (${r.legajo})</option>`).join("")}</select></div>
+      <div class="flex flex-col gap-1"><label class="text-[10px] uppercase tracking-wider text-[#94a1ab] flex items-center gap-1">Turno ${a.guardado === e.legajo ? '<span class="text-[#16a34a] normal-case tracking-normal">✓ guardado</span>' : ""}</label>
+        <select data-campo="horario_id" data-leg="${e.legajo}" class="${selCls} max-w-[220px]"><option value="">— Sin turno —</option>
+        ${DATA.horarios.map((h) => `<option value="${h.id}" ${e.horario_id === h.id ? "selected" : ""}>${h.nombre}</option>`).join("")}</select></div>
+      <div class="flex flex-col gap-1"><label class="text-[10px] uppercase tracking-wider text-[#94a1ab]">Depósitos / sucursales (hasta 3)</label>
+        ${[0, 1, 2].map((i) => `<select data-campo="locales" data-i="${i}" data-leg="${e.legajo}" class="bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-2.5 py-1.5 text-xs outline-none min-w-[150px] max-w-[200px]">
+          <option value="">${i === 0 ? "— Más cercano —" : "— (ninguno) —"}</option>${DATA.locales.map((l) => `<option value="${l.id}" ${locs[i] === l.id ? "selected" : ""}>${l.nombre}</option>`).join("")}</select>`).join("")}</div>
+    </div>`;
+  }).join("");
+}
+
+function vAusenciasAdmin() {
+  const f = S.a.ausFiltro;
+  const lista = DATA.ausencias.filter((s) => f === "todas" || s.estado === f).sort((a, b) => b.creado - a.creado);
+  return `<div class="max-w-2xl">
+    <h2 class="text-base font-bold mb-3">Solicitudes de ausencia</h2>
+    <div class="flex gap-2 mb-4 flex-wrap">${[["pendiente", "Pendientes"], ["aprobada", "Aprobadas"], ["rechazada", "Rechazadas"], ["todas", "Todas"]].map(([id, l]) => {
+      const n = id === "todas" ? DATA.ausencias.length : DATA.ausencias.filter((s) => s.estado === id).length;
+      return `<button data-a="ausFiltro" data-v="${id}" class="px-3 py-1.5 rounded-lg text-xs font-semibold border" style="background-color:${f === id ? "#e1251b" : "#f1f4f7"};color:${f === id ? "#fff" : "#5c6b78"};border-color:${f === id ? "#e1251b" : "#cfd6dd"}">${l} <span class="opacity-70">${n}</span></button>`; }).join("")}</div>
+    ${lista.length === 0 ? `<p class="text-[#94a1ab] text-sm italic">No hay solicitudes en esta vista.</p>` : `<div class="space-y-2">${lista.map((s) => { const [col, bg] = badge(s.estado); return `
+      <div class="bg-white border border-[#e3e8ed] rounded-xl p-3 shadow-sm">
+        <div class="flex items-center justify-between mb-1"><span class="text-sm font-semibold">${esc(nombreDe(s.legajo))}</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded capitalize" style="color:${col};background-color:${bg}">${s.estado}</span></div>
+        <p class="text-xs">${TIPOS[s.tipo]} · ${rango(s, true)}</p>
+        ${s.motivo ? `<p class="text-xs text-[#94a1ab] mt-1">${esc(s.motivo)}</p>` : ""}
+        ${s.resolucion ? `<p class="text-xs text-[#e5484d] mt-1">Nota: ${esc(s.resolucion)}</p>` : ""}
+        ${s.estado === "pendiente" ? `<div class="flex gap-2 mt-2">
+          <button data-a="rechazarAus" data-id="${s.id}" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-[#e5484d]/50 text-[#e5484d]">Rechazar</button>
+          <button data-a="aprobarAus" data-id="${s.id}" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#16a34a] text-white">Aprobar</button></div>` : ""}
+      </div>`; }).join("")}</div>`}</div>`;
+}
+
+function vReportes() {
+  const r = S.a.rep;
+  const { desde } = calcularPeriodo(r.refMes);
+  const emps = DATA.empleados.slice().sort((x, y) => x.apellido.localeCompare(y.apellido));
+  return `<div class="max-w-xl"><div class="bg-[#ffffff] border border-[#e3e8ed] rounded-2xl p-5">
+    <h2 class="text-base font-bold mb-1">Exportar a Excel</h2>
+    <p class="text-[#94a1ab] text-xs mb-5">Descargá las fichadas o un resumen por empleado del período.</p>
+    <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Alcance</p>
+    <div class="flex gap-2 mb-4 flex-wrap">${[["todos", "Todos"], ["sector", "Un sector"], ["empleado", "Un empleado"]].map(([id, l]) =>
+      `<button data-a="alcance" data-v="${id}" class="px-3 py-2 rounded-lg text-xs font-semibold border" style="background-color:${r.alcance === id ? "#223c7e" : "#f1f4f7"};color:${r.alcance === id ? "#fff" : "#5c6b78"};border-color:${r.alcance === id ? "#223c7e" : "#cfd6dd"}">${l}</button>`).join("")}</div>
+    ${r.alcance === "sector" ? `<select data-in="rep.sector" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mb-4"><option value="">— Elegí un sector —</option>
+      ${DATA.sectores.map((s) => `<option ${r.sector === s ? "selected" : ""}>${s}</option>`).join("")}</select>` : ""}
+    ${r.alcance === "empleado" ? `<select data-in="rep.legajo" class="w-full bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2.5 text-sm outline-none mb-4"><option value="">— Elegí un empleado —</option>
+      ${emps.map((e) => `<option value="${e.legajo}" ${String(r.legajo) === String(e.legajo) ? "selected" : ""}>${esc(e.apellido)}, ${esc(e.nombre)} (${e.legajo})</option>`).join("")}</select>` : ""}
+    <p class="text-[10px] uppercase tracking-widest text-[#94a1ab] mb-2">Período</p>
+    <div class="rounded-xl bg-[#f1f4f7] border border-[#e3e8ed] p-3 flex items-center justify-between mb-5">
+      <button data-a="mesRep" data-d="-1" class="text-[#5c6b78] px-2 text-lg" aria-label="Mes anterior">‹</button>
+      <p class="text-sm font-semibold">${etiquetaPeriodo(desde)}</p>
+      <button data-a="mesRep" data-d="1" class="text-[#5c6b78] px-2 text-lg" aria-label="Mes siguiente">›</button></div>
+    ${r.error ? `<p class="text-[#e5484d] text-xs mb-3">${r.error}</p>` : ""}
+    ${r.ok ? `<p class="text-[#16a34a] text-xs mb-3 font-semibold">${r.ok}</p>` : ""}
+    <button data-a="repDetalle" ${r.bajando ? "disabled" : ""} class="w-full py-3 rounded-xl font-bold text-sm bg-[#223c7e] text-white disabled:opacity-50">${r.bajando === "detalle" ? "Generando…" : "⬇ Descargar fichadas (detalle)"}</button>
+    <button data-a="repResumen" ${r.bajando ? "disabled" : ""} class="w-full mt-2 py-3 rounded-xl font-bold text-sm bg-[#f1f4f7] border border-[#cfd6dd] disabled:opacity-50">${r.bajando === "resumen" ? "Generando…" : "📊 Resumen por empleado (descuentos, 100%, faltantes)"}</button>
+  </div></div>`;
+}
+
+function generarReporte(tipo) {
+  const r = S.a.rep;
+  r.error = null; r.ok = null;
+  if (r.alcance === "empleado" && !r.legajo) { r.error = "Elegí un empleado."; return render(); }
+  if (r.alcance === "sector" && !r.sector) { r.error = "Elegí un sector."; return render(); }
+  r.bajando = tipo; render();
+  setTimeout(() => {
+    const { desde, hasta } = calcularPeriodo(r.refMes);
+    let headers, rows, nombre;
+    if (tipo === "detalle") {
+      let filas = fichajesEn(desde, hasta, r.alcance === "empleado" ? Number(r.legajo) : null).filter((f) => (empPorLegajo(f.legajo) || {}).activo !== false);
+      if (r.alcance === "sector") filas = filas.filter((f) => (empPorLegajo(f.legajo) || {}).sector === r.sector);
+      if (!filas.length) { r.bajando = ""; r.error = "No hay fichadas para ese filtro."; return render(); }
+      headers = ["Legajo", "Apellido y Nombre", "Sector", "Fecha", "Hora", "Día", "Tipo", "Estado", "Ubicación", "Distancia (m)"];
+      rows = filas.map((f) => { const e = empPorLegajo(f.legajo) || {}, d = new Date(f.timestamp);
+        return [f.legajo, `${e.apellido}, ${e.nombre}`, e.sector || "", d.toLocaleDateString("es-AR"), hora(d), d.toLocaleDateString("es-AR", { weekday: "long" }), f.tipo, f.estado,
+          f.local_id ? (localDe(f.local_id) || {}).nombre : "Remoto", f.distancia_metros == null ? "" : f.distancia_metros.toLocaleString("es-AR")]; });
+      nombre = `fichadas_${fechaKey(desde)}_a_${fechaKey(hasta)}.xlsx`;
+      r.ok = `Reporte generado: ${rows.length.toLocaleString("es-AR")} fichadas.`;
+    } else {
+      let lista = DATA.empleados.filter((e) => e.activo !== false);
+      if (r.alcance === "sector") lista = lista.filter((e) => e.sector === r.sector);
+      if (r.alcance === "empleado") lista = lista.filter((e) => String(e.legajo) === String(r.legajo));
+      lista.sort((x, y) => x.apellido.localeCompare(y.apellido));
+      if (!lista.length) { r.bajando = ""; r.error = "No hay empleados para ese filtro."; return render(); }
+      headers = ["Legajo", "Empleado", "Sector", "Días esperados", "Días trabajados", "Sin registro", "Sin entrada", "Sin salida", "Horas trabajadas", "Min. tarde", "Min. retiro", "Descuento (min)", "Horas 50%", "Horas 100%"];
+      const n1 = (x) => (Math.round(x / 6) / 10).toLocaleString("es-AR");
+      rows = lista.map((e) => { const c = computarCumplimiento(fichajesEn(desde, hasta, e.legajo), horarioDe(e), desde, hasta, DATA.config);
+        return [e.legajo, `${e.apellido}, ${e.nombre}`, e.sector || "", c.sinTurno ? "" : c.diasEsperados, c.sinTurno ? "" : c.diasTrabajados, c.sinTurno ? "" : c.sinRegistro,
+          c.sinTurno ? "" : c.sinEntrada, c.sinTurno ? "" : c.sinSalida, n1(c.trabajadoMin), c.minTarde, c.minRetiro, c.descuentoMin, n1(c.horas50Min), n1(c.horas100Min)]; });
+      nombre = `resumen_${fechaKey(desde)}_a_${fechaKey(hasta)}.xlsx`;
+      r.ok = `Resumen generado: ${rows.length} empleados.`;
+    }
+    r.bajando = ""; render();
+    const max = 15;
+    abrirModal(`<div class="px-5 py-4 border-b border-[#e3e8ed] flex items-center justify-between gap-3">
+        <div class="min-w-0"><p class="text-sm font-bold truncate">📄 ${nombre}</p><p class="text-[11px] text-[#94a1ab]">Vista previa · ${rows.length.toLocaleString("es-AR")} filas</p></div>
+        <button data-a="cerrarModal" class="text-[#94a1ab] hover:text-[#1f2d38] text-xl leading-none" aria-label="Cerrar">×</button></div>
+      <div class="overflow-auto max-h-[50vh]"><table class="text-[11px] w-full border-collapse">
+        <thead class="sticky top-0 bg-[#223c7e] text-white"><tr>${headers.map((h) => `<th class="px-2 py-1.5 text-left font-semibold whitespace-nowrap">${h}</th>`).join("")}</tr></thead>
+        <tbody>${rows.slice(0, max).map((row, i) => `<tr class="${i % 2 ? "bg-[#f1f4f7]" : "bg-white"}">${row.map((c) => `<td class="px-2 py-1 whitespace-nowrap">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+      ${rows.length > max ? `<p class="px-5 pt-2 text-[11px] text-[#94a1ab]">… y ${(rows.length - max).toLocaleString("es-AR")} filas más.</p>` : ""}
+      <div class="px-5 py-4"><div class="rounded-xl p-3 text-xs border" style="background-color:rgba(43,169,224,.1);border-color:rgba(43,169,224,.4);color:#1f6f96">🔒 En la demo el archivo Excel no se descarga. En la app real se genera el .xlsx con todas las filas.</div></div>`);
+  }, 700);
+}
+
+/* ===================== Render ===================== */
+function render() {
+  $("#sw-empleado").style.cssText = S.modo === "empleado" ? "background:#e1251b;color:#fff" : "color:#5c6b78";
+  $("#sw-admin").style.cssText = S.modo === "admin" ? "background:#e1251b;color:#fff" : "color:#5c6b78";
+  let html;
+  if (S.modo === "empleado") {
+    const v = S.e.vista;
+    html = !S.e.logueado ? vLoginEmpleado() : v === "historial" ? vHistorial() : v === "equipo" ? vEquipo() : v === "ausencias" ? vAusenciasEmp() : vFichaje();
+  } else html = S.a.logueado ? vAdmin() : vLoginAdmin();
+  $("#app").innerHTML = html;
+  const act = document.querySelector('[data-a="tab"][data-activo]');
+  if (act && act.parentElement.scrollWidth > act.parentElement.clientWidth) act.parentElement.scrollLeft = act.offsetLeft - 8;
+}
+
+function simularUbicacion() {
+  S.e.ubicCargando = true; render();
+  setTimeout(() => {
+    S.e.ubic = { tipo: "dentro", local: localDe("d1"), distancia: 20 + Math.floor(Math.random() * 70) };
+    S.e.ubicCargando = false;
+    if (S.modo === "empleado" && S.e.vista === "fichaje") render();
+  }, 900);
+}
+
+function setPath(obj, path, val) { const ks = path.split("."); let o = obj; for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks[ks.length - 1]] = val; }
+
+/* ===================== Acciones ===================== */
+const ACC = {
+  modo(el) { S.modo = el.dataset.v; render(); if (S.modo === "empleado" && S.e.vista === "fichaje" && !S.e.ubic) simularUbicacion(); window.scrollTo(0, 0); },
+  // Empleado
+  loginEmp() { S.e.logueado = true; S.e.vista = "fichaje"; simularUbicacion(); },
+  salirEmp() { S.e.logueado = false; S.e.modoPin = false; S.e.pinMsg = null; render(); },
+  modoPin(el) { S.e.modoPin = el.dataset.v === "1"; S.e.pinMsg = null; render(); },
+  guardarPinLogin() { S.e.pinMsg = "¡PIN actualizado! Ya podés ingresar con el nuevo. (demo)"; render(); },
+  vistaEmp(el) {
+    const v = el.dataset.v; S.e.vista = v; S.e.resultado = null; S.e.modoObservar = false;
+    if (el.dataset.tab) S.e.ausTab = el.dataset.tab;
+    if (v === "ausencias") S.e.ausMsg = null;
+    if (v === "fichaje") simularUbicacion(); else render();
+    window.scrollTo(0, 0);
+  },
+  ubicar() { simularUbicacion(); toast("📍 Ubicación simulada. " + AVISO); },
+  fichar() {
+    if (S.e.guardando) return;
+    const tipo = S.e.enTurno ? "salida" : "entrada";
+    S.e.guardando = true; S.e.msg = null; S.e.ubicCargando = true; render();
+    setTimeout(() => {
+      const ahora = new Date(), emp = empDemo();
+      let est = calcularEstado(tipo, ahora, horarioDe(emp));
+      if (est.estado === "sin_turno" || est.minutosTarde > 90) est = { estado: "a_horario", label: "A horario", minutosTarde: 0 };
+      const dist = 20 + Math.floor(Math.random() * 70);
+      S.e.ubic = { tipo: "dentro", local: localDe("d1"), distancia: dist }; S.e.ubicCargando = false;
+      DATA.fichajes.push({ id: nextId++, legajo: emp.legajo, tipo, timestamp: ahora.toISOString(), estado: est.estado, minutos_tarde: est.minutosTarde || 0, local_id: "d1", distancia_metros: dist, autorizado: false });
+      S.e.historial.unshift({ tipo, hora: ahora, estado: est.estado });
+      S.e.enTurno = !S.e.enTurno; S.e.guardando = false;
+      S.e.msg = { ok: true, texto: `${tipo === "entrada" ? "Entrada" : "Salida"} registrada · ${est.label}` };
+      render();
+      toast(`✅ Fichada guardada en memoria${tipo === "entrada" ? " — ya aparece en <b>Panel RR.HH. › En vivo</b>" : ""}. La ubicación GPS es simulada. ${AVISO}`);
+    }, 900);
+  },
+  mesHist(el) { S.e.refHist = mover(S.e.refHist, +el.dataset.d); render(); },
+  mesEq(el) { S.e.refEq = mover(S.e.refEq, +el.dataset.d); S.e.expandido = null; S.e.resultado = null; S.e.modoObservar = false; S.e.motivo = ""; render(); },
+  expandir(el) { const l = +el.dataset.leg; S.e.expandido = S.e.expandido === l ? null : l; render(); },
+  justificar(el) { const f = DATA.fichajes.find((x) => x.id === +el.dataset.id); if (f) f.autorizado = el.dataset.v === "1"; render(); },
+  aprobar() {
+    S.e.enviando = true; render();
+    setTimeout(() => {
+      S.e.enviando = false; S.e.verif[keyMes(S.e.refEq)] = { estado: "aprobado" };
+      S.e.resultado = { ok: true, texto: `Período aprobado. Aviso por mail a RR.HH. simulado (${esc(DEMO_DATA.empresa.emailAdmin)}).` };
+      render(); toast("✉️ Período aprobado. " + AVISO);
+    }, 900);
+  },
+  observarModo() { const { desde } = calcularPeriodo(S.e.refEq); S.e.modoObservar = true; S.e.resultado = null; if (!S.e.motivo) S.e.motivo = textoIncumplimientos(equipoCumpl(), desde); render(); },
+  observarVolver() { S.e.modoObservar = false; render(); },
+  observar() {
+    const t = ($("#motivoObs") || {}).value || "";
+    S.e.motivo = t;
+    if (!t.trim()) { S.e.resultado = { ok: false, texto: "Escribí el motivo de la observación." }; return render(); }
+    S.e.enviando = true; render();
+    setTimeout(() => {
+      S.e.enviando = false; S.e.modoObservar = false;
+      S.e.verif[keyMes(S.e.refEq)] = { estado: "observado", motivo: t.trim() };
+      S.e.resultado = { ok: true, texto: "Observación enviada al admin para revisión. (Demo: el mail no se envía)" };
+      render(); toast("✉️ Observación registrada. " + AVISO);
+    }, 900);
+  },
+  ausTab(el) { S.e.ausTab = el.dataset.v; render(); },
+  pedirAusencia() {
+    const f = S.e.ausForm;
+    if (!f.desde) { S.e.ausMsg = { ok: false, t: "Elegí la fecha desde." }; return render(); }
+    DATA.ausencias.push({ id: DATA.ausencias.length + 1, legajo: DEMO_DATA.usuarioDemo, tipo: f.tipo, fecha_desde: f.desde, fecha_hasta: f.hasta && f.hasta >= f.desde ? f.hasta : f.desde,
+      motivo: f.motivo.trim(), estado: "pendiente", resolucion: "", creado: Date.now() });
+    S.e.ausForm = { tipo: "dia_libre", desde: "", hasta: "", motivo: "" };
+    S.e.ausMsg = { ok: true, t: "Solicitud enviada. Tu jefe la va a revisar." };
+    render(); toast("📅 Solicitud creada en memoria (también aparece en Panel RR.HH. › Ausencias). " + AVISO);
+  },
+  aprobarAus(el) { const s = DATA.ausencias.find((x) => x.id === +el.dataset.id); if (s) { s.estado = "aprobada"; render(); toast(`✓ Ausencia de ${esc(nombreDe(s.legajo))} aprobada.`); } },
+  rechazarAus(el) {
+    const s = DATA.ausencias.find((x) => x.id === +el.dataset.id); if (!s) return;
+    abrirModal(`<div class="p-5"><p class="text-sm font-bold mb-1">Rechazar solicitud</p>
+      <p class="text-xs text-[#5c6b78] mb-3">${esc(nombreDe(s.legajo))} · ${TIPOS[s.tipo]} · ${rango(s)}</p>
+      <label class="text-[10px] uppercase tracking-widest text-[#94a1ab]">Motivo del rechazo (opcional)</label>
+      <textarea id="motivoRech" rows="3" class="w-full mt-1 bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none resize-none"></textarea>
+      <div class="flex gap-2 mt-3"><button data-a="cerrarModal" class="flex-1 py-2.5 rounded-xl font-semibold text-xs bg-[#f1f4f7] border border-[#cfd6dd] text-[#5c6b78]">Cancelar</button>
+        <button data-a="confirmarRechazo" data-id="${s.id}" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-[#e5484d] text-white">Rechazar</button></div></div>`);
+    setTimeout(() => { const t = $("#motivoRech"); if (t) t.focus(); }, 30);
+  },
+  confirmarRechazo(el) {
+    const s = DATA.ausencias.find((x) => x.id === +el.dataset.id);
+    if (s) { s.estado = "rechazada"; s.resolucion = (($("#motivoRech") || {}).value || "").trim(); }
+    cerrarModal(); render(); if (s) toast(`Solicitud de ${esc(nombreDe(s.legajo))} rechazada.`);
+  },
+  cerrarModal() { cerrarModal(); },
+  cerrarModalFondo(el, ev) { if (ev.target === el) cerrarModal(); },
+  // Admin
+  loginAdmin() { S.a.logueado = true; render(); },
+  salirAdmin() { S.a.logueado = false; render(); },
+  tab(el) { S.a.vista = el.dataset.v; if (S.a.vista === "presentismo") S.a.actualizado = new Date(); render(); },
+  mesDash(el) { S.a.refMes = mover(S.a.refMes, +el.dataset.d); render(); },
+  actualizarVivo() { S.a.actualizado = new Date(); render(); toast("↻ Presentismo actualizado."); },
+  toggleNuevo() { S.a.mostrarNuevo = !S.a.mostrarNuevo; render(); },
+  crearEmpleado() {
+    const n = S.a.nuevo, legajo = parseInt(n.legajo, 10);
+    if (!legajo) return toast("Poné un número de legajo.");
+    if (DATA.empleados.some((e) => e.legajo === legajo)) return toast("Ya existe un empleado con ese legajo.");
+    if (!n.apellido.trim() || !n.nombre.trim()) return toast("Completá apellido y nombre.");
+    if (!n.pin || n.pin.length < 4) return toast("El PIN debe tener al menos 4 dígitos.");
+    DATA.empleados.push({ legajo, apellido: n.apellido.trim(), nombre: n.nombre.trim(), sector: n.sector || null, horario_id: n.horario_id || null,
+      responsable_legajo: n.responsable_legajo ? parseInt(n.responsable_legajo, 10) : null, locales_asignados: n.locales.filter(Boolean).filter((v, i, a) => a.indexOf(v) === i), activo: true, tardanza: 0 });
+    S.a.nuevo = { legajo: "", apellido: "", nombre: "", sector: "", horario_id: "", responsable_legajo: "", locales: ["", "", ""], pin: "1234" };
+    S.a.mostrarNuevo = false; S.a.busqueda = String(legajo); render();
+    toast(`✓ Empleado ${legajo} creado en memoria. Se pierde al recargar.`);
+  },
+  toggleActivo(el) { const e = empPorLegajo(el.dataset.leg); e.activo = !(e.activo !== false); refrescarLista(); },
+  editarPin(el) { S.a.pinEdit = +el.dataset.leg; refrescarLista(); setTimeout(() => { const i = $("#pinNuevo"); if (i) i.focus(); }, 20); },
+  cancelarPin() { S.a.pinEdit = null; refrescarLista(); },
+  guardarPin(el) {
+    const v = ($("#pinNuevo") || {}).value || "";
+    if (v.length < 4) return toast("El PIN debe tener al menos 4 dígitos.");
+    const l = +el.dataset.leg; S.a.pinEdit = null; S.a.pinOk = l; refrescarLista();
+    setTimeout(() => { if (S.a.pinOk === l) { S.a.pinOk = null; if (S.a.vista === "empleados") refrescarLista(); } }, 1800);
+  },
+  ausFiltro(el) { S.a.ausFiltro = el.dataset.v; render(); },
+  alcance(el) { S.a.rep.alcance = el.dataset.v; S.a.rep.error = null; S.a.rep.ok = null; render(); },
+  mesRep(el) { S.a.rep.refMes = mover(S.a.rep.refMes, +el.dataset.d); S.a.rep.ok = null; S.a.rep.error = null; render(); },
+  repDetalle() { generarReporte("detalle"); },
+  repResumen() { generarReporte("resumen"); },
+};
+
+function refrescarLista() { const c = $("#emp-lista"); if (c) c.innerHTML = listaEmpleadosHTML(); }
+
+document.addEventListener("click", (ev) => {
+  const el = ev.target.closest("[data-a]");
+  if (!el || el.disabled) return;
+  const fn = ACC[el.dataset.a];
+  if (fn) fn(el, ev);
+});
+document.addEventListener("input", (ev) => {
+  const el = ev.target;
+  if (!el.dataset || !el.dataset.in) return;
+  const p = el.dataset.in;
+  if (p === "busqueda") { S.a.busqueda = el.value; refrescarLista(); return; }
+  if (p.startsWith("nuevo.")) return setPath(S.a, p, el.value);
+  if (p.startsWith("ausForm.")) return setPath(S.e, p, el.value);
+  if (p.startsWith("rep.")) { setPath(S.a, p, el.value); S.a.rep.error = null; }
+});
+document.addEventListener("change", (ev) => {
+  const el = ev.target;
+  if (el.dataset && el.dataset.in && el.dataset.in.startsWith("rep.")) { setPath(S.a, el.dataset.in, el.value); S.a.rep.error = null; S.a.rep.ok = null; return render(); }
+  if (!el.dataset || !el.dataset.campo) return;
+  const e = empPorLegajo(el.dataset.leg), campo = el.dataset.campo;
+  if (campo === "locales") {
+    const prev = e.locales_asignados || [], tres = [prev[0] || "", prev[1] || "", prev[2] || ""];
+    tres[+el.dataset.i] = el.value; e.locales_asignados = tres.filter(Boolean).filter((v, i, a) => a.indexOf(v) === i);
+  } else if (campo === "responsable_legajo") e.responsable_legajo = el.value === "" ? null : parseInt(el.value, 10);
+  else e[campo] = el.value || null;
+  S.a.guardado = e.legajo; refrescarLista();
+  setTimeout(() => { if (S.a.guardado === e.legajo) { S.a.guardado = null; if (S.a.vista === "empleados") refrescarLista(); } }, 1400);
+});
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape") cerrarModal();
+  if (ev.key === "Enter" && ev.target.id === "pinNuevo") { const b = ev.target.parentElement.querySelector('[data-a="guardarPin"]'); if (b) b.click(); }
+});
+
+// Reloj y duraciones en vivo
+setInterval(() => {
+  const r = $("#reloj"); if (r) r.textContent = horaSeg(new Date());
+  document.querySelectorAll("[data-dur-turno]").forEach((x) => (x.textContent = durTurno()));
+  document.querySelectorAll("[data-desde]").forEach((x) => (x.textContent = durDesde(new Date(+x.dataset.desde))));
+}, 1000);
+
+render();
+simularUbicacion();
+</script>
+</body>
+</html>
