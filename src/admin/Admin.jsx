@@ -68,7 +68,7 @@ export default function Admin() {
     { id: "empleados", label: "Empleados" },
     { id: "plantillas", label: "Horarios" },
     { id: "sectores", label: "Sectores" },
-    { id: "depositos", label: "Depósitos" },
+    { id: "depositos", label: "Ubicación" },
     { id: "fichadas", label: "Corrección" },
     { id: "reportes", label: "Reportes" },
     { id: "dispositivos", label: "Dispositivos" },

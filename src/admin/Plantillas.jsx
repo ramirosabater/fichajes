@@ -22,6 +22,7 @@ export default function Plantillas() {
   const [bloques, setBloques] = useState([]);
   const [libre, setLibre] = useState(false);
   const [horasDiarias, setHorasDiarias] = useState(8);
+  const [horasSabado, setHorasSabado] = useState(4);
   const [guardando, setGuardando] = useState(false);
 
   const cargar = async () => {
@@ -42,7 +43,7 @@ export default function Plantillas() {
   const limpiar = () => {
     setEditando(null); setNombre(""); setTolerancia(10);
     setDias([1, 2, 3, 4, 5]); setInicio("08:00"); setFin("17:00"); setBloques([]);
-    setLibre(false); setHorasDiarias(8);
+    setLibre(false); setHorasDiarias(8); setHorasSabado(4);
   };
 
   const abrirNuevo = () => { limpiar(); setMostrarForm(true); };
@@ -54,6 +55,7 @@ export default function Plantillas() {
     setTolerancia(h.tolerancia_minutos ?? 10);
     setLibre(h.tipo === "libre");
     setHorasDiarias(h.horas_diarias ?? 8);
+    setHorasSabado(h.horas_sabado ?? 4);
     if (h.tipo === "libre") {
       const ds = new Set(); (h.bloques || []).forEach((b) => (b.dias || []).forEach((d) => ds.add(d)));
       setBloques([]); setDias([...ds].sort());
@@ -70,6 +72,7 @@ export default function Plantillas() {
     if (!nombre.trim()) return alert("Poné un nombre.");
     if (libre && !dias.length) return alert("Elegí al menos un día laborable.");
     if (libre && !(Number(horasDiarias) > 0)) return alert("Indicá las horas diarias (mayor a 0).");
+    if (libre && dias.includes(6) && !(Number(horasSabado) >= 0)) return alert("Indicá las horas del sábado.");
     // Horario libre: un bloque solo con días (sin hora de inicio/fin); lo que cuenta son las horas trabajadas.
     const bloquesFinales = libre
       ? [{ dias: [...dias] }]
@@ -80,6 +83,7 @@ export default function Plantillas() {
       const datos = {
         nombre: nombre.trim(), bloques: bloquesFinales, tolerancia_minutos: libre ? 0 : (Number(tolerancia) || 0),
         tipo: libre ? "libre" : "fijo", horas_diarias: libre ? Number(horasDiarias) : null,
+        horas_sabado: libre ? Number(horasSabado) : null,
       };
       if (editando) {
         await sbPatch(`horarios?id=eq.${editando}`, datos);
@@ -147,6 +151,11 @@ export default function Plantillas() {
               <label className="text-[10px] uppercase tracking-wider text-[#94a1ab]">Horas diarias a cumplir</label>
               <input type="number" min="0" step="0.5" value={horasDiarias} onChange={(e) => setHorasDiarias(e.target.value)}
                 className="w-32 block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+              {dias.includes(6) && (<>
+                <label className="text-[10px] uppercase tracking-wider text-[#94a1ab] block mt-3">Horas los sábados</label>
+                <input type="number" min="0" step="0.5" value={horasSabado} onChange={(e) => setHorasSabado(e.target.value)}
+                  className="w-32 block bg-[#f1f4f7] border border-[#cfd6dd] rounded-lg px-3 py-2 text-sm outline-none mt-1" />
+              </>)}
               <p className="text-[11px] text-[#94a1ab] mt-1">No hay llegada tarde ni salida anticipada: se suman las horas entre cada entrada y salida y se comparan con la meta del período.</p>
             </div>
           )}
@@ -193,7 +202,7 @@ export default function Plantillas() {
             <div className="min-w-0">
               <p className="text-sm font-semibold">{h.nombre}</p>
               <div className="flex flex-wrap gap-2 mt-1">
-                {h.tipo === "libre" && <span className="text-[11px] font-bold text-[#223c7e] bg-[#e8eefb] rounded px-1.5 py-0.5">LIBRE · {h.horas_diarias ?? "?"} h/día</span>}
+                {h.tipo === "libre" && <span className="text-[11px] font-bold text-[#223c7e] bg-[#e8eefb] rounded px-1.5 py-0.5">LIBRE · {h.horas_diarias ?? "?"} h/día{(h.bloques || []).some((b) => (b.dias || []).includes(6)) ? ` · sáb ${h.horas_sabado ?? 4} h` : ""}</span>}
                 {(h.bloques || []).map((b, i) => (
                   <span key={i} className="text-[11px] text-[#5c6b78] bg-[#f1f4f7] rounded px-1.5 py-0.5">
                     {(b.dias || []).map((n) => DIAS.find((d) => d.n === n)?.l).join("")}{b.inicio ? ` ${b.inicio}–${b.fin}` : ""}
