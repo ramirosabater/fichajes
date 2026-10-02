@@ -193,6 +193,8 @@ export default function Equipo({ empleado, pin, horarios, config, onVolver }) {
                           </>
                         )}
                         {c.trabajadoMin > 0 && <Chip label="Trabajó" valor={minAHoras(c.trabajadoMin)} color="#5c6b78" />}
+                        {c.libre && c.esperadoMin > 0 && <Chip label="Meta" valor={minAHoras(c.esperadoMin)} color="#5c6b78" />}
+                        {c.libre && c.esperadoMin > 0 && <Chip label={c.diferenciaMin >= 0 ? "Sobra" : "Falta"} valor={minAHoras(Math.abs(c.diferenciaMin))} color={c.diferenciaMin >= 0 ? "#16a34a" : "#e5484d"} />}
                         {c.descuentoMin > 0 && <Chip label="Descuento" valor={`${c.descuentoMin}m`} color="#e5484d" />}
                         {c.horas50Min > 0 && <Chip label="50%" valor={minAHoras(c.horas50Min)} color="#2ba9e0" />}
                         {c.horas100Min > 0 && <Chip label="100%" valor={minAHoras(c.horas100Min)} color="#e5484d" />}
