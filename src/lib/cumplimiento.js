@@ -1,4 +1,4 @@
-import { etiquetaPeriodo } from "./fichaje.js";
+import { etiquetaPeriodo, esHorarioLibre } from "./fichaje.js";
 
 // Reglas de recargo por defecto (si RRHH no configuró nada): finde al 100%.
 export const RECARGOS_DEFAULT = [
@@ -69,7 +69,10 @@ export async function cargarConfig(sbGetFn) {
 
 // Cumplimiento de un empleado en el período. `config` = { recargos, feriados }.
 export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
+  const libre = esHorarioLibre(horario);
   const res = {
+    libre,
+    esperadoMin: 0, diferenciaMin: 0,
     sinTurno: !horario || !horario.bloques || horario.bloques.length === 0,
     diasEsperados: 0, diasTrabajados: 0, sinRegistro: 0, sinEntrada: 0, sinSalida: 0,
     minTarde: 0, minRetiro: 0, descuentoMin: 0, horas50Min: 0, horas100Min: 0, trabajadoMin: 0,
@@ -80,6 +83,8 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
     else if (f.estado === "salida_anticipada") res.minRetiro += Number(f.minutos_tarde) || 0;
   });
   res.descuentoMin = res.minTarde + res.minRetiro;
+
+  if (libre) { res.sinTurno = false; res.minTarde = 0; res.minRetiro = 0; res.descuentoMin = 0; }
 
   const orden = fichajes.slice().sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
   let pend = null;
@@ -124,6 +129,11 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
       }
       cur.setDate(cur.getDate() + 1);
     }
+  }
+  if (libre) {
+    // Meta de horas = días laborables esperados × horas diarias del horario
+    res.esperadoMin = Math.round(res.diasEsperados * (Number(horario.horas_diarias) || 0) * 60);
+    res.diferenciaMin = Math.round(res.trabajadoMin - res.esperadoMin);
   }
   return res;
 }

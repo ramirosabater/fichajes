@@ -39,7 +39,15 @@ function tramoParaFichada(bloques, tipo, min) {
 }
 
 // Devuelve estado de la fichada: a_horario | tarde | salida_anticipada | sin_turno
+export function esHorarioLibre(horario) {
+  return !!horario && horario.tipo === "libre";
+}
+
 export function calcularEstado(tipo, hora, horario) {
+  // Horario libre: no hay hora de entrada/salida fija, solo se cuentan las horas trabajadas.
+  if (esHorarioLibre(horario)) {
+    return { estado: "a_horario", label: "Horario libre", color: "#16a34a", minutosTarde: 0 };
+  }
   const bloques = bloquesDeHoy(horario, hora);
   if (!bloques.length) {
     return { estado: "sin_turno", label: "Sin turno hoy (franco o sin asignar)", color: "#5c6b78", minutosTarde: 0 };
