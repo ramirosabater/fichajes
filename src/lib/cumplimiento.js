@@ -70,6 +70,9 @@ export async function cargarConfig(sbGetFn) {
 // Cumplimiento de un empleado en el período. `config` = { recargos, feriados }.
 export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
   const libre = esHorarioLibre(horario);
+  // Horario libre: horas a cumplir por día (los sábados pueden ser distintas; si no se cargan, 4 h)
+  const horasDia = libre ? (Number(horario.horas_diarias) || 0) : 0;
+  const horasSab = libre ? (horario.horas_sabado != null ? Number(horario.horas_sabado) : 4) : 0;
   const res = {
     libre,
     esperadoMin: 0, diferenciaMin: 0,
@@ -117,6 +120,7 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
         const iso = cur.getDay() === 0 ? 7 : cur.getDay();
         if (dias.has(iso)) {
           res.diasEsperados++;
+          if (libre) res.esperadoMin += (iso === 6 ? horasSab : horasDia) * 60;
           const key = `${cur.getFullYear()}-${cur.getMonth()}-${cur.getDate()}`;
           const reg = porFecha[key];
           if (!reg) res.sinRegistro++;
@@ -131,8 +135,8 @@ export function computarCumplimiento(fichajes, horario, desde, hasta, config) {
     }
   }
   if (libre) {
-    // Meta de horas = días laborables esperados × horas diarias del horario
-    res.esperadoMin = Math.round(res.diasEsperados * (Number(horario.horas_diarias) || 0) * 60);
+    // Meta de horas = suma de las horas de cada día laborable esperado (sábado con su propia cantidad)
+    res.esperadoMin = Math.round(res.esperadoMin);
     res.diferenciaMin = Math.round(res.trabajadoMin - res.esperadoMin);
   }
   return res;
